@@ -15,14 +15,9 @@ I built a bank statement PDF analyser with in Swift. It was amazing as I could g
 
 Track expenses from the moment they are made from any payment app, but that seems like a lot of work. I could look directly into users messages, so that every time they make an expense and a relevant SMS is sent, I could either record that into the DB or send a notification reminding the user to log that expense, that is something I can look into, however I don't believe it would be extremely reliable.
 
----
-
 ## Implementation
 
 1. I need a robust and fast local database with great querying capability and sqflite or the floor DB is the obvious choice. While it is great, I need to look at the promised reactive capability, because I would want almost real-time change listener if possible, otherwise I can see that I would have to manage state at a lot of places.
-
-
----
 
 ## Flutter
 
