@@ -13,11 +13,13 @@ class Category {
   final String name;
   final String description;
   final CategoryType type;
+  final DateTime createdOn;
 
   Category({
     required this.id,
     required this.name,
     required this.description,
     required this.type,
+    required this.createdOn,
   });
 }

@@ -8,11 +8,17 @@ class LocalStorageService implements _LocalStorageImpl {
     return _instance!;
   }
 
-  LocalStorageService._();
+  LocalStorageService._() {
+    _init();
+  }
+
+  Future<void> _init() async {
+    // _database =
+    //     await $FloorAppDatabase.databaseBuilder('app_database.db').build();
+  }
 
   @override
   Future<void> addAccount(Account account) {
-    // TODO: implement addAccount
     throw UnimplementedError();
   }
 

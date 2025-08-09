@@ -7,10 +7,12 @@ class Account {
 
   final String name;
   final double balance;
+  final DateTime createdOn;
 
   Account({
     required this.id,
     required this.name,
     required this.balance,
+    required this.createdOn,
   });
 }
