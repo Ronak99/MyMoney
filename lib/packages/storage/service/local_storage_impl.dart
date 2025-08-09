@@ -1,0 +1,67 @@
+part of '../storage.dart';
+
+abstract class _LocalStorageImpl {
+  // Method to initialize the local storage service
+  Future<void> init();
+
+  // Get all transactions
+  Future<List<Transaction>> getAllTransactions();
+
+  // Add a new transaction
+  Future<void> addTransaction(Transaction transaction);
+
+  // Update an existing transaction
+  Future<void> updateTransaction(Transaction transaction);
+
+  // Delete a transaction by ID
+  Future<void> deleteTransaction(int id);
+
+  // Get a transaction by ID
+  Future<Transaction?> getTransactionById(int id);
+
+  // Get all transactions within a particular date range
+  Future<List<Transaction>> getTransactionsByDateRange(
+      DateTime startDate, DateTime endDate);
+
+  // Get all accounts
+  Future<List<Account>> getAllAccounts();
+
+  // Add a new account
+  Future<void> addAccount(Account account);
+
+  // Update an existing account
+  Future<void> updateAccount(Account account);
+
+  // Delete an account by ID
+  Future<void> deleteAccount(int id);
+
+  // Get an account by ID
+  Future<Account?> getAccountById(int id);
+
+  // Get all categories
+  Future<List<Category>> getAllCategories();
+
+  // Add a new category
+  Future<void> addCategory(Category category);
+
+  // Update an existing category
+  Future<void> updateCategory(Category category);
+
+  // Delete a category by ID
+  Future<void> deleteCategory(int id);
+
+  // Get a category by ID
+  Future<Category?> getCategoryById(int id);
+
+  // Get all categories by type
+  Future<List<Category>> getCategoriesByType(CategoryType type);
+
+  // Get all transactions for a specific account
+  Future<List<Transaction>> getTransactionsByAccountId(int accountId);
+
+  // Get all transactions for a specific category
+  Future<List<Transaction>> getTransactionsByCategoryId(int categoryId);
+
+  // Get the total balance of all accounts
+  Future<double> getTotalBalance();
+}
