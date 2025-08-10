@@ -260,7 +260,7 @@ class _$_AccountDao extends _AccountDao {
   _$_AccountDao(
     this.database,
     this.changeListener,
-  )   : _queryAdapter = QueryAdapter(database),
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
         _accountInsertionAdapter = InsertionAdapter(
             database,
             'Account',
@@ -269,7 +269,8 @@ class _$_AccountDao extends _AccountDao {
                   'name': item.name,
                   'balance': item.balance,
                   'createdOn': __DateTimeConverter.encode(item.createdOn)
-                }),
+                },
+            changeListener),
         _accountUpdateAdapter = UpdateAdapter(
             database,
             'Account',
@@ -279,7 +280,8 @@ class _$_AccountDao extends _AccountDao {
                   'name': item.name,
                   'balance': item.balance,
                   'createdOn': __DateTimeConverter.encode(item.createdOn)
-                }),
+                },
+            changeListener),
         _accountDeletionAdapter = DeletionAdapter(
             database,
             'Account',
@@ -289,7 +291,8 @@ class _$_AccountDao extends _AccountDao {
                   'name': item.name,
                   'balance': item.balance,
                   'createdOn': __DateTimeConverter.encode(item.createdOn)
-                });
+                },
+            changeListener);
 
   final sqflite.DatabaseExecutor database;
 
@@ -315,7 +318,7 @@ class _$_AccountDao extends _AccountDao {
   }
 
   @override
-  Future<List<Account>> findAllAccounts() async {
+  Future<List<Account>> getAllAccounts() async {
     return _queryAdapter.queryList('SELECT * FROM Account',
         mapper: (Map<String, Object?> row) => Account(
             id: row['id'] as int,
@@ -325,8 +328,21 @@ class _$_AccountDao extends _AccountDao {
   }
 
   @override
-  Future<void> insertAccount(Account account) async {
-    await _accountInsertionAdapter.insert(account, OnConflictStrategy.abort);
+  Stream<List<Account>> streamAllAccounts() {
+    return _queryAdapter.queryListStream('SELECT * FROM Account',
+        mapper: (Map<String, Object?> row) => Account(
+            id: row['id'] as int,
+            name: row['name'] as String,
+            balance: row['balance'] as double,
+            createdOn: __DateTimeConverter.decode(row['createdOn'] as int)),
+        queryableName: 'Account',
+        isView: false);
+  }
+
+  @override
+  Future<int> insertAccount(Account account) {
+    return _accountInsertionAdapter.insertAndReturnId(
+        account, OnConflictStrategy.abort);
   }
 
   @override
