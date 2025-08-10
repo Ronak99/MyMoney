@@ -6,10 +6,13 @@ abstract class _AccountDao {
   Future<Account?> findAccountById(int id);
 
   @Query('SELECT * FROM Account')
-  Future<List<Account>> findAllAccounts();
+  Future<List<Account>> getAllAccounts();
+
+  @Query('SELECT * FROM Account')
+  Stream<List<Account>> streamAllAccounts();
 
   @insert
-  Future<void> insertAccount(Account account);
+  Future<int> insertAccount(Account account);
 
   @update
   Future<void> updateAccount(Account account);
