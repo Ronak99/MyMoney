@@ -2,7 +2,7 @@ part of '../storage.dart';
 
 abstract class _LocalStorageImpl {
   // Method to initialize the local storage service
-  Future<void> init();
+  Future<void> initialize();
 
   // Get all transactions
   Future<List<Transaction>> getAllTransactions();
@@ -24,10 +24,10 @@ abstract class _LocalStorageImpl {
       DateTime startDate, DateTime endDate);
 
   // Get all accounts
-  Future<List<Account>> getAllAccounts();
+  Stream<List<Account>> getAllAccounts();
 
   // Add a new account
-  Future<void> addAccount(Account account);
+  Future<int> addAccount(Account account);
 
   // Update an existing account
   Future<void> updateAccount(Account account);

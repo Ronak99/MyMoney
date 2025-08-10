@@ -2,24 +2,18 @@ part of '../storage.dart';
 
 class LocalStorageService implements _LocalStorageImpl {
   static LocalStorageService? _instance;
+  late final _AppDatabase database;
 
   static LocalStorageService get instance {
     _instance ??= LocalStorageService._();
     return _instance!;
   }
 
-  LocalStorageService._() {
-    _init();
-  }
-
-  Future<void> _init() async {
-    // _database =
-    //     await $FloorAppDatabase.databaseBuilder('app_database.db').build();
-  }
+  LocalStorageService._();
 
   @override
-  Future<void> addAccount(Account account) {
-    throw UnimplementedError();
+  Future<int> addAccount(Account account) {
+    return database.accountDao.insertAccount(account);
   }
 
   @override
@@ -59,9 +53,8 @@ class LocalStorageService implements _LocalStorageImpl {
   }
 
   @override
-  Future<List<Account>> getAllAccounts() {
-    // TODO: implement getAllAccounts
-    throw UnimplementedError();
+  Stream<List<Account>> getAllAccounts() {
+    return database.accountDao.streamAllAccounts();
   }
 
   @override
@@ -120,9 +113,9 @@ class LocalStorageService implements _LocalStorageImpl {
   }
 
   @override
-  Future<void> init() {
-    // TODO: implement init
-    throw UnimplementedError();
+  Future<void> initialize() async {
+    final dbBuilder = $Floor_AppDatabase.databaseBuilder('app_database.db');
+    database = await dbBuilder.build();
   }
 
   @override
