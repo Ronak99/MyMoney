@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:my_money/extensions/transactions.dart';
 import 'package:my_money/packages/parser/parser.dart';
 import 'package:my_money/presentation/routes/route_generator.dart';
-
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -13,28 +13,44 @@ class HomePage extends StatelessWidget {
     final transactions = transactionsCubit.state.transactions;
 
     return Scaffold(
+      appBar: AppBar(),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          final records = await Get.find<BankStatementService>().extractDataFromPDF(bank: Bank.fi, password: "RONA1005");
-          transactionsCubit.setTransactions(records);
+
         },
         child: const Icon(Icons.add),
       ),
       body: transactions.isEmpty
           ? const Text("No Accounts")
           : SizedBox(
-        width: double.infinity,
-        child: ListView.builder(
-          itemCount: transactions.length,
-          itemBuilder: (context, index) {
-            final account = transactions[index];
-            return ListTile(
-              title: Text(account.name),
-              trailing: Text(account.amount.toString()),
-            );
-          },
-        ),
-      ),
+              width: double.infinity,
+              child: ListView.builder(
+                itemCount: transactions.groupByDate.keys.length,
+                itemBuilder: (context, index) {
+                  final tDate = transactions.groupByDate.keys.elementAt(index);
+
+                  return Column(
+                    children: [
+                      Text(tDate.toString()),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: transactions.groupByDate[tDate]!.length,
+                        itemBuilder: (context, index) {
+                          final transaction =
+                              transactions.groupByDate[tDate]![index];
+
+                          return ListTile(
+                            title: Text(transaction.name),
+                            trailing: Text(transaction.amount.toString()),
+                          );
+                        },
+                      )
+                    ],
+                  );
+                },
+              ),
+            ),
     );
   }
 }

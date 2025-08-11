@@ -11,4 +11,4 @@ part 'model/bank_statement_parser.dart';
 part 'model/fi_statement_parser.dart';
 
 part 'manager/PdfManager.dart';
-part 'service/parser_service.dart';
+part 'service/bank_statement_service.dart';
