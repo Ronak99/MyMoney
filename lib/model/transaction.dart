@@ -2,6 +2,8 @@ import 'package:floor/floor.dart';
 import 'package:flutter/foundation.dart';
 import 'package:my_money/model/account.dart';
 
+
+
 @Entity(tableName: 'transactions', foreignKeys: [
   ForeignKey(
     childColumns: ['categoryId'],
@@ -15,23 +17,23 @@ import 'package:my_money/model/account.dart';
   ),
 ])
 class Transaction {
-  @primaryKey
+  @PrimaryKey(autoGenerate: true)
   final int id;
 
   final String name;
   final String description;
   final double amount;
   final DateTime date;
-  final String categoryId;
-  final String accountId;
+  final String? categoryId;
+  final String? accountId;
 
   Transaction({
-    required this.id,
+    this.id = 0,
     required this.description,
     required this.name,
     required this.amount,
     required this.date,
-    required this.categoryId,
-    required this.accountId,
+    this.categoryId,
+    this.accountId,
   });
 }

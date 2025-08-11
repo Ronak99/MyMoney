@@ -100,7 +100,7 @@ class _$_AppDatabase extends _AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `transactions` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `amount` REAL NOT NULL, `date` INTEGER NOT NULL, `categoryId` TEXT NOT NULL, `accountId` TEXT NOT NULL, FOREIGN KEY (`categoryId`) REFERENCES `Category` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`accountId`) REFERENCES `Account` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `transactions` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `amount` REAL NOT NULL, `date` INTEGER NOT NULL, `categoryId` TEXT, `accountId` TEXT, FOREIGN KEY (`categoryId`) REFERENCES `Category` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`accountId`) REFERENCES `Account` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Account` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `balance` REAL NOT NULL, `createdOn` INTEGER NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
@@ -197,8 +197,8 @@ class _$_TransactionDao extends _TransactionDao {
             name: row['name'] as String,
             amount: row['amount'] as double,
             date: __DateTimeConverter.decode(row['date'] as int),
-            categoryId: row['categoryId'] as String,
-            accountId: row['accountId'] as String),
+            categoryId: row['categoryId'] as String?,
+            accountId: row['accountId'] as String?),
         queryableName: 'Transaction',
         isView: false);
   }
@@ -212,8 +212,8 @@ class _$_TransactionDao extends _TransactionDao {
             name: row['name'] as String,
             amount: row['amount'] as double,
             date: __DateTimeConverter.decode(row['date'] as int),
-            categoryId: row['categoryId'] as String,
-            accountId: row['accountId'] as String),
+            categoryId: row['categoryId'] as String?,
+            accountId: row['accountId'] as String?),
         arguments: [id]);
   }
 
@@ -230,8 +230,8 @@ class _$_TransactionDao extends _TransactionDao {
             name: row['name'] as String,
             amount: row['amount'] as double,
             date: __DateTimeConverter.decode(row['date'] as int),
-            categoryId: row['categoryId'] as String,
-            accountId: row['accountId'] as String),
+            categoryId: row['categoryId'] as String?,
+            accountId: row['accountId'] as String?),
         arguments: [
           __DateTimeConverter.encode(startDate),
           __DateTimeConverter.encode(endDate)
