@@ -4,6 +4,7 @@ enum Bank {
   fi,
   sbi,
   hdfc,
+  icici,
 }
 
 class BankStatementService {
@@ -19,7 +20,7 @@ class BankStatementService {
   final BankStatementParser _fiStatementParser = FiStatementParser();
   final _PdfManager _pdfManager = _PdfManager();
 
-  Future<List<Transaction>> extractDataFromPDF({
+  Future<List<Transaction>> extract({
     required Bank bank,
     required String password,
   }) async {
@@ -31,6 +32,8 @@ class BankStatementService {
       case Bank.sbi:
         return _fiStatementParser.parse(content);
       case Bank.hdfc:
+        return _fiStatementParser.parse(content);
+      case Bank.icici:
         return _fiStatementParser.parse(content);
     }
   }

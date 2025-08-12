@@ -99,6 +99,7 @@ class FiStatementParser implements BankStatementParser {
   }) {
     // Try to extract amount and balance from the end of the line
     final List<String> components = line
+    // split spaces
         .split(RegExp(r'\s+'))
         .where((component) => component.isNotEmpty)
         .toList();
@@ -122,7 +123,7 @@ class FiStatementParser implements BankStatementParser {
         .take(components.length - 2)
         .join(" ");
 
-    final String receiverUPI = _extractReceiverUPI(transactionDetails);
+    final String receiverUPI = _extractReceiverUPI(transactionDetails) ?? transactionDetails;
     final TransactionType transactionType = _determineTransactionType(transactionDetails);
 
     return Transaction(
@@ -151,15 +152,15 @@ class FiStatementParser implements BankStatementParser {
         break;
       }
 
-      combinedLine += " $line";
+      combinedLine += "^^$line";
 
       // Check if this combined line now has amount and balance
       final List<String> components = combinedLine
-          .split(RegExp(r'\s+'))
+          .split("^^")
           .where((component) => component.isNotEmpty)
           .toList();
 
-      if (components.length >= 2) {
+      if (components.length >= 4) {
         final List<String> lastTwo = components.takeLast(2).toList();
         if (_parseAmount(lastTwo[0]) != null && _parseAmount(lastTwo[1]) != null) {
           foundAmountBalance = true;
@@ -170,7 +171,7 @@ class FiStatementParser implements BankStatementParser {
     }
 
     final Transaction? transaction = _parseSingleLineTransaction(
-      line: combinedLine.trim(),
+      line: combinedLine.trim().replaceAll("^^", " "),
       dateString: dateString,
     );
 
@@ -229,7 +230,7 @@ class FiStatementParser implements BankStatementParser {
     return null;
   }
 
-  String _extractReceiverUPI(String transactionDetails) {
+  String? _extractReceiverUPI(String transactionDetails) {
     // Extract UPI ID patterns
     final List<String> upiPatterns = [
       r'[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}',  // Standard UPI format
@@ -250,13 +251,11 @@ class FiStatementParser implements BankStatementParser {
       if (components.length >= 3) {
         // Usually the UPI is in the 3rd component
         final String upiComponent = components[2];
-        if (upiComponent.contains("@")) {
-          return upiComponent;
-        }
+        return upiComponent;
       }
     }
 
-    return "Unknown";
+    return null;
   }
 
   TransactionType _determineTransactionType(String transactionDetails) {

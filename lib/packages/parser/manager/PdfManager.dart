@@ -56,15 +56,7 @@ class _PdfManager {
   }
 
   String _extractTextFromPDF(PdfDocument pdfDocument) {
-    final StringBuffer fullText = StringBuffer();
-
-    for (int pageIndex = 0; pageIndex < pdfDocument.pages.count; pageIndex++) {
-      final PdfPage page = pdfDocument.pages[pageIndex];
-      final String pageText = PdfTextExtractor(pdfDocument)
-          .extractText(startPageIndex: pageIndex, endPageIndex: pageIndex);
-      fullText.writeln(pageText);
-    }
-
-    return fullText.toString();
+    final fullText = PdfTextExtractor(pdfDocument).extractText();
+    return fullText;
   }
 }
