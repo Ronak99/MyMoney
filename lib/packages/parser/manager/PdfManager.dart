@@ -1,10 +1,10 @@
 part of '../parser.dart';
 
 class _PdfManager {
-  Future<String> loadAndRetrieveContent({required String password}) async {
+  Future<String> loadAndRetrieveContent({required String filename, required String password}) async {
     try {
       // Load PDF from assets
-      final ByteData data = await rootBundle.load('assets/statement.pdf');
+      final ByteData data = await rootBundle.load('assets/$filename');
       final Uint8List bytes = data.buffer.asUint8List();
 
       return await _unlockAndExtractContent(bytes, password);

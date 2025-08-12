@@ -1,25 +1,5 @@
 part of '../parser.dart';
 
-class PDFExtractionResult {
-  final List<Transaction> transactions;
-  final String extractedText;
-  final int pageCount;
-  final double processingTime;
-
-  PDFExtractionResult({
-    required this.transactions,
-    required this.extractedText,
-    required this.pageCount,
-    required this.processingTime,
-  });
-}
-
-enum TransactionType {
-  upiOut,
-  nft,
-  other,
-}
-
 class FiStatementParser implements BankStatementParser {
   final int currentYear = DateTime.now().year;
 

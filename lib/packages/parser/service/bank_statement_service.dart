@@ -18,23 +18,28 @@ class BankStatementService {
   BankStatementService._();
 
   final BankStatementParser _fiStatementParser = FiStatementParser();
+  final BankStatementParser _iciciStatementParser = IciciStatmentParser();
+  final BankStatementParser _sbiStatementParser = SbiStatementParser();
+  final BankStatementParser _hdfcStatementParser = HdfcStatementParser();
+
   final _PdfManager _pdfManager = _PdfManager();
 
   Future<List<Transaction>> extract({
     required Bank bank,
     required String password,
+    required String filename,
   }) async {
     String content =
-        await _pdfManager.loadAndRetrieveContent(password: password);
+        await _pdfManager.loadAndRetrieveContent(filename: filename, password: password);
     switch (bank) {
       case Bank.fi:
         return _fiStatementParser.parse(content);
       case Bank.sbi:
-        return _fiStatementParser.parse(content);
+        return _sbiStatementParser.parse(content);
       case Bank.hdfc:
-        return _fiStatementParser.parse(content);
+        return _hdfcStatementParser.parse(content);
       case Bank.icici:
-        return _fiStatementParser.parse(content);
+        return _iciciStatementParser.parse(content);
     }
   }
 }
