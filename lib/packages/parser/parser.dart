@@ -4,6 +4,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/services.dart';
+import 'package:my_money/extensions/list.dart';
 import 'package:my_money/packages/parser/model/hdfc_statement_parser.dart';
 import 'package:my_money/packages/parser/model/sbi_statement_parser.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
