@@ -1,5 +1,4 @@
 import 'package:my_money/model/transaction.dart';
-import 'package:my_money/packages/parser/enums/transaction_type.dart';
 import 'package:my_money/packages/parser/parser.dart';
 
 class SbiStatementParser extends BankStatementParser {
@@ -203,6 +202,7 @@ class SbiStatementParser extends BankStatementParser {
       amount: amount,
       date: date,
       description: transactionDetails,
+      transactionType: transactionType,
     );
   }
 
@@ -255,17 +255,17 @@ class SbiStatementParser extends BankStatementParser {
   }
 
   static TransactionType _determineTransactionType(String transactionDetails) {
-    if (transactionDetails.contains('UPI')) {
-      return TransactionType.upiOut;
-    } else if (transactionDetails.contains('ACHCr')) {
-      return TransactionType.nft;
-    } else if (transactionDetails.contains('ACHDr')) {
-      return TransactionType.nft;
-    } else if (transactionDetails.contains('TRANSFER')) {
-      return TransactionType.nft;
-    } else {
-      return TransactionType.other;
-    }
+    // if (transactionDetails.contains('UPI')) {
+    //   return TransactionType.upiOut;
+    // } else if (transactionDetails.contains('ACHCr')) {
+    //   return TransactionType.nft;
+    // } else if (transactionDetails.contains('ACHDr')) {
+    //   return TransactionType.nft;
+    // } else if (transactionDetails.contains('TRANSFER')) {
+    //   return TransactionType.nft;
+    // } else {
+    // }
+      return TransactionType.none;
   }
 
   static bool _isDebitTransaction(String transactionDetails) {

@@ -16,6 +16,13 @@ import 'package:my_money/model/account.dart';
     entity: Account,
   ),
 ])
+
+enum TransactionType {
+  expense,
+  income,
+  none,
+}
+
 class Transaction {
   @PrimaryKey(autoGenerate: true)
   final int id;
@@ -26,6 +33,7 @@ class Transaction {
   final DateTime date;
   final String? categoryId;
   final String? accountId;
+  final TransactionType transactionType;
 
   Transaction({
     this.id = 0,
@@ -33,6 +41,7 @@ class Transaction {
     required this.name,
     required this.amount,
     required this.date,
+    this.transactionType = TransactionType.none,
     this.categoryId,
     this.accountId,
   });

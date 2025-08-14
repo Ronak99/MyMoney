@@ -110,6 +110,7 @@ class FiStatementParser implements BankStatementParser {
       name: receiverUPI,
       amount: amount,
       date: date,
+      transactionType: transactionType,
       description: transactionType.name,
     );
   }
@@ -240,11 +241,9 @@ class FiStatementParser implements BankStatementParser {
 
   TransactionType _determineTransactionType(String transactionDetails) {
     if (transactionDetails.contains("UPIOUT")) {
-      return TransactionType.upiOut;
-    } else if (transactionDetails.contains("NFT")) {
-      return TransactionType.nft;
+      return TransactionType.expense;
     } else {
-      return TransactionType.other;
+      return TransactionType.none;
     }
   }
 }
