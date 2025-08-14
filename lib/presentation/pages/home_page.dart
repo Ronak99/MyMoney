@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:my_money/extensions/transactions.dart';
 import 'package:my_money/packages/parser/parser.dart';
+import 'package:my_money/packages/storage/storage.dart';
 import 'package:my_money/presentation/routes/route_generator.dart';
 import 'package:my_money/state/transaction/transaction_cubit.dart';
 import 'package:my_money/state/transaction/transaction_state.dart';
@@ -61,6 +62,20 @@ class HomePage extends StatelessWidget {
               RouteGenerator.transactionCubit.setTransactions(records);
             },
             child: Text("HDFC"),
+          ),
+          const SizedBox(width: 8),
+          ElevatedButton(
+            onPressed: () async {
+              final service = Get.find<LocalStorageService>();
+
+              // service.addAccount(account);
+              // service.addCategory(category);
+              //
+              // service.addTransaction(transaction);
+              //
+              // service.getAllTransactions();
+            },
+            child: Text("Test DB"),
           ),
         ],
       ),

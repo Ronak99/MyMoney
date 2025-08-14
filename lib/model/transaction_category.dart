@@ -6,7 +6,7 @@ enum CategoryType {
 }
 
 @entity
-class Category {
+class TransactionCategory {
   @primaryKey
   final int id;
 
@@ -15,7 +15,7 @@ class Category {
   final CategoryType type;
   final DateTime createdOn;
 
-  Category({
+  TransactionCategory({
     required this.id,
     required this.name,
     required this.description,

@@ -11,7 +11,7 @@ class AccountCubit extends Cubit<AccountState> {
   }
 
   void initialize() {
-    Get.find<LocalStorageService>().getAllAccounts().listen((data) {
+    Get.find<LocalStorageService>().streamAllAccounts().listen((data) {
       emit(state.copyWith(accounts: data));
     });
   }

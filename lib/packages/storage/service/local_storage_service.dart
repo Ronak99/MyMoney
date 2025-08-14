@@ -17,7 +17,7 @@ class LocalStorageService implements _LocalStorageImpl {
   }
 
   @override
-  Future<void> addCategory(Category category) {
+  Future<void> addCategory(TransactionCategory category) {
     // TODO: implement addCategory
     throw UnimplementedError();
   }
@@ -53,30 +53,29 @@ class LocalStorageService implements _LocalStorageImpl {
   }
 
   @override
-  Stream<List<Account>> getAllAccounts() {
+  Stream<List<Account>> streamAllAccounts() {
     return database.accountDao.streamAllAccounts();
   }
 
   @override
-  Future<List<Category>> getAllCategories() {
+  Future<List<TransactionCategory>> getAllCategories() {
     // TODO: implement getAllCategories
     throw UnimplementedError();
   }
 
   @override
   Future<List<Transaction>> getAllTransactions() {
-    // TODO: implement getAllTransactions
-    throw UnimplementedError();
+    return database.transactionDao.getAllTransactions();
   }
 
   @override
-  Future<List<Category>> getCategoriesByType(CategoryType type) {
+  Future<List<TransactionCategory>> getCategoriesByType(CategoryType type) {
     // TODO: implement getCategoriesByType
     throw UnimplementedError();
   }
 
   @override
-  Future<Category?> getCategoryById(int id) {
+  Future<TransactionCategory?> getCategoryById(int id) {
     // TODO: implement getCategoryById
     throw UnimplementedError();
   }
@@ -125,7 +124,7 @@ class LocalStorageService implements _LocalStorageImpl {
   }
 
   @override
-  Future<void> updateCategory(Category category) {
+  Future<void> updateCategory(TransactionCategory category) {
     // TODO: implement updateCategory
     throw UnimplementedError();
   }

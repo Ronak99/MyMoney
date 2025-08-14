@@ -3,8 +3,8 @@ part of '../storage.dart';
 @dao
 abstract class _CategoryDao {
   @Query('SELECT * FROM Category WHERE id = :id')
-  Future<Category?> findCategoryById(int id);
+  Future<TransactionCategory?> findCategoryById(int id);
 
   @Query('SELECT * FROM Category')
-  Future<List<Category>> findAllCategories();
+  Future<List<TransactionCategory>> findAllCategories();
 }

@@ -24,7 +24,7 @@ abstract class _LocalStorageImpl {
       DateTime startDate, DateTime endDate);
 
   // Get all accounts
-  Stream<List<Account>> getAllAccounts();
+  Stream<List<Account>> streamAllAccounts();
 
   // Add a new account
   Future<int> addAccount(Account account);
@@ -39,22 +39,22 @@ abstract class _LocalStorageImpl {
   Future<Account?> getAccountById(int id);
 
   // Get all categories
-  Future<List<Category>> getAllCategories();
+  Future<List<TransactionCategory>> getAllCategories();
 
   // Add a new category
-  Future<void> addCategory(Category category);
+  Future<void> addCategory(TransactionCategory category);
 
   // Update an existing category
-  Future<void> updateCategory(Category category);
+  Future<void> updateCategory(TransactionCategory category);
 
   // Delete a category by ID
   Future<void> deleteCategory(int id);
 
   // Get a category by ID
-  Future<Category?> getCategoryById(int id);
+  Future<TransactionCategory?> getCategoryById(int id);
 
   // Get all categories by type
-  Future<List<Category>> getCategoriesByType(CategoryType type);
+  Future<List<TransactionCategory>> getCategoriesByType(CategoryType type);
 
   // Get all transactions for a specific account
   Future<List<Transaction>> getTransactionsByAccountId(int accountId);
