@@ -4,9 +4,9 @@ import 'package:my_money/packages/parser/parser.dart';
 
 class SbiStatementParser extends BankStatementParser {
   @override
-  List<Transaction> parse(String statementText) {
+  List<Transaction> parse(String text) {
     List<Transaction> transactions = [];
-    List<String> lines = statementText.split('\n');
+    List<String> lines = text.split('\n');
 
     int transactionId = 1;
     String? currentDate;
