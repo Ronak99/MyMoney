@@ -123,5 +123,15 @@ class Mock {
       accountId: 1,
       transactionType: TransactionType.income,
     ),
+    Transaction(
+      id: 7,
+      name: 'Saving Utils',
+      description: 'Saving Account and Utility Category',
+      amount: 55000.00,
+      date: DateTime(2024, 4, 30),
+      categoryId: 5,
+      accountId: 1,
+      transactionType: TransactionType.expense,
+    ),
   ];
 }

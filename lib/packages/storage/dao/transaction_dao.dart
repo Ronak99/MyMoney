@@ -2,6 +2,8 @@ part of '../storage.dart';
 
 @dao
 abstract class _TransactionDao {
+  static const String tableName = 'transactions';
+
   @Query('SELECT * FROM ${DBViews.transactionWithCategoryAndAccount}')
   Future<List<TransactionWithCategoryAndAccountView>>
       getTransactionsWithCategoryAndView();
@@ -30,7 +32,7 @@ abstract class _TransactionDao {
   }
 
   @Insert(onConflict: OnConflictStrategy.replace)
-  Future<void> insertTransaction(Transaction transaction);
+  Future<int> insertTransaction(Transaction transaction);
 
   @Update(onConflict: OnConflictStrategy.replace)
   Future<void> updateTransaction(Transaction transaction);
@@ -38,10 +40,10 @@ abstract class _TransactionDao {
   @delete
   Future<void> deleteTransaction(Transaction transaction);
 
-  @Query('SELECT * FROM Transaction WHERE id = :id')
+  @Query('SELECT * FROM $tableName WHERE id = :id')
   Future<Transaction?> findTransactionById(int id);
 
-  @Query('SELECT * FROM Transaction WHERE date BETWEEN :startDate AND :endDate')
+  @Query('SELECT * FROM $tableName WHERE date BETWEEN :startDate AND :endDate')
   Future<List<Transaction>> findTransactionsByDateRange(
     DateTime startDate,
     DateTime endDate,

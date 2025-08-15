@@ -2,9 +2,14 @@ part of '../storage.dart';
 
 @dao
 abstract class _CategoryDao {
-  @Query('SELECT * FROM Category WHERE id = :id')
+  static const String tableName = 'categories';
+
+  @Query('SELECT * FROM $tableName WHERE id = :id')
   Future<TransactionCategory?> findCategoryById(int id);
 
-  @Query('SELECT * FROM Category')
+  @Query('SELECT * FROM $tableName')
   Future<List<TransactionCategory>> findAllCategories();
+
+  @insert
+  Future<int> insertCategory(TransactionCategory category);
 }

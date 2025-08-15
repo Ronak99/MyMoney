@@ -22,8 +22,8 @@ class _Queries {
     c.description       AS c_description,
     c.type              AS c_type,
     c.createdOn         AS c_createdOn
-  FROM Transaction t
-  LEFT JOIN Account  a ON a.id = t.accountId
-  LEFT JOIN Category c ON c.id = t.categoryId
+  FROM transactions t
+  LEFT JOIN accounts  a ON a.id = t.accountId
+  LEFT JOIN categories c ON c.id = t.categoryId
   ''';
 }

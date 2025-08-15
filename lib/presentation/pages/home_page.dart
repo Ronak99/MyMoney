@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:my_money/extensions/transactions.dart';
+import 'package:my_money/model/mock.dart';
 import 'package:my_money/packages/parser/parser.dart';
 import 'package:my_money/packages/storage/storage.dart';
 import 'package:my_money/presentation/routes/route_generator.dart';
@@ -28,52 +29,58 @@ class HomePage extends StatelessWidget {
             child: Text("FI"),
           ),
           const SizedBox(width: 8),
-          ElevatedButton(
-            onPressed: () async {
-              final records = await Get.find<BankStatementService>().extract(
-                bank: Bank.icici,
-                filename: "statement_icici.pdf",
-                password: "RONA1005",
-              );
-              RouteGenerator.transactionCubit.setTransactions(records);
-            },
-            child: Text("ICICI"),
-          ),
+          // ElevatedButton(
+          //   onPressed: () async {
+          //     final records = await Get.find<BankStatementService>().extract(
+          //       bank: Bank.icici,
+          //       filename: "statement_icici.pdf",
+          //       password: "RONA1005",
+          //     );
+          //     RouteGenerator.transactionCubit.setTransactions(records);
+          //   },
+          //   child: Text("ICICI"),
+          // ),
+          // const SizedBox(width: 8),
+          // ElevatedButton(
+          //   onPressed: () async {
+          //     final records = await Get.find<BankStatementService>().extract(
+          //       bank: Bank.sbi,
+          //       filename: "statement_sbi.pdf",
+          //       password: "1005@9742",
+          //     );
+          //     RouteGenerator.transactionCubit.setTransactions(records);
+          //   },
+          //   child: Text("SBI"),
+          // ),
+          // const SizedBox(width: 8),
+          // ElevatedButton(
+          //   onPressed: () async {
+          //     final records = await Get.find<BankStatementService>().extract(
+          //       bank: Bank.hdfc,
+          //       filename: "statement_hdfc.pdf",
+          //       password: "1005@9742",
+          //     );
+          //     RouteGenerator.transactionCubit.setTransactions(records);
+          //   },
+          //   child: Text("HDFC"),
+          // ),
           const SizedBox(width: 8),
           ElevatedButton(
             onPressed: () async {
-              final records = await Get.find<BankStatementService>().extract(
-                bank: Bank.sbi,
-                filename: "statement_sbi.pdf",
-                password: "1005@9742",
-              );
-              RouteGenerator.transactionCubit.setTransactions(records);
-            },
-            child: Text("SBI"),
-          ),
-          const SizedBox(width: 8),
-          ElevatedButton(
-            onPressed: () async {
-              final records = await Get.find<BankStatementService>().extract(
-                bank: Bank.hdfc,
-                filename: "statement_hdfc.pdf",
-                password: "1005@9742",
-              );
-              RouteGenerator.transactionCubit.setTransactions(records);
-            },
-            child: Text("HDFC"),
-          ),
-          const SizedBox(width: 8),
-          ElevatedButton(
-            onPressed: () async {
-              final service = Get.find<LocalStorageService>();
+              try{
+                final service = Get.find<LocalStorageService>();
+                //
+                await service.addAccount(Mock.accounts.first);
+                await service.addCategory(Mock.categories.last);
 
-              // service.addAccount(account);
-              // service.addCategory(category);
-              //
-              // service.addTransaction(transaction);
-              //
-              // service.getAllTransactions();
+                await service.addTransaction(Mock.transactions.last);
+
+                final transactions = await service.getAllTransactions();
+
+                print("DONE");
+              }catch(e){
+                print(e);
+              }
             },
             child: Text("Test DB"),
           ),

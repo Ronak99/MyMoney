@@ -5,7 +5,7 @@ enum CategoryType {
   expense,
 }
 
-@entity
+@Entity(tableName: 'categories')
 class TransactionCategory {
   @primaryKey
   final int id;

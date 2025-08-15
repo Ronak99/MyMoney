@@ -3,7 +3,7 @@ import 'package:my_money/model/account.dart';
 import 'package:my_money/model/transaction_category.dart';
 
 @Entity(
-  tableName: 'Transactions',
+  tableName: 'transactions',
   foreignKeys: [
     ForeignKey(
       childColumns: ['categoryId'],

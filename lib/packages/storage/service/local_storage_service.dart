@@ -18,14 +18,12 @@ class LocalStorageService implements _LocalStorageImpl {
 
   @override
   Future<void> addCategory(TransactionCategory category) {
-    // TODO: implement addCategory
-    throw UnimplementedError();
+    return database.categoryDao.insertCategory(category);
   }
 
   @override
-  Future<void> addTransaction(Transaction transaction) {
-    // TODO: implement addTransaction
-    throw UnimplementedError();
+  Future<int> addTransaction(Transaction transaction) {
+    return database.transactionDao.insertTransaction(transaction);
   }
 
   @override
