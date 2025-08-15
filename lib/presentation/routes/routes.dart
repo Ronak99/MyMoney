@@ -1,9 +1,7 @@
 enum Routes {
-  HOME,
-  ANALYTICS,
+  TRANSACTIONS,
   ACCOUNTS,
   CATEGORIES,
-  PREFERENCES,
 }
 
 extension RoutesExt on Routes {
