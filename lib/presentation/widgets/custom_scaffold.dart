@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class CustomScaffold extends StatelessWidget {
-  final Widget child;
+  final Widget body;
 
-  const CustomScaffold({super.key, required this.child});
+  const CustomScaffold({super.key, required this.body});
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +11,7 @@ class CustomScaffold extends StatelessWidget {
       appBar: AppBar(),
       body: Container(
         width: double.infinity,
-        child: child,
+        child: body,
       ),
     );
   }

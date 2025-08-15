@@ -72,6 +72,8 @@ class Mock {
       categoryId: 1,
       accountId: 1,
       transactionType: TransactionType.income,
+      account: accounts.firstWhere((a) => a.id == 1),
+      category: categories.firstWhere((c) => c.id == 1),
     ),
     Transaction(
       id: 2,
@@ -82,6 +84,8 @@ class Mock {
       categoryId: 2,
       accountId: 2,
       transactionType: TransactionType.expense,
+      account: accounts.firstWhere((a) => a.id == 2),
+      category: categories.firstWhere((c) => c.id == 2),
     ),
     Transaction(
       id: 3,
@@ -92,6 +96,8 @@ class Mock {
       categoryId: 3,
       accountId: 1,
       transactionType: TransactionType.expense,
+      account: accounts.firstWhere((a) => a.id == 1),
+      category: categories.firstWhere((c) => c.id == 3),
     ),
     Transaction(
       id: 4,
@@ -102,6 +108,8 @@ class Mock {
       categoryId: 4,
       accountId: 3,
       transactionType: TransactionType.income,
+      account: accounts.firstWhere((a) => a.id == 3),
+      category: categories.firstWhere((c) => c.id == 4),
     ),
     Transaction(
       id: 5,
@@ -112,6 +120,8 @@ class Mock {
       categoryId: 5,
       accountId: 2,
       transactionType: TransactionType.expense,
+      account: accounts.firstWhere((a) => a.id == 2),
+      category: categories.firstWhere((c) => c.id == 5),
     ),
     Transaction(
       id: 6,
@@ -122,6 +132,8 @@ class Mock {
       categoryId: 1,
       accountId: 1,
       transactionType: TransactionType.income,
+      account: accounts.firstWhere((a) => a.id == 1),
+      category: categories.firstWhere((c) => c.id == 1),
     ),
     Transaction(
       id: 7,
@@ -132,6 +144,8 @@ class Mock {
       categoryId: 5,
       accountId: 1,
       transactionType: TransactionType.expense,
+      account: accounts.firstWhere((a) => a.id == 1),
+      category: categories.firstWhere((c) => c.id == 5),
     ),
   ];
 }

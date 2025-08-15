@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_money/presentation/pages/home_page.dart';
+import 'package:my_money/presentation/pages/home/home_page.dart';
 import 'package:my_money/presentation/routes/routes.dart';
 import 'package:my_money/state/account/account_cubit.dart';
 import 'package:go_router/go_router.dart';
