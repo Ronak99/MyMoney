@@ -5,6 +5,7 @@ part of '../storage.dart';
   version: 1,
   entities: [Transaction, Account, TransactionCategory],
   views: [TransactionWithCategoryAndAccountView],
+
 )
 abstract class _AppDatabase extends FloorDatabase {
   _TransactionDao get transactionDao;

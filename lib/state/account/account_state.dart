@@ -7,5 +7,5 @@ part 'account_state.freezed.dart';
 class AccountState with _$AccountState {
   factory AccountState({
     @Default([]) List<Account> accounts,
-}) = _AccountState;
+  }) = _AccountState;
 }

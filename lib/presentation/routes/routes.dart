@@ -2,6 +2,7 @@ enum Routes {
   TRANSACTIONS,
   ACCOUNTS,
   CATEGORIES,
+  CREATE_TRANSACTION,
 }
 
 extension RoutesExt on Routes {

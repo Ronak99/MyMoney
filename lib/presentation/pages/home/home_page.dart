@@ -10,30 +10,35 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tabBarRoutes = [Routes.TRANSACTIONS, Routes.ACCOUNTS, Routes.CATEGORIES];
+    final tabBarRoutesMap = {
+      Routes.TRANSACTIONS: Routes.TRANSACTIONS.value,
+      Routes.ACCOUNTS: Routes.ACCOUNTS.value,
+      Routes.CATEGORIES: Routes.CATEGORIES.value,
+    };
     final currentLocation = GoRouter.of(context).state.matchedLocation;
+
+    int currentIndex = tabBarRoutesMap.values.toList().indexOf(currentLocation);
 
     return Scaffold(
       body: child,
       bottomNavigationBar: BottomNavigationBar(
         onTap: (index) {
           try {
-            context.pushReplacement(tabBarRoutes[index].value);
+            context.pushReplacement(tabBarRoutesMap.values.toList()[index]);
           } catch (e) {
-            print(e);
+            throw Exception("Error on tab change: ${e}");
           }
         },
-        currentIndex: tabBarRoutes.map((e) => e.value).toList().indexOf(currentLocation),
-        items: tabBarRoutes
+        currentIndex: currentIndex < 0 ? 0 : currentIndex,
+        items: tabBarRoutesMap.keys
             .map(
               (e) => BottomNavigationBarItem(
-                icon: Icon(
-                    switch(e) {
-                      Routes.TRANSACTIONS => Icons.money,
-                      Routes.ACCOUNTS => Icons.person,
-                      Routes.CATEGORIES => Icons.list,
-                    }
-                ),
+                icon: Icon(switch (e) {
+                  Routes.TRANSACTIONS => Icons.money,
+                  Routes.ACCOUNTS => Icons.person,
+                  Routes.CATEGORIES => Icons.list,
+                  _ => null,
+                }),
                 label: e.name,
               ),
             )

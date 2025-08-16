@@ -45,7 +45,9 @@ final class AppTheme {
       progressIndicatorTheme: ProgressIndicatorThemeData(color: scheme.primary),
 
       // Material elevations & surfaces
-      splashFactory: InkSparkle.splashFactory,
+      splashFactory: InkSparkle.constantTurbulenceSeedSplashFactory,
+      splashColor: scheme.primary.withOpacity(.05),
+      highlightColor: Colors.transparent,
       visualDensity: VisualDensity.standard,
     );
   }
