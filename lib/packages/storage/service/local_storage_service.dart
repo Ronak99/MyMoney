@@ -27,6 +27,14 @@ class LocalStorageService implements _LocalStorageImpl {
   }
 
   @override
+  Stream<List<Transaction>> streamAllTransactions({
+    required DateTime startDate,
+    required DateTime endDate,
+  }) {
+    return database.transactionDao.streamAllTransactions(startDate, endDate);
+  }
+
+  @override
   Future<void> deleteAccount(int id) {
     // TODO: implement deleteAccount
     throw UnimplementedError();

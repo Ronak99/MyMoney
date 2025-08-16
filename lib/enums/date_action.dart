@@ -1,0 +1,1 @@
+enum DateAction { setSpecific, incrementMonth, decrementMonth }

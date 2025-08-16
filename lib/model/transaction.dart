@@ -17,9 +17,9 @@ import 'package:my_money/model/transaction_category.dart';
     ),
   ],
   indices: [
-    Index(value: ['date']),
-    Index(value: ['accountId']),
-    Index(value: ['categoryId']),
+    Index(value: ['date'], name: 'idx_transactions_date'),
+    Index(value: ['accountId'], name: 'idx_transactions_account'),
+    Index(value: ['categoryId'], name: 'idx_transactions_category'),
   ],
 )
 class Transaction {
@@ -42,8 +42,8 @@ class Transaction {
 
   Transaction({
     this.id = 0,
-    required this.description,
     required this.name,
+    required this.description,
     required this.amount,
     required this.date,
     this.transactionType = TransactionType.none,
@@ -52,11 +52,27 @@ class Transaction {
     this.account,
     this.category,
   });
-}
 
+  factory Transaction.empty() {
+    return Transaction(
+      name: "",
+      description: "",
+      amount: 0,
+      date: DateTime(2022),
+    );
+  }
+}
 
 enum TransactionType {
   expense,
   income,
+  transfer,
+
+  /// when records are imported from bank statements - we may not be able to deduce the type of a given transaction, hence we mark them none by default
+  /// instead of marking them as null.
   none,
 }
+
+/// TODO:
+/// Make following changes to this model. Change accountId to sourceAccountId - representing where money got deducted from
+/// Make another one called destinationAccountId - representing where money went in case transactionType = TransactionType.transfer

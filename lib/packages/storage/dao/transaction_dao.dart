@@ -8,12 +8,19 @@ abstract class _TransactionDao {
   Future<List<TransactionWithCategoryAndAccountView>>
       getTransactionsWithCategoryAndView();
 
-  @Query('SELECT * FROM ${DBViews.transactionWithCategoryAndAccount}')
+  @Query(
+      'SELECT * FROM ${DBViews.transactionWithCategoryAndAccount} WHERE date BETWEEN :startDate AND :endDate')
   Stream<List<TransactionWithCategoryAndAccountView>>
-      streamTransactionsWithCategoryAndView();
+      streamTransactionsWithCategoryAndView(int startDate, int endDate);
 
-  Stream<List<Transaction>> streamAllTransactions() {
-    return streamTransactionsWithCategoryAndView().map((viewList) {
+  Stream<List<Transaction>> streamAllTransactions(
+    DateTime startDate,
+    DateTime endDate,
+  ) {
+    return streamTransactionsWithCategoryAndView(
+      startDate.millisecondsSinceEpoch,
+      endDate.millisecondsSinceEpoch,
+    ).map((viewList) {
       return viewList.map((r) {
         final account = r.toAccount();
         final category = r.toCategory();

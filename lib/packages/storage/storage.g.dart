@@ -106,11 +106,11 @@ class _$_AppDatabase extends _AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `categories` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `type` INTEGER NOT NULL, `createdOn` INTEGER NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE INDEX `index_transactions_date` ON `transactions` (`date`)');
+            'CREATE INDEX `idx_transactions_date` ON `transactions` (`date`)');
         await database.execute(
-            'CREATE INDEX `index_transactions_accountId` ON `transactions` (`accountId`)');
+            'CREATE INDEX `idx_transactions_account` ON `transactions` (`accountId`)');
         await database.execute(
-            'CREATE INDEX `index_transactions_categoryId` ON `transactions` (`categoryId`)');
+            'CREATE INDEX `idx_transactions_category` ON `transactions` (`categoryId`)');
         await database.execute(
             'CREATE VIEW IF NOT EXISTS `transaction_with_category_and_account` AS   SELECT\n    t.id                AS t_id,\n    t.name              AS t_name,\n    t.description       AS t_description,\n    t.amount            AS t_amount,\n    t.date              AS t_date,\n    t.transactionType   AS t_transactionType,\n    t.accountId         AS t_accountId,\n    t.categoryId        AS t_categoryId,\n\n    a.id                AS a_id,\n    a.name              AS a_name,\n    a.balance           AS a_balance,\n    a.createdOn         AS a_createdOn,\n\n    c.id                AS c_id,\n    c.name              AS c_name,\n    c.description       AS c_description,\n    c.type              AS c_type,\n    c.createdOn         AS c_createdOn\n  FROM transactions t\n  LEFT JOIN accounts  a ON a.id = t.accountId\n  LEFT JOIN categories c ON c.id = t.categoryId\n  ');
 
@@ -227,9 +227,12 @@ class _$_TransactionDao extends _TransactionDao {
 
   @override
   Stream<List<TransactionWithCategoryAndAccountView>>
-      streamTransactionsWithCategoryAndView() {
+      streamTransactionsWithCategoryAndView(
+    int startDate,
+    int endDate,
+  ) {
     return _queryAdapter.queryListStream(
-        'SELECT * FROM transaction_with_category_and_account',
+        'SELECT * FROM transaction_with_category_and_account WHERE date BETWEEN ?1 AND ?2',
         mapper: (Map<String, Object?> row) =>
             TransactionWithCategoryAndAccountView(
                 t_id: row['t_id'] as int,
@@ -249,6 +252,7 @@ class _$_TransactionDao extends _TransactionDao {
                 c_description: row['c_description'] as String?,
                 c_type: row['c_type'] as int?,
                 c_createdOn: row['c_createdOn'] as int?),
+        arguments: [startDate, endDate],
         queryableName: 'transaction_with_category_and_account',
         isView: true);
   }
@@ -258,8 +262,8 @@ class _$_TransactionDao extends _TransactionDao {
     return _queryAdapter.query('SELECT * FROM transactions WHERE id = ?1',
         mapper: (Map<String, Object?> row) => Transaction(
             id: row['id'] as int,
-            description: row['description'] as String,
             name: row['name'] as String,
+            description: row['description'] as String,
             amount: row['amount'] as double,
             date: __DateTimeConverter.decode(row['date'] as int),
             transactionType:
@@ -278,8 +282,8 @@ class _$_TransactionDao extends _TransactionDao {
         'SELECT * FROM transactions WHERE date BETWEEN ?1 AND ?2',
         mapper: (Map<String, Object?> row) => Transaction(
             id: row['id'] as int,
-            description: row['description'] as String,
             name: row['name'] as String,
+            description: row['description'] as String,
             amount: row['amount'] as double,
             date: __DateTimeConverter.decode(row['date'] as int),
             transactionType:

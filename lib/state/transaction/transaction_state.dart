@@ -7,5 +7,6 @@ part 'transaction_state.freezed.dart';
 class TransactionState with _$TransactionState {
   factory TransactionState({
     @Default([]) List<Transaction> transactions,
+    DateTime? selectedDate,
   }) = _TransactionState;
 }

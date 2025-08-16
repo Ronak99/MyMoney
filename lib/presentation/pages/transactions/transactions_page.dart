@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:my_money/model/mock.dart';
 import 'package:my_money/model/transaction.dart';
 import 'package:my_money/presentation/pages/home/widgets/transaction_list_item.dart';
+import 'package:my_money/presentation/routes/routes.dart';
 import 'package:my_money/presentation/widgets/custom_scaffold.dart';
 import 'package:my_money/presentation/widgets/list_view_separated.dart';
+import 'package:go_router/go_router.dart';
 
 class TransactionsPage extends StatelessWidget {
   const TransactionsPage({super.key});
@@ -12,6 +14,10 @@ class TransactionsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomScaffold(
       title: 'Transactions',
+      fab: FloatingActionButton(
+        onPressed: () => context.push(Routes.CREATE_TRANSACTION.value),
+        child: const Icon(Icons.add),
+      ),
       body: ListViewSeparated<Transaction>(
         list: Mock.transactions,
         itemBuilder: (context, _, transaction) {

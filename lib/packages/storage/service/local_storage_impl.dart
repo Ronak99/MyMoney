@@ -7,6 +7,12 @@ abstract class _LocalStorageImpl {
   // Get all transactions
   Future<List<Transaction>> getAllTransactions();
 
+  // Stream all transactions
+  Stream<List<Transaction>> streamAllTransactions({
+    required DateTime startDate,
+    required DateTime endDate,
+  });
+
   // Add a new transaction
   Future<void> addTransaction(Transaction transaction);
 
