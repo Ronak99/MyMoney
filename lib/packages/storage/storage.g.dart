@@ -232,7 +232,7 @@ class _$_TransactionDao extends _TransactionDao {
     int endDate,
   ) {
     return _queryAdapter.queryListStream(
-        'SELECT * FROM transaction_with_category_and_account WHERE date BETWEEN ?1 AND ?2',
+        'SELECT * FROM transaction_with_category_and_account WHERE t_date BETWEEN ?1 AND ?2',
         mapper: (Map<String, Object?> row) =>
             TransactionWithCategoryAndAccountView(
                 t_id: row['t_id'] as int,
@@ -418,7 +418,7 @@ class _$_CategoryDao extends _CategoryDao {
   _$_CategoryDao(
     this.database,
     this.changeListener,
-  )   : _queryAdapter = QueryAdapter(database),
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
         _transactionCategoryInsertionAdapter = InsertionAdapter(
             database,
             'categories',
@@ -439,6 +439,19 @@ class _$_CategoryDao extends _CategoryDao {
 
   final InsertionAdapter<TransactionCategory>
       _transactionCategoryInsertionAdapter;
+
+  @override
+  Stream<List<TransactionCategory>> streamAllCategories() {
+    return _queryAdapter.queryListStream('SELECT * FROM categories',
+        mapper: (Map<String, Object?> row) => TransactionCategory(
+            id: row['id'] as int,
+            name: row['name'] as String,
+            description: row['description'] as String,
+            type: CategoryType.values[row['type'] as int],
+            createdOn: __DateTimeConverter.decode(row['createdOn'] as int)),
+        queryableName: 'categories',
+        isView: false);
+  }
 
   @override
   Future<TransactionCategory?> findCategoryById(int id) async {
