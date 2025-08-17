@@ -5,6 +5,7 @@ import 'package:my_money/presentation/pages/transactions/create/state/create_tra
 import 'package:my_money/presentation/pages/transactions/create/state/create_transaction_state.dart';
 import 'package:my_money/presentation/routes/route_generator.dart';
 import 'package:my_money/presentation/widgets/list_view_separated.dart';
+import 'package:go_router/go_router.dart';
 
 class AccountSelector extends StatelessWidget {
   const AccountSelector({super.key});
@@ -15,7 +16,11 @@ class AccountSelector extends StatelessWidget {
       buildWhen: (prev, next) => prev.account != next.account,
       builder: (context, state) {
         return GestureDetector(
-          onTap: () => AccountSelectorSheet.show(context),
+          onTap: () async {
+            final selectedAccount = await AccountSelectorSheet.show(context);
+            if(selectedAccount == null) return;
+            context.read<CreateTransactionCubit>().setAccount(selectedAccount);
+          },
           child: Container(
             child: Row(
               children: [
@@ -31,7 +36,7 @@ class AccountSelector extends StatelessWidget {
 }
 
 class AccountSelectorSheet extends StatelessWidget {
-  static show(BuildContext context) => showModalBottomSheet(
+  static Future<Account?> show(BuildContext context) => showModalBottomSheet(
         context: context,
         builder: (context) => const AccountSelectorSheet(),
       );
@@ -50,13 +55,10 @@ class AccountSelectorSheet extends StatelessWidget {
           list: accounts,
           itemBuilder: (context, index, account) {
             return GestureDetector(
-              onTap: () => context.read<CreateTransactionCubit>().setAccount(account),
+              onTap: () => context.pop(account),
               child: Container(
                 child: Row(
-                  children: [
-                    Icon(Icons.wallet),
-                    Text(account.name)
-                  ],
+                  children: [Icon(Icons.wallet), Text(account.name)],
                 ),
               ),
             );
