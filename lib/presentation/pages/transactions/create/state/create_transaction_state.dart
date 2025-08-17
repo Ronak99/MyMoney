@@ -1,3 +1,4 @@
+import 'package:floor/floor.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:my_money/model/account.dart';
 import 'package:my_money/model/transaction.dart';
@@ -14,6 +15,6 @@ class CreateTransactionState with _$CreateTransactionState {
     String? name,
     String? description,
     double? amount,
-    @Default(DateTime.now) date,
+    DateTime? date,
   }) = _CreateTransactionState;
 }

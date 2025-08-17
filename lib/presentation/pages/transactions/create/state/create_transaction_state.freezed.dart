@@ -22,7 +22,7 @@ mixin _$CreateTransactionState {
   String? get name => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   double? get amount => throw _privateConstructorUsedError;
-  dynamic get date => throw _privateConstructorUsedError;
+  DateTime? get date => throw _privateConstructorUsedError;
 
   /// Create a copy of CreateTransactionState
   /// with the given fields replaced by the non-null parameter values.
@@ -44,7 +44,7 @@ abstract class $CreateTransactionStateCopyWith<$Res> {
       String? name,
       String? description,
       double? amount,
-      dynamic date});
+      DateTime? date});
 }
 
 /// @nodoc
@@ -99,7 +99,7 @@ class _$CreateTransactionStateCopyWithImpl<$Res,
       date: freezed == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -120,7 +120,7 @@ abstract class _$$CreateTransactionStateImplCopyWith<$Res>
       String? name,
       String? description,
       double? amount,
-      dynamic date});
+      DateTime? date});
 }
 
 /// @nodoc
@@ -171,7 +171,10 @@ class __$$CreateTransactionStateImplCopyWithImpl<$Res>
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as double?,
-      date: freezed == date ? _value.date! : date,
+      date: freezed == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -186,7 +189,7 @@ class _$CreateTransactionStateImpl implements _CreateTransactionState {
       this.name,
       this.description,
       this.amount,
-      this.date = DateTime.now});
+      this.date});
 
   @override
   @JsonKey()
@@ -202,8 +205,7 @@ class _$CreateTransactionStateImpl implements _CreateTransactionState {
   @override
   final double? amount;
   @override
-  @JsonKey()
-  final dynamic date;
+  final DateTime? date;
 
   @override
   String toString() {
@@ -224,19 +226,12 @@ class _$CreateTransactionStateImpl implements _CreateTransactionState {
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.amount, amount) || other.amount == amount) &&
-            const DeepCollectionEquality().equals(other.date, date));
+            (identical(other.date, date) || other.date == date));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      transactionType,
-      account,
-      category,
-      name,
-      description,
-      amount,
-      const DeepCollectionEquality().hash(date));
+  int get hashCode => Object.hash(runtimeType, transactionType, account,
+      category, name, description, amount, date);
 
   /// Create a copy of CreateTransactionState
   /// with the given fields replaced by the non-null parameter values.
@@ -256,7 +251,7 @@ abstract class _CreateTransactionState implements CreateTransactionState {
       final String? name,
       final String? description,
       final double? amount,
-      final dynamic date}) = _$CreateTransactionStateImpl;
+      final DateTime? date}) = _$CreateTransactionStateImpl;
 
   @override
   TransactionType? get transactionType;
@@ -271,7 +266,7 @@ abstract class _CreateTransactionState implements CreateTransactionState {
   @override
   double? get amount;
   @override
-  dynamic get date;
+  DateTime? get date;
 
   /// Create a copy of CreateTransactionState
   /// with the given fields replaced by the non-null parameter values.
