@@ -48,7 +48,11 @@ class TransactionCubit extends Cubit<TransactionState> {
     emit(state.copyWith(transactions: transactions));
   }
 
-  void addTransaction(Transaction transaction) {
-    Get.find<LocalStorageService>().addTransaction(transaction);
+  Future<void> addTransaction(Transaction transaction) async {
+    try {
+      await Get.find<LocalStorageService>().addTransaction(transaction);
+    } catch (e) {
+      rethrow;
+    }
   }
 }

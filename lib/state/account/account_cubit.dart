@@ -16,13 +16,11 @@ class AccountCubit extends Cubit<AccountState> {
     });
   }
 
-  void addAccount({required String name, required double balance}) async {
+  Future<void> addAccount(Account account) async {
     try{
-      Account account = Account(id: 4, name: name, balance: balance, createdOn: DateTime.now(),);
-      final result = await Get.find<LocalStorageService>().addAccount(account);
-      print(result);
+      await Get.find<LocalStorageService>().addAccount(account);
     }catch(e){
-      print(e);
+      rethrow;
     }
   }
 }
