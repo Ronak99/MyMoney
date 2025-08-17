@@ -13,21 +13,27 @@ abstract class _TransactionDao {
   Stream<List<TransactionWithCategoryAndAccountView>>
       streamTransactionsWithCategoryAndView(int startDate, int endDate);
 
+  @Query('SELECT * FROM ${DBViews.transactionWithCategoryAndAccount}')
   Stream<List<Transaction>> streamAllTransactions(
     DateTime startDate,
     DateTime endDate,
-  ) {
-    return streamTransactionsWithCategoryAndView(
-      startDate.millisecondsSinceEpoch,
-      endDate.millisecondsSinceEpoch,
-    ).map((viewList) {
-      return viewList.map((r) {
-        final account = r.toAccount();
-        final category = r.toCategory();
-        return r.toTransaction(account: account, category: category);
-      }).toList();
-    });
-  }
+  );
+
+  // Stream<List<Transaction>> streamAllTransactions(
+  //     DateTime startDate,
+  //     DateTime endDate,
+  //     ) {
+  //   return streamTransactionsWithCategoryAndView(
+  //     startDate.millisecondsSinceEpoch,
+  //     endDate.millisecondsSinceEpoch,
+  //   ).map((viewList) {
+  //     return viewList.map((r) {
+  //       final account = r.toAccount();
+  //       final category = r.toCategory();
+  //       return r.toTransaction(account: account, category: category);
+  //     }).toList();
+  //   });
+  // }
 
   Future<List<Transaction>> getAllTransactions() async {
     final transactionView = await getTransactionsWithCategoryAndView();

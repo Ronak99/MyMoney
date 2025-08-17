@@ -29,10 +29,10 @@ class TransactionListItem extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(transaction.category!.name),
+                      Text(transaction.category?.name ?? 'Unknown'),
                       Row(
                         children: [
-                          Text(transaction.account!.name),
+                          Text(transaction.account?.name ?? 'Unknown'),
                         ],
                       ),
                     ],

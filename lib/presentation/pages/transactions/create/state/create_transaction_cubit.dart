@@ -75,8 +75,8 @@ class CreateTransactionCubit extends Cubit<CreateTransactionState> {
       amount: state.amount!,
       date: state.date!,
       transactionType: state.transactionType!,
-      accountId: state.account!.id,
-      categoryId: state.category!.id,
+      accountId: state.account?.id,
+      categoryId: state.category?.id,
     );
 
     RouteGenerator.transactionCubit.addTransaction(transaction);
