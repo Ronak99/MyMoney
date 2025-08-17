@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_money/model/mock.dart';
 import 'package:my_money/model/transaction.dart';
 import 'package:my_money/presentation/pages/home/widgets/transaction_list_item.dart';
-import 'package:my_money/presentation/pages/transactions/create/state/create_transaction_cubit.dart';
-import 'package:my_money/presentation/pages/transactions/create/state/create_transaction_state.dart';
 import 'package:my_money/presentation/routes/routes.dart';
 import 'package:my_money/presentation/widgets/custom_scaffold.dart';
 import 'package:my_money/presentation/widgets/list_view_separated.dart';

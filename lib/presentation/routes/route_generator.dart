@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/presentation/pages/accounts/account_page.dart';
+import 'package:my_money/presentation/pages/accounts/modify/modify_account_page.dart';
+import 'package:my_money/presentation/pages/accounts/modify/state/modify_account_cubit.dart';
 import 'package:my_money/presentation/pages/categories/categories_page.dart';
+import 'package:my_money/presentation/pages/categories/modify/modify_category_page.dart';
+import 'package:my_money/presentation/pages/categories/modify/state/modify_category_cubit.dart';
 import 'package:my_money/presentation/pages/home/home_page.dart';
 import 'package:my_money/presentation/pages/transactions/create/create_transaction_page.dart';
 import 'package:my_money/presentation/pages/transactions/create/state/create_transaction_cubit.dart';
@@ -57,7 +61,7 @@ class RouteGenerator {
                       builder: (BuildContext context, GoRouterState state) =>
                           switch (e) {
                         Routes.TRANSACTIONS => const TransactionsPage(),
-                        Routes.ACCOUNTS => const AccountPage(),
+                        Routes.ACCOUNTS => const AccountsPage(),
                         Routes.CATEGORIES => const CategoriesPage(),
                         _ => const SizedBox.shrink(),
                       },
@@ -73,6 +77,22 @@ class RouteGenerator {
             lazy: false,
             create: (context) => CreateTransactionCubit(),
             child: const CreateTransactionPage(),
+          ),
+        ),
+        GoRoute(
+          path: Routes.MODIFY_CATEGORY.value,
+          builder: (context, state) => BlocProvider(
+            lazy: false,
+            create: (context) => ModifyCategoryCubit(),
+            child: const ModifyCategoryPage(),
+          ),
+        ),
+        GoRoute(
+          path: Routes.MODIFY_ACCOUNT.value,
+          builder: (context, state) => BlocProvider(
+            lazy: false,
+            create: (context) => ModifyAccountCubit(),
+            child: const ModifyAccountPage(),
           ),
         ),
       ],

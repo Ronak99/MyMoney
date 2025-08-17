@@ -3,6 +3,8 @@ enum Routes {
   ACCOUNTS,
   CATEGORIES,
   CREATE_TRANSACTION,
+  MODIFY_ACCOUNT,
+  MODIFY_CATEGORY,
 }
 
 extension RoutesExt on Routes {
