@@ -45,6 +45,7 @@ dependencies:
   floor: ^1.5.0
   freezed_annotation: ^2.4.4
   syncfusion_flutter_pdf: ^29.1.38
+  jiffy: ^6.4.3
 
 dev_dependencies:
   flutter_test:
