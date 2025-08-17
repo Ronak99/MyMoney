@@ -100,11 +100,11 @@ class _$_AppDatabase extends _AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `transactions` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `amount` REAL NOT NULL, `date` INTEGER NOT NULL, `categoryId` INTEGER, `accountId` INTEGER, `transactionType` INTEGER NOT NULL, FOREIGN KEY (`categoryId`) REFERENCES `categories` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`accountId`) REFERENCES `accounts` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
+            'CREATE TABLE IF NOT EXISTS `transactions` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `amount` REAL NOT NULL, `date` INTEGER NOT NULL, `categoryId` INTEGER, `accountId` INTEGER, `transactionType` INTEGER NOT NULL, FOREIGN KEY (`categoryId`) REFERENCES `categories` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`accountId`) REFERENCES `accounts` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `accounts` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `balance` REAL NOT NULL, `createdOn` INTEGER NOT NULL, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `accounts` (`id` INTEGER, `name` TEXT NOT NULL, `balance` REAL NOT NULL, `createdOn` INTEGER NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `categories` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `type` INTEGER NOT NULL, `createdOn` INTEGER NOT NULL, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `categories` (`id` INTEGER, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `type` INTEGER NOT NULL, `createdOn` INTEGER NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE INDEX `idx_transactions_date` ON `transactions` (`date`)');
         await database.execute(
@@ -232,7 +232,7 @@ class _$_TransactionDao extends _TransactionDao {
     int endDate,
   ) {
     return _queryAdapter.queryListStream(
-        'SELECT * FROM transaction_with_category_and_account WHERE t_date BETWEEN ?1 AND ?2',
+        'SELECT * FROM transaction_with_category_and_account WHERE t_date BETWEEN ?1 AND ?2 ORDER BY t_date DESC',
         mapper: (Map<String, Object?> row) =>
             TransactionWithCategoryAndAccountView(
                 t_id: row['t_id'] as int,
@@ -261,7 +261,7 @@ class _$_TransactionDao extends _TransactionDao {
   Future<Transaction?> findTransactionById(int id) async {
     return _queryAdapter.query('SELECT * FROM transactions WHERE id = ?1',
         mapper: (Map<String, Object?> row) => Transaction(
-            id: row['id'] as int,
+            id: row['id'] as int?,
             name: row['name'] as String,
             description: row['description'] as String,
             amount: row['amount'] as double,
@@ -281,7 +281,7 @@ class _$_TransactionDao extends _TransactionDao {
     return _queryAdapter.queryList(
         'SELECT * FROM transactions WHERE date BETWEEN ?1 AND ?2',
         mapper: (Map<String, Object?> row) => Transaction(
-            id: row['id'] as int,
+            id: row['id'] as int?,
             name: row['name'] as String,
             description: row['description'] as String,
             amount: row['amount'] as double,
@@ -368,7 +368,7 @@ class _$_AccountDao extends _AccountDao {
   Future<Account?> findAccountById(int id) async {
     return _queryAdapter.query('SELECT * FROM accounts WHERE id = ?1',
         mapper: (Map<String, Object?> row) => Account(
-            id: row['id'] as int,
+            id: row['id'] as int?,
             name: row['name'] as String,
             balance: row['balance'] as double,
             createdOn: __DateTimeConverter.decode(row['createdOn'] as int)),
@@ -379,7 +379,7 @@ class _$_AccountDao extends _AccountDao {
   Future<List<Account>> getAllAccounts() async {
     return _queryAdapter.queryList('SELECT * FROM accounts',
         mapper: (Map<String, Object?> row) => Account(
-            id: row['id'] as int,
+            id: row['id'] as int?,
             name: row['name'] as String,
             balance: row['balance'] as double,
             createdOn: __DateTimeConverter.decode(row['createdOn'] as int)));
@@ -389,7 +389,7 @@ class _$_AccountDao extends _AccountDao {
   Stream<List<Account>> streamAllAccounts() {
     return _queryAdapter.queryListStream('SELECT * FROM accounts',
         mapper: (Map<String, Object?> row) => Account(
-            id: row['id'] as int,
+            id: row['id'] as int?,
             name: row['name'] as String,
             balance: row['balance'] as double,
             createdOn: __DateTimeConverter.decode(row['createdOn'] as int)),
@@ -444,7 +444,7 @@ class _$_CategoryDao extends _CategoryDao {
   Stream<List<TransactionCategory>> streamAllCategories() {
     return _queryAdapter.queryListStream('SELECT * FROM categories',
         mapper: (Map<String, Object?> row) => TransactionCategory(
-            id: row['id'] as int,
+            id: row['id'] as int?,
             name: row['name'] as String,
             description: row['description'] as String,
             type: CategoryType.values[row['type'] as int],
@@ -457,7 +457,7 @@ class _$_CategoryDao extends _CategoryDao {
   Future<TransactionCategory?> findCategoryById(int id) async {
     return _queryAdapter.query('SELECT * FROM categories WHERE id = ?1',
         mapper: (Map<String, Object?> row) => TransactionCategory(
-            id: row['id'] as int,
+            id: row['id'] as int?,
             name: row['name'] as String,
             description: row['description'] as String,
             type: CategoryType.values[row['type'] as int],
@@ -469,7 +469,7 @@ class _$_CategoryDao extends _CategoryDao {
   Future<List<TransactionCategory>> findAllCategories() async {
     return _queryAdapter.queryList('SELECT * FROM categories',
         mapper: (Map<String, Object?> row) => TransactionCategory(
-            id: row['id'] as int,
+            id: row['id'] as int?,
             name: row['name'] as String,
             description: row['description'] as String,
             type: CategoryType.values[row['type'] as int],

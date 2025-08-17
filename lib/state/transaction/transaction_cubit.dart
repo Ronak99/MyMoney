@@ -48,9 +48,9 @@ class TransactionCubit extends Cubit<TransactionState> {
     emit(state.copyWith(transactions: transactions));
   }
 
-  Future<void> addTransaction(Transaction transaction) async {
+  Future<int> addTransaction(Transaction transaction) {
     try {
-      await Get.find<LocalStorageService>().addTransaction(transaction);
+      return Get.find<LocalStorageService>().addTransaction(transaction);
     } catch (e) {
       rethrow;
     }

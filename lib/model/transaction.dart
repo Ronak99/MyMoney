@@ -24,7 +24,7 @@ import 'package:my_money/model/transaction_category.dart';
 )
 class Transaction {
   @PrimaryKey(autoGenerate: true)
-  final int id;
+  final int? id;
 
   final String name;
   final String description;
@@ -41,7 +41,7 @@ class Transaction {
   final TransactionCategory? category;
 
   Transaction({
-    this.id = 0,
+    this.id,
     required this.name,
     required this.description,
     required this.amount,
