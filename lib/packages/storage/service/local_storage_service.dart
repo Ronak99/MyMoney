@@ -140,4 +140,9 @@ class LocalStorageService implements _LocalStorageImpl {
     // TODO: implement updateTransaction
     throw UnimplementedError();
   }
+
+  @override
+  Stream<List<TransactionCategory>> streamAllCategories() {
+    return database.categoryDao.streamAllCategories();
+  }
 }

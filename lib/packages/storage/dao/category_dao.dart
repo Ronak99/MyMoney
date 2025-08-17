@@ -4,6 +4,9 @@ part of '../storage.dart';
 abstract class _CategoryDao {
   static const String tableName = 'categories';
 
+  @Query('SELECT * FROM $tableName')
+  Stream<List<TransactionCategory>> streamAllCategories();
+
   @Query('SELECT * FROM $tableName WHERE id = :id')
   Future<TransactionCategory?> findCategoryById(int id);
 

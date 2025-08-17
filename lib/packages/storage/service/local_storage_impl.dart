@@ -47,6 +47,9 @@ abstract class _LocalStorageImpl {
   // Get all categories
   Future<List<TransactionCategory>> getAllCategories();
 
+  // Get all accounts
+  Stream<List<TransactionCategory>> streamAllCategories();
+
   // Add a new category
   Future<void> addCategory(TransactionCategory category);
 
