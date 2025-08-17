@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_money/model/account.dart';
 import 'package:my_money/model/transaction_category.dart';
 import 'package:my_money/presentation/pages/transactions/create/state/create_transaction_cubit.dart';
 import 'package:my_money/presentation/pages/transactions/create/state/create_transaction_state.dart';
 import 'package:my_money/presentation/routes/route_generator.dart';
 import 'package:my_money/presentation/widgets/list_view_separated.dart';
+import 'package:go_router/go_router.dart';
 
 class CategorySelector extends StatelessWidget {
   const CategorySelector({super.key});
@@ -16,7 +16,13 @@ class CategorySelector extends StatelessWidget {
       buildWhen: (prev, next) => prev.category != next.category,
       builder: (context, state) {
         return GestureDetector(
-          onTap: () => CategorySelectorSheet.show(context),
+          onTap: () async {
+            final selectedCategory = await CategorySelectorSheet.show(context);
+            if (selectedCategory == null) return;
+            context.read<CreateTransactionCubit>().setCategory(
+                  selectedCategory,
+                );
+          },
           child: Container(
             child: Row(
               children: [
@@ -32,7 +38,8 @@ class CategorySelector extends StatelessWidget {
 }
 
 class CategorySelectorSheet extends StatelessWidget {
-  static show(BuildContext context) => showModalBottomSheet(
+  static Future<TransactionCategory?> show(BuildContext context) =>
+      showModalBottomSheet(
         context: context,
         builder: (context) => const CategorySelectorSheet(),
       );
@@ -51,13 +58,10 @@ class CategorySelectorSheet extends StatelessWidget {
           list: categories,
           itemBuilder: (context, index, category) {
             return GestureDetector(
-              onTap: () => context.read<CreateTransactionCubit>().setCategory(category),
+              onTap: () => context.pop(category),
               child: Container(
                 child: Row(
-                  children: [
-                    Icon(Icons.wallet),
-                    Text(category.name)
-                  ],
+                  children: [Icon(Icons.wallet), Text(category.name)],
                 ),
               ),
             );
