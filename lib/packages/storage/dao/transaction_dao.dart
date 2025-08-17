@@ -9,7 +9,7 @@ abstract class _TransactionDao {
       getTransactionsWithCategoryAndView();
 
   @Query(
-      'SELECT * FROM ${DBViews.transactionWithCategoryAndAccount} WHERE date BETWEEN :startDate AND :endDate')
+      'SELECT * FROM ${DBViews.transactionWithCategoryAndAccount} WHERE t_date BETWEEN :startDate AND :endDate')
   Stream<List<TransactionWithCategoryAndAccountView>>
       streamTransactionsWithCategoryAndView(int startDate, int endDate);
 
