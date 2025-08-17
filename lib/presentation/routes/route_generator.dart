@@ -4,6 +4,7 @@ import 'package:my_money/presentation/pages/accounts/account_page.dart';
 import 'package:my_money/presentation/pages/categories/categories_page.dart';
 import 'package:my_money/presentation/pages/home/home_page.dart';
 import 'package:my_money/presentation/pages/transactions/create/create_transaction_page.dart';
+import 'package:my_money/presentation/pages/transactions/create/state/create_transaction_cubit.dart';
 import 'package:my_money/presentation/pages/transactions/transactions_page.dart';
 import 'package:my_money/presentation/routes/routes.dart';
 import 'package:my_money/state/account/account_cubit.dart';
@@ -68,7 +69,11 @@ class RouteGenerator {
         ),
         GoRoute(
           path: Routes.CREATE_TRANSACTION.value,
-          builder: (context, state) => _build(const CreateTransactionPage()),
+          builder: (context, state) => BlocProvider(
+            lazy: false,
+            create: (context) => CreateTransactionCubit(),
+            child: const CreateTransactionPage(),
+          ),
         ),
       ],
     );
