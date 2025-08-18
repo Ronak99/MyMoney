@@ -26,8 +26,7 @@ class Transaction {
   @PrimaryKey(autoGenerate: true)
   final int? id;
 
-  final String name;
-  final String description;
+  final String notes;
   final double amount;
   final DateTime date;
   final int? categoryId;

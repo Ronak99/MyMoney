@@ -1,3 +1,6 @@
+# Statements
+docs/
+
 # Miscellaneous
 *.class
 *.log
@@ -44,3 +47,4 @@ app.*.map.json
 
 *.pdf
 assets/statement.pdf
+
