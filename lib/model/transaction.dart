@@ -41,8 +41,7 @@ class Transaction {
 
   Transaction({
     this.id,
-    required this.name,
-    required this.description,
+    required this.notes,
     required this.amount,
     required this.date,
     this.transactionType = TransactionType.none,
@@ -51,15 +50,6 @@ class Transaction {
     this.account,
     this.category,
   });
-
-  factory Transaction.empty() {
-    return Transaction(
-      name: "",
-      description: "",
-      amount: 0,
-      date: DateTime(2022),
-    );
-  }
 }
 
 enum TransactionType {

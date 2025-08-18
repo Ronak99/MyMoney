@@ -206,10 +206,9 @@ class HdfcStatementParser extends BankStatementParser {
 
     return Transaction(
       id: id,
-      name: name,
+      notes: name + description,
       amount: finalAmount,
       date: date,
-      description: description,
     );
   }
 

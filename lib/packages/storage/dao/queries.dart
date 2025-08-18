@@ -4,8 +4,7 @@ class _Queries {
   static const readTransactions = '''
   SELECT
     t.id                AS t_id,
-    t.name              AS t_name,
-    t.description       AS t_description,
+    t.notes              AS t_notes,
     t.amount            AS t_amount,
     t.date              AS t_date,
     t.transactionType   AS t_transactionType,

@@ -8,16 +8,14 @@ import 'package:my_money/presentation/routes/route_generator.dart';
 
 class CreateTransactionCubit extends Cubit<CreateTransactionState> {
   CreateTransactionCubit({
-    String? name,
-    String? description,
+    String? notes,
     Account? account,
     TransactionCategory? category,
     TransactionType? transactionType,
     DateTime? date,
     double? amount,
   }) : super(CreateTransactionState(
-          name: name,
-          description: description,
+          notes: notes,
           account: account,
           category: category,
           transactionType: transactionType,
@@ -25,12 +23,8 @@ class CreateTransactionCubit extends Cubit<CreateTransactionState> {
           amount: amount,
         ));
 
-  void setName(String name) {
-    emit(state.copyWith(name: name));
-  }
-
-  void setDescription(String description) {
-    emit(state.copyWith(description: description));
+  void setNotes(String notes) {
+    emit(state.copyWith(notes: notes));
   }
 
   void setAccount(Account account) {
@@ -70,8 +64,7 @@ class CreateTransactionCubit extends Cubit<CreateTransactionState> {
 
   void create() {
     Transaction transaction = Transaction(
-      name: state.name!,
-      description: state.description!,
+      notes: state.notes!,
       amount: state.amount!,
       date: state.date!,
       transactionType: state.transactionType!,

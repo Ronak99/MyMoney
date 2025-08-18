@@ -68,13 +68,14 @@ class IciciStatmentParser implements BankStatementParser {
             // Extract name from description
             String name = extractNameFromDescription(description);
 
-            transactions.add(Transaction(
-              id: transactions.length + 1,
-              description: description,
-              name: name,
-              amount: amount,
-              date: date,
-            ));
+            transactions.add(
+              Transaction(
+                id: transactions.length + 1,
+                notes: name + description,
+                amount: amount,
+                date: date,
+              ),
+            );
           } catch (e) {
             // Skip malformed entries
           }

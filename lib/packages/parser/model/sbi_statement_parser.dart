@@ -198,10 +198,9 @@ class SbiStatementParser extends BankStatementParser {
 
     return Transaction(
       id: id,
-      name: receiverName,
+      notes: receiverName + transactionDetails,
       amount: amount,
       date: date,
-      description: transactionDetails,
       transactionType: transactionType,
     );
   }

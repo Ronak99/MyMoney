@@ -24,10 +24,8 @@ class FiStatementParser implements BankStatementParser {
       // If we have a current date and this looks like a transaction line
       if (currentDate != null && _isTransactionLine(line)) {
         // Parse single-line transaction
-        final Transaction? transaction = _parseSingleLineTransaction(
-            line: line,
-            dateString: currentDate
-        );
+        final Transaction? transaction =
+            _parseSingleLineTransaction(line: line, dateString: currentDate);
 
         if (transaction != null) {
           transactions.add(transaction);
@@ -73,13 +71,11 @@ class FiStatementParser implements BankStatementParser {
     return amountPattern.hasMatch(line);
   }
 
-  Transaction? _parseSingleLineTransaction({
-    required String line,
-    required String dateString
-  }) {
+  Transaction? _parseSingleLineTransaction(
+      {required String line, required String dateString}) {
     // Try to extract amount and balance from the end of the line
     final List<String> components = line
-    // split spaces
+        // split spaces
         .split(RegExp(r'\s+'))
         .where((component) => component.isNotEmpty)
         .toList();
@@ -99,19 +95,19 @@ class FiStatementParser implements BankStatementParser {
     }
 
     // Extract transaction details (everything except last two components)
-    final String transactionDetails = components
-        .take(components.length - 2)
-        .join(" ");
+    final String transactionDetails =
+        components.take(components.length - 2).join(" ");
 
-    final String receiverUPI = _extractReceiverUPI(transactionDetails) ?? transactionDetails;
-    final TransactionType transactionType = _determineTransactionType(transactionDetails);
+    final String receiverUPI =
+        _extractReceiverUPI(transactionDetails) ?? transactionDetails;
+    final TransactionType transactionType =
+        _determineTransactionType(transactionDetails);
 
     return Transaction(
-      name: receiverUPI,
+      notes: receiverUPI,
       amount: amount,
       date: date,
       transactionType: transactionType,
-      description: transactionType.name,
     );
   }
 
@@ -143,7 +139,8 @@ class FiStatementParser implements BankStatementParser {
 
       if (components.length >= 4) {
         final List<String> lastTwo = components.takeLast(2).toList();
-        if (_parseAmount(lastTwo[0]) != null && _parseAmount(lastTwo[1]) != null) {
+        if (_parseAmount(lastTwo[0]) != null &&
+            _parseAmount(lastTwo[1]) != null) {
           foundAmountBalance = true;
         }
       }
@@ -195,8 +192,18 @@ class FiStatementParser implements BankStatementParser {
         final int year = int.parse(parts[2]);
 
         final Map<String, int> months = {
-          'jan': 1, 'feb': 2, 'mar': 3, 'apr': 4, 'may': 5, 'jun': 6,
-          'jul': 7, 'aug': 8, 'sep': 9, 'oct': 10, 'nov': 11, 'dec': 12,
+          'jan': 1,
+          'feb': 2,
+          'mar': 3,
+          'apr': 4,
+          'may': 5,
+          'jun': 6,
+          'jul': 7,
+          'aug': 8,
+          'sep': 9,
+          'oct': 10,
+          'nov': 11,
+          'dec': 12,
         };
 
         final int? month = months[monthStr];
@@ -214,8 +221,8 @@ class FiStatementParser implements BankStatementParser {
   String? _extractReceiverUPI(String transactionDetails) {
     // Extract UPI ID patterns
     final List<String> upiPatterns = [
-      r'[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}',  // Standard UPI format
-      r'[a-zA-Z0-9._-]+@[a-zA-Z]+',  // Simplified UPI format
+      r'[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}', // Standard UPI format
+      r'[a-zA-Z0-9._-]+@[a-zA-Z]+', // Simplified UPI format
     ];
 
     for (String pattern in upiPatterns) {

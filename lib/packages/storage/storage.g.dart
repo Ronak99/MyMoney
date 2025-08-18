@@ -100,7 +100,7 @@ class _$_AppDatabase extends _AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `transactions` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `amount` REAL NOT NULL, `date` INTEGER NOT NULL, `categoryId` INTEGER, `accountId` INTEGER, `transactionType` INTEGER NOT NULL, FOREIGN KEY (`categoryId`) REFERENCES `categories` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`accountId`) REFERENCES `accounts` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
+            'CREATE TABLE IF NOT EXISTS `transactions` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `notes` TEXT NOT NULL, `amount` REAL NOT NULL, `date` INTEGER NOT NULL, `categoryId` INTEGER, `accountId` INTEGER, `transactionType` INTEGER NOT NULL, FOREIGN KEY (`categoryId`) REFERENCES `categories` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`accountId`) REFERENCES `accounts` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `accounts` (`id` INTEGER, `name` TEXT NOT NULL, `balance` REAL NOT NULL, `createdOn` INTEGER NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
@@ -112,7 +112,7 @@ class _$_AppDatabase extends _AppDatabase {
         await database.execute(
             'CREATE INDEX `idx_transactions_category` ON `transactions` (`categoryId`)');
         await database.execute(
-            'CREATE VIEW IF NOT EXISTS `transaction_with_category_and_account` AS   SELECT\n    t.id                AS t_id,\n    t.name              AS t_name,\n    t.description       AS t_description,\n    t.amount            AS t_amount,\n    t.date              AS t_date,\n    t.transactionType   AS t_transactionType,\n    t.accountId         AS t_accountId,\n    t.categoryId        AS t_categoryId,\n\n    a.id                AS a_id,\n    a.name              AS a_name,\n    a.balance           AS a_balance,\n    a.createdOn         AS a_createdOn,\n\n    c.id                AS c_id,\n    c.name              AS c_name,\n    c.description       AS c_description,\n    c.type              AS c_type,\n    c.createdOn         AS c_createdOn\n  FROM transactions t\n  LEFT JOIN accounts  a ON a.id = t.accountId\n  LEFT JOIN categories c ON c.id = t.categoryId\n  ');
+            'CREATE VIEW IF NOT EXISTS `transaction_with_category_and_account` AS   SELECT\n    t.id                AS t_id,\n    t.notes              AS t_notes,\n    t.amount            AS t_amount,\n    t.date              AS t_date,\n    t.transactionType   AS t_transactionType,\n    t.accountId         AS t_accountId,\n    t.categoryId        AS t_categoryId,\n\n    a.id                AS a_id,\n    a.name              AS a_name,\n    a.balance           AS a_balance,\n    a.createdOn         AS a_createdOn,\n\n    c.id                AS c_id,\n    c.name              AS c_name,\n    c.description       AS c_description,\n    c.type              AS c_type,\n    c.createdOn         AS c_createdOn\n  FROM transactions t\n  LEFT JOIN accounts  a ON a.id = t.accountId\n  LEFT JOIN categories c ON c.id = t.categoryId\n  ');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -147,8 +147,7 @@ class _$_TransactionDao extends _TransactionDao {
             'transactions',
             (Transaction item) => <String, Object?>{
                   'id': item.id,
-                  'name': item.name,
-                  'description': item.description,
+                  'notes': item.notes,
                   'amount': item.amount,
                   'date': __DateTimeConverter.encode(item.date),
                   'categoryId': item.categoryId,
@@ -162,8 +161,7 @@ class _$_TransactionDao extends _TransactionDao {
             ['id'],
             (Transaction item) => <String, Object?>{
                   'id': item.id,
-                  'name': item.name,
-                  'description': item.description,
+                  'notes': item.notes,
                   'amount': item.amount,
                   'date': __DateTimeConverter.encode(item.date),
                   'categoryId': item.categoryId,
@@ -177,8 +175,7 @@ class _$_TransactionDao extends _TransactionDao {
             ['id'],
             (Transaction item) => <String, Object?>{
                   'id': item.id,
-                  'name': item.name,
-                  'description': item.description,
+                  'notes': item.notes,
                   'amount': item.amount,
                   'date': __DateTimeConverter.encode(item.date),
                   'categoryId': item.categoryId,
@@ -207,8 +204,7 @@ class _$_TransactionDao extends _TransactionDao {
         mapper: (Map<String, Object?> row) =>
             TransactionWithCategoryAndAccountView(
                 t_id: row['t_id'] as int,
-                t_name: row['t_name'] as String,
-                t_description: row['t_description'] as String,
+                t_notes: row['t_notes'] as String,
                 t_amount: row['t_amount'] as double,
                 t_date: row['t_date'] as int,
                 t_transactionType: row['t_transactionType'] as int,
@@ -236,8 +232,7 @@ class _$_TransactionDao extends _TransactionDao {
         mapper: (Map<String, Object?> row) =>
             TransactionWithCategoryAndAccountView(
                 t_id: row['t_id'] as int,
-                t_name: row['t_name'] as String,
-                t_description: row['t_description'] as String,
+                t_notes: row['t_notes'] as String,
                 t_amount: row['t_amount'] as double,
                 t_date: row['t_date'] as int,
                 t_transactionType: row['t_transactionType'] as int,
@@ -262,8 +257,7 @@ class _$_TransactionDao extends _TransactionDao {
     return _queryAdapter.query('SELECT * FROM transactions WHERE id = ?1',
         mapper: (Map<String, Object?> row) => Transaction(
             id: row['id'] as int?,
-            name: row['name'] as String,
-            description: row['description'] as String,
+            notes: row['notes'] as String,
             amount: row['amount'] as double,
             date: __DateTimeConverter.decode(row['date'] as int),
             transactionType:
@@ -282,8 +276,7 @@ class _$_TransactionDao extends _TransactionDao {
         'SELECT * FROM transactions WHERE date BETWEEN ?1 AND ?2',
         mapper: (Map<String, Object?> row) => Transaction(
             id: row['id'] as int?,
-            name: row['name'] as String,
-            description: row['description'] as String,
+            notes: row['notes'] as String,
             amount: row['amount'] as double,
             date: __DateTimeConverter.decode(row['date'] as int),
             transactionType:

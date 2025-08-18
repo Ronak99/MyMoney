@@ -8,7 +8,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:my_money/model/account.dart';
 import 'package:my_money/model/transaction_category.dart';
 import 'package:my_money/model/transaction.dart';
-import 'package:my_money/packages/storage/extensions/map.dart';
 import 'package:my_money/packages/storage/views/db_views.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 

@@ -47,14 +47,8 @@ class CreateTransactionPage extends StatelessWidget {
 
             // name
             CustomTextField(
-              hint: "Name",
-              onChange: context.read<CreateTransactionCubit>().setName,
-            ),
-
-            // description
-            CustomTextField(
-              hint: "Description",
-              onChange: context.read<CreateTransactionCubit>().setDescription,
+              hint: "Notes",
+              onChange: context.read<CreateTransactionCubit>().setNotes,
             ),
 
             // date

@@ -12,8 +12,7 @@ class CreateTransactionState with _$CreateTransactionState {
     @Default(TransactionType.expense) TransactionType? transactionType,
     Account? account,
     TransactionCategory? category,
-    String? name,
-    String? description,
+    String? notes,
     double? amount,
     DateTime? date,
   }) = _CreateTransactionState;

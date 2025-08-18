@@ -46,8 +46,7 @@ extension TCAViewExtension on TransactionWithCategoryAndAccountView {
 
     return Transaction(
       id: t_id,
-      name: t_name,
-      description: t_description,
+      notes: t_notes,
       amount: t_amount,
       date: DateTime.fromMillisecondsSinceEpoch(t_date),
       transactionType: txType,
@@ -65,8 +64,7 @@ extension TCAViewExtension on TransactionWithCategoryAndAccountView {
 )
 class TransactionWithCategoryAndAccountView {
   final int t_id;
-  final String t_name;
-  final String t_description;
+  final String t_notes;
   final double t_amount;
   final int t_date;
   final int t_transactionType;
@@ -86,8 +84,7 @@ class TransactionWithCategoryAndAccountView {
 
   const TransactionWithCategoryAndAccountView({
     required this.t_id,
-    required this.t_name,
-    required this.t_description,
+    required this.t_notes,
     required this.t_amount,
     required this.t_date,
     required this.t_transactionType,
