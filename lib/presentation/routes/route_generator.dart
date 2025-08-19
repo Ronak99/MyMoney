@@ -7,6 +7,7 @@ import 'package:my_money/presentation/pages/categories/categories_page.dart';
 import 'package:my_money/presentation/pages/categories/modify/modify_category_page.dart';
 import 'package:my_money/presentation/pages/categories/modify/state/modify_category_cubit.dart';
 import 'package:my_money/presentation/pages/home/home_page.dart';
+import 'package:my_money/presentation/pages/import/import_page.dart';
 import 'package:my_money/presentation/pages/transactions/create/create_transaction_page.dart';
 import 'package:my_money/presentation/pages/transactions/create/state/create_transaction_cubit.dart';
 import 'package:my_money/presentation/pages/transactions/transactions_page.dart';
@@ -94,6 +95,10 @@ class RouteGenerator {
             create: (context) => ModifyAccountCubit(),
             child: const ModifyAccountPage(),
           ),
+        ),
+        GoRoute(
+          path: Routes.IMPORT.value,
+          builder: (context, state) => const ImportPage(),
         ),
       ],
     );
