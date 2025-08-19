@@ -17,6 +17,7 @@ class TransactionsPage extends StatelessWidget {
     return CustomScaffold(
       title: 'Transactions',
       fab: FloatingActionButton(
+        heroTag: 'transactions',
         onPressed: () => context.push(Routes.CREATE_TRANSACTION.value),
         child: const Icon(Icons.add),
       ),

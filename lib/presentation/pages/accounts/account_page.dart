@@ -17,6 +17,7 @@ class AccountsPage extends StatelessWidget {
     return CustomScaffold(
       title: 'Accounts',
       fab: FloatingActionButton(
+        heroTag: 'accounts',
         onPressed: () => context.push(Routes.MODIFY_ACCOUNT.value),
         child: const Icon(Icons.add),
       ),

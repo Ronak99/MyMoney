@@ -15,8 +15,9 @@ class CategoriesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      title: 'Categories',
+      title: 'No items',
       fab: FloatingActionButton(
+        heroTag: 'categories',
         onPressed: () => context.push(Routes.MODIFY_CATEGORY.value),
         child: const Icon(Icons.add),
       ),
