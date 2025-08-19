@@ -37,8 +37,8 @@ class TransactionCubit extends Cubit<TransactionState> {
   }) {
     final DateTime targetDate = switch (action) {
       DateAction.setSpecific => specificDate ?? DateTime.now(),
-      DateAction.incrementMonth => DateTime.now().nextMonth,
-      DateAction.decrementMonth => DateTime.now().prevMonth,
+      DateAction.incrementMonth => state.selectedDate!.nextMonth,
+      DateAction.decrementMonth => state.selectedDate!.prevMonth,
     };
 
     initialize(targetDate);
