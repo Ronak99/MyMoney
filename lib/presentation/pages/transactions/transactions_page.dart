@@ -1,9 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/enums/date_action.dart';
+import 'package:my_money/extensions/build_context.dart';
 import 'package:my_money/extensions/date.dart';
 import 'package:my_money/model/transaction.dart';
 import 'package:my_money/presentation/pages/home/widgets/transaction_list_item.dart';
+import 'package:my_money/presentation/pages/transactions/widgets/transaction_header.dart';
 import 'package:my_money/presentation/routes/route_generator.dart';
 import 'package:my_money/presentation/routes/routes.dart';
 import 'package:my_money/presentation/widgets/custom_scaffold.dart';
@@ -18,7 +21,6 @@ class TransactionsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      title: 'Transactions',
       fab: FloatingActionButton(
         heroTag: 'transactions',
         onPressed: () => context.push(Routes.CREATE_TRANSACTION.value),
@@ -28,23 +30,17 @@ class TransactionsPage extends StatelessWidget {
           builder: (context, state) {
         return Column(
           children: [
-            Row(
-              children: [
-                IconButton(
-                  onPressed: () => RouteGenerator.transactionCubit.updateDate(
-                    action: DateAction.decrementMonth,
-                  ),
-                  icon: const Icon(Icons.chevron_left),
-                ),
-                Text(state.selectedDate!.formatDate),
-                IconButton(
-                  onPressed: () => RouteGenerator.transactionCubit.updateDate(
-                    action: DateAction.incrementMonth,
-                  ),
-                  icon: const Icon(Icons.chevron_right),
-                ),
-              ],
+            TransactionHeader(
+              selectedDate: state.selectedDate!.formatDate,
+              onPrev: () => RouteGenerator.transactionCubit
+                  .updateDate(action: DateAction.decrementMonth),
+              onNext: () => RouteGenerator.transactionCubit.updateDate(
+                action: DateAction.incrementMonth,
+              ),
+              onFilter: () {},
+              onSearch: () {},
             ),
+            const SizedBox(height: 16),
             Expanded(
               child: ListViewSeparated<Transaction>(
                 list: state.transactions,
