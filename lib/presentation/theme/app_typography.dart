@@ -11,11 +11,11 @@ final class AppTypography {
 
     // Use copyWith to nudge weights/sizes for a fintech feel.
     return base.copyWith(
-      displayLarge:  base.displayLarge?.copyWith(fontWeight: FontWeight.w600),
-      displayMedium: base.displayMedium?.copyWith(fontWeight: FontWeight.w600),
-      displaySmall:  base.displaySmall?.copyWith(fontWeight: FontWeight.w600),
-      headlineLarge: base.headlineLarge?.copyWith(fontWeight: FontWeight.w600),
-      headlineMedium:base.headlineMedium?.copyWith(fontWeight: FontWeight.w600),
+      displayLarge:  base.displayLarge?.copyWith(fontWeight: FontWeight.w700),
+      displayMedium: base.displayMedium?.copyWith(fontWeight: FontWeight.w700),
+      displaySmall:  base.displaySmall?.copyWith(fontWeight: FontWeight.w700),
+      headlineLarge: base.headlineLarge?.copyWith(fontWeight: FontWeight.w700),
+      headlineMedium:base.headlineMedium?.copyWith(fontWeight: FontWeight.w700),
       headlineSmall: base.headlineSmall?.copyWith(fontWeight: FontWeight.w600),
       titleLarge:    base.titleLarge?.copyWith(fontWeight: FontWeight.w600),
       titleMedium:   base.titleMedium?.copyWith(letterSpacing: 0.1),
