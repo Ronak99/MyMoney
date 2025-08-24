@@ -17,6 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ImportState {
   bool? get isLoading => throw _privateConstructorUsedError;
+  String? get previousPassword => throw _privateConstructorUsedError;
+  List<Transaction> get transactions => throw _privateConstructorUsedError;
 
   /// Create a copy of ImportState
   /// with the given fields replaced by the non-null parameter values.
@@ -31,7 +33,10 @@ abstract class $ImportStateCopyWith<$Res> {
           ImportState value, $Res Function(ImportState) then) =
       _$ImportStateCopyWithImpl<$Res, ImportState>;
   @useResult
-  $Res call({bool? isLoading});
+  $Res call(
+      {bool? isLoading,
+      String? previousPassword,
+      List<Transaction> transactions});
 }
 
 /// @nodoc
@@ -50,12 +55,22 @@ class _$ImportStateCopyWithImpl<$Res, $Val extends ImportState>
   @override
   $Res call({
     Object? isLoading = freezed,
+    Object? previousPassword = freezed,
+    Object? transactions = null,
   }) {
     return _then(_value.copyWith(
       isLoading: freezed == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool?,
+      previousPassword: freezed == previousPassword
+          ? _value.previousPassword
+          : previousPassword // ignore: cast_nullable_to_non_nullable
+              as String?,
+      transactions: null == transactions
+          ? _value.transactions
+          : transactions // ignore: cast_nullable_to_non_nullable
+              as List<Transaction>,
     ) as $Val);
   }
 }
@@ -68,7 +83,10 @@ abstract class _$$ImportStateImplCopyWith<$Res>
       __$$ImportStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool? isLoading});
+  $Res call(
+      {bool? isLoading,
+      String? previousPassword,
+      List<Transaction> transactions});
 }
 
 /// @nodoc
@@ -85,12 +103,22 @@ class __$$ImportStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isLoading = freezed,
+    Object? previousPassword = freezed,
+    Object? transactions = null,
   }) {
     return _then(_$ImportStateImpl(
       isLoading: freezed == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool?,
+      previousPassword: freezed == previousPassword
+          ? _value.previousPassword
+          : previousPassword // ignore: cast_nullable_to_non_nullable
+              as String?,
+      transactions: null == transactions
+          ? _value._transactions
+          : transactions // ignore: cast_nullable_to_non_nullable
+              as List<Transaction>,
     ));
   }
 }
@@ -98,15 +126,30 @@ class __$$ImportStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ImportStateImpl implements _ImportState {
-  _$ImportStateImpl({this.isLoading = false});
+  _$ImportStateImpl(
+      {this.isLoading = false,
+      this.previousPassword = null,
+      final List<Transaction> transactions = const []})
+      : _transactions = transactions;
 
   @override
   @JsonKey()
   final bool? isLoading;
+  @override
+  @JsonKey()
+  final String? previousPassword;
+  final List<Transaction> _transactions;
+  @override
+  @JsonKey()
+  List<Transaction> get transactions {
+    if (_transactions is EqualUnmodifiableListView) return _transactions;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_transactions);
+  }
 
   @override
   String toString() {
-    return 'ImportState(isLoading: $isLoading)';
+    return 'ImportState(isLoading: $isLoading, previousPassword: $previousPassword, transactions: $transactions)';
   }
 
   @override
@@ -115,11 +158,16 @@ class _$ImportStateImpl implements _ImportState {
         (other.runtimeType == runtimeType &&
             other is _$ImportStateImpl &&
             (identical(other.isLoading, isLoading) ||
-                other.isLoading == isLoading));
+                other.isLoading == isLoading) &&
+            (identical(other.previousPassword, previousPassword) ||
+                other.previousPassword == previousPassword) &&
+            const DeepCollectionEquality()
+                .equals(other._transactions, _transactions));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading);
+  int get hashCode => Object.hash(runtimeType, isLoading, previousPassword,
+      const DeepCollectionEquality().hash(_transactions));
 
   /// Create a copy of ImportState
   /// with the given fields replaced by the non-null parameter values.
@@ -131,10 +179,17 @@ class _$ImportStateImpl implements _ImportState {
 }
 
 abstract class _ImportState implements ImportState {
-  factory _ImportState({final bool? isLoading}) = _$ImportStateImpl;
+  factory _ImportState(
+      {final bool? isLoading,
+      final String? previousPassword,
+      final List<Transaction> transactions}) = _$ImportStateImpl;
 
   @override
   bool? get isLoading;
+  @override
+  String? get previousPassword;
+  @override
+  List<Transaction> get transactions;
 
   /// Create a copy of ImportState
   /// with the given fields replaced by the non-null parameter values.
