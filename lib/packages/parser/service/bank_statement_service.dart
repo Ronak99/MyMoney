@@ -1,12 +1,5 @@
 part of '../parser.dart';
 
-enum Bank {
-  fi,
-  sbi,
-  hdfc,
-  icici,
-}
-
 class BankStatementService {
   static BankStatementService? _instance;
 
@@ -24,13 +17,36 @@ class BankStatementService {
 
   final _PdfManager _pdfManager = _PdfManager();
 
-  Future<List<Transaction>> extract({
+  Future<List<Transaction>> extractViaAsset({
     required Bank bank,
     required String password,
     required String filename,
   }) async {
-    String content =
-        await _pdfManager.loadAndRetrieveContent(filename: filename, password: password);
+    String content = await _pdfManager.loadAndRetrieveContent(
+      filename: filename,
+      password: password,
+    );
+    switch (bank) {
+      case Bank.fi:
+        return _fiStatementParser.parse(content);
+      case Bank.sbi:
+        return _sbiStatementParser.parse(content);
+      case Bank.hdfc:
+        return _hdfcStatementParser.parse(content);
+      case Bank.icici:
+        return _iciciStatementParser.parse(content);
+    }
+  }
+
+  Future<List<Transaction>> extract({
+    required Bank bank,
+    required File file,
+    String? password,
+  }) async {
+    String content = await _pdfManager.loadAndRetrieveContentFromPdfFile(
+      file,
+      password: password,
+    );
     switch (bank) {
       case Bank.fi:
         return _fiStatementParser.parse(content);
