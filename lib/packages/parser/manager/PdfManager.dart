@@ -1,43 +1,45 @@
 part of '../parser.dart';
 
 class _PdfManager {
-  Future<String> loadAndRetrieveContent({required String filename, required String password}) async {
+  Future<String> loadAndRetrieveContent({
+    required String filename,
+    required String password,
+  }) async {
     try {
       // Load PDF from assets
       final ByteData data = await rootBundle.load('assets/$filename');
       final Uint8List bytes = data.buffer.asUint8List();
 
-      return await _unlockAndExtractContent(bytes, password);
+      return await _unlockAndExtractContent(bytes: bytes, password: password);
     } catch (e) {
       throw Exception("PDF file not found in app bundle: $e");
     }
   }
 
-  Future<void> loadAndRetrieveContentFromPdfFile(
+  Future<String> loadAndRetrieveContentFromPdfFile(
     File file, {
-    required String password,
+    required String? password,
   }) async {
-    try {
-      final Uint8List bytes = await file.readAsBytes();
-      await _unlockAndExtractContent(bytes, password);
-    } catch (e) {
-      throw Exception("Failed to load PDF file: $e");
-    }
+    final Uint8List bytes = await file.readAsBytes();
+    return await _unlockAndExtractContent(bytes: bytes, password: password);
   }
 
-  Future<String> _unlockAndExtractContent(
-      Uint8List bytes, String password) async {
+  Future<String> _unlockAndExtractContent({
+    required Uint8List bytes,
+    required String? password,
+  }) async {
     final Stopwatch stopwatch = Stopwatch()..start();
 
     try {
       PdfDocument? pdfDocument;
 
-      // Try to load PDF without password first
-      try {
-        pdfDocument = PdfDocument(inputBytes: bytes);
-      } catch (e) {
-        // If loading fails, it might be password protected
-        print("PDF might be encrypted, trying with password...");
+      if (password == null) {
+        // Try to load PDF without password first
+        try {
+          pdfDocument = PdfDocument(inputBytes: bytes);
+        } catch (e) {
+          throw PdfLockedException();
+        }
       }
 
       // If document is null or encrypted, try with password
@@ -45,13 +47,13 @@ class _PdfManager {
         try {
           pdfDocument = PdfDocument(inputBytes: bytes, password: password);
         } catch (e) {
-          throw Exception("Failed to unlock PDF with provided password");
+          throw PdfWrongPasswordException();
         }
       }
 
       return _extractTextFromPDF(pdfDocument);
     } catch (e) {
-      throw Exception("Error processing PDF: $e");
+      rethrow;
     }
   }
 
