@@ -6,6 +6,9 @@ enum Routes {
   MODIFY_ACCOUNT,
   MODIFY_CATEGORY,
   IMPORT,
+  VIEW_IMPORTS,
+  ANALYSIS,
+  SETTINGS,
 }
 
 extension RoutesExt on Routes {

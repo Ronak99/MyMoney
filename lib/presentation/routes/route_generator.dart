@@ -8,6 +8,8 @@ import 'package:my_money/presentation/pages/categories/modify/modify_category_pa
 import 'package:my_money/presentation/pages/categories/modify/state/modify_category_cubit.dart';
 import 'package:my_money/presentation/pages/home/home_page.dart';
 import 'package:my_money/presentation/pages/import/import_page.dart';
+import 'package:my_money/presentation/pages/import/state/import_cubit.dart';
+import 'package:my_money/presentation/pages/import/view/view_imports_page.dart';
 import 'package:my_money/presentation/pages/transactions/create/create_transaction_page.dart';
 import 'package:my_money/presentation/pages/transactions/create/state/create_transaction_cubit.dart';
 import 'package:my_money/presentation/pages/transactions/transactions_page.dart';
@@ -26,11 +28,13 @@ class RouteGenerator {
   static late AccountCubit accountCubit;
   static late TransactionCubit transactionCubit;
   static late CategoryCubit categoryCubit;
+  static late ImportCubit importCubit;
 
   static void initializeCubits() {
     accountCubit = AccountCubit();
     transactionCubit = TransactionCubit();
     categoryCubit = CategoryCubit();
+    importCubit = ImportCubit();
   }
 
   static Widget _build(Widget child) {
@@ -53,7 +57,13 @@ class RouteGenerator {
           builder: (context, state, child) {
             return _build(HomePage(child: child));
           },
-          branches: [Routes.TRANSACTIONS, Routes.ACCOUNTS, Routes.CATEGORIES]
+          branches: [
+            Routes.TRANSACTIONS,
+            Routes.ANALYSIS,
+            Routes.IMPORT,
+            Routes.ACCOUNTS,
+            Routes.SETTINGS
+          ]
               .map(
                 (e) => StatefulShellBranch(
                   routes: <RouteBase>[
@@ -63,7 +73,10 @@ class RouteGenerator {
                           switch (e) {
                         Routes.TRANSACTIONS => const TransactionsPage(),
                         Routes.ACCOUNTS => const AccountsPage(),
-                        Routes.CATEGORIES => const CategoriesPage(),
+                        Routes.IMPORT =>  BlocProvider.value(
+                          value: importCubit,
+                          child: const ImportPage(),
+                        ),
                         _ => const SizedBox.shrink(),
                       },
                     ),
@@ -97,8 +110,11 @@ class RouteGenerator {
           ),
         ),
         GoRoute(
-          path: Routes.IMPORT.value,
-          builder: (context, state) => const ImportPage(),
+          path: Routes.VIEW_IMPORTS.value,
+          builder: (context, state) => BlocProvider.value(
+            value: importCubit,
+            child: const ViewImportsPage(),
+          ),
         ),
       ],
     );
