@@ -1,8 +1,7 @@
-import 'dart:io';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/extensions/build_context.dart';
+import 'package:my_money/extensions/peer_app.dart';
 import 'package:my_money/packages/parser/parser.dart';
 import 'package:my_money/presentation/pages/import/state/import_cubit.dart';
 import 'package:my_money/presentation/widgets/custom_bottom_sheet.dart';
@@ -15,6 +14,7 @@ class ImportPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final ValueNotifier<bool> showInfoDialog = ValueNotifier(true);
     final ValueNotifier<Bank> selectedBank = ValueNotifier(Bank.fi);
+    final ValueNotifier<PeerApp> selectedPeer = ValueNotifier(PeerApp.myMoney);
 
     return CustomScaffold(
       title: "Import",
@@ -49,7 +49,8 @@ class ImportPage extends StatelessWidget {
                     .read<ImportCubit>()
                     .onImport(context, bank: selectedBank.value);
               },
-              selectedBank: selectedBank,
+              selectedItem: selectedBank,
+              items: Map.fromEntries(Bank.values.map((e) => MapEntry(e, e.name))),
             ),
             const Divider(
               height: 50,
@@ -62,10 +63,10 @@ class ImportPage extends StatelessWidget {
               onImport: () {
                 context
                     .read<ImportCubit>()
-                    .onImport(context, bank: selectedBank.value);
+                    .onImport(context, peerApp: selectedPeer.value);
               },
-              selectedBank: selectedBank,
-              isCsv: true,
+              selectedItem: selectedPeer,
+              items: Map.fromEntries(PeerApp.values.map((e) => MapEntry(e, e.name))),
             ),
           ],
         ),
@@ -141,14 +142,14 @@ class InfoCard extends StatelessWidget {
   }
 }
 
-/// Reusable section for bank import
-class ImportSection extends StatelessWidget {
+class ImportSection<T> extends StatelessWidget {
   final String title;
   final String description;
   final String actionLabel;
   final Function() onImport;
-  final ValueNotifier<Bank> selectedBank;
-  final bool isCsv;
+  final ValueNotifier<T> selectedItem;
+  final Map<T, String> items;
+  final bool useTextButton;
 
   const ImportSection({
     super.key,
@@ -156,14 +157,15 @@ class ImportSection extends StatelessWidget {
     required this.description,
     required this.actionLabel,
     required this.onImport,
-    required this.selectedBank,
-    this.isCsv = false,
+    required this.selectedItem,
+    required this.items,
+    this.useTextButton = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<Bank>(
-      valueListenable: selectedBank,
+    return ValueListenableBuilder<T>(
+      valueListenable: selectedItem,
       builder: (context, bank, _) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -177,67 +179,40 @@ class ImportSection extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            BankSelectorRow(
-              selectedBank: bank,
-              onBankSelected: (b) => selectedBank.value = b,
-              onImport: onImport,
-              actionLabel: actionLabel,
-              isCsv: isCsv,
-            ),
+            Row(
+              children: [
+                Expanded(
+                  child: DropdownMenu<T>(
+                    initialSelection: selectedItem.value,
+                    width: double.infinity,
+                    dropdownMenuEntries: items.keys
+                        .map(
+                          (e) => DropdownMenuEntry<T>(
+                            value: e,
+                            label: items[e] ?? "",
+                          ),
+                        )
+                        .toList(),
+                    onSelected: (item) {
+                      if (item != null) selectedItem.value = item;
+                    },
+                  ),
+                ),
+                const SizedBox(width: 16),
+                useTextButton
+                    ? TextButton(
+                        onPressed: onImport,
+                        child: Text(actionLabel),
+                      )
+                    : ElevatedButton(
+                        onPressed: onImport,
+                        child: Text(actionLabel),
+                      ),
+              ],
+            )
           ],
         );
       },
-    );
-  }
-}
-
-/// Row with dropdown + import button
-class BankSelectorRow extends StatelessWidget {
-  final Bank selectedBank;
-  final ValueChanged<Bank> onBankSelected;
-  final Function() onImport;
-  final String actionLabel;
-  final bool isCsv;
-
-  const BankSelectorRow({
-    super.key,
-    required this.selectedBank,
-    required this.onBankSelected,
-    required this.onImport,
-    required this.actionLabel,
-    this.isCsv = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: DropdownMenu<Bank>(
-            initialSelection: selectedBank,
-            width: double.infinity,
-            dropdownMenuEntries: Bank.values
-                .map((e) => DropdownMenuEntry<Bank>(
-                      value: e,
-                      label: e.name,
-                    ))
-                .toList(),
-            onSelected: (bank) {
-              if (bank != null) onBankSelected(bank);
-            },
-          ),
-        ),
-        const SizedBox(width: 16),
-        isCsv
-            ? TextButton(
-                onPressed: onImport,
-                child: Text(actionLabel),
-              )
-            : ElevatedButton(
-                onPressed: onImport,
-                child: Text(actionLabel),
-              ),
-      ],
     );
   }
 }
