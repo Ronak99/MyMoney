@@ -191,7 +191,7 @@ class SbiStatementParser extends BankStatementParser {
 
     // Make debits negative
     if (_isDebitTransaction(transactionDetails)) {
-      amount = -amount.abs();
+      amount = amount.abs();
     }
 
     final String receiverName = _extractReceiverName(transactionDetails) ?? _extractCompanyName(transactionDetails) ?? "Unknown";
@@ -254,16 +254,16 @@ class SbiStatementParser extends BankStatementParser {
   }
 
   static TransactionType _determineTransactionType(String transactionDetails) {
-    // if (transactionDetails.contains('UPI')) {
-    //   return TransactionType.upiOut;
-    // } else if (transactionDetails.contains('ACHCr')) {
-    //   return TransactionType.nft;
-    // } else if (transactionDetails.contains('ACHDr')) {
-    //   return TransactionType.nft;
-    // } else if (transactionDetails.contains('TRANSFER')) {
-    //   return TransactionType.nft;
-    // } else {
-    // }
+    if (transactionDetails.contains('UPI')) {
+      return TransactionType.expense;
+    } else if (transactionDetails.contains('ACHCr')) {
+      return TransactionType.expense;
+    } else if (transactionDetails.contains('ACHDr')) {
+      return TransactionType.expense;
+    } else if (transactionDetails.contains('TRANSFER')) {
+      return TransactionType.transfer;
+    } else {
+    }
       return TransactionType.none;
   }
 

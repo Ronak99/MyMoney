@@ -68,7 +68,6 @@ class HdfcStatementParser extends BankStatementParser {
         line.contains('Closing') ||
         line.contains('Generated') ||
         line.contains('STATEMENTSUMMARY') ||
-        line.contains('MR.RONAK') ||
         line.contains('Account') ||
         line.contains('Branch');
   }
@@ -195,19 +194,21 @@ class HdfcStatementParser extends BankStatementParser {
     // Determine if this is a debit or credit
     // Check if there are negative amounts or specific debit indicators
     double finalAmount = amount;
+    TransactionType transactionType = TransactionType.income;
     if (transactionDetails.contains('UPI-') ||
         transactionDetails.contains('POS') ||
         transactionDetails.contains('NWD-') ||
         transactionDetails.contains('ATW-') ||
         transactionDetails.contains('FEE-') ||
         transactionDetails.contains('MEDCSI')) {
-      finalAmount = -amount; // These are typically debits
+      transactionType = TransactionType.expense;
     }
 
     return Transaction(
       id: id,
       notes: name + description,
       amount: finalAmount,
+      transactionType: transactionType,
       date: date,
     );
   }

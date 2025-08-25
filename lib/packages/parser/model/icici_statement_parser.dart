@@ -60,9 +60,11 @@ class IciciStatmentParser implements BankStatementParser {
                 DateTime.parse(dateStr.split('-').reversed.join('-'));
             double amount = double.parse(amountStr);
 
+            TransactionType type = TransactionType.income;
+
             // Make amount negative for debit transactions
             if (typeStr == 'DR') {
-              amount = -amount;
+              type= TransactionType.expense;
             }
 
             // Extract name from description
@@ -74,6 +76,7 @@ class IciciStatmentParser implements BankStatementParser {
                 notes: name + description,
                 amount: amount,
                 date: date,
+                transactionType: type,
               ),
             );
           } catch (e) {
