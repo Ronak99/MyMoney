@@ -6,11 +6,13 @@ class CustomTextField extends StatelessWidget {
   final OnChange onChange;
   final String hint;
   final TextInputType keyboardType;
+  final int? maxLines;
 
   const CustomTextField({
     super.key,
     required this.onChange,
     required this.hint,
+    this.maxLines,
     this.keyboardType = TextInputType.text,
   });
 
@@ -22,6 +24,7 @@ class CustomTextField extends StatelessWidget {
         hintText: hint,
       ),
       keyboardType: keyboardType,
+      maxLines: maxLines,
     );
   }
 }
