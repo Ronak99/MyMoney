@@ -2,7 +2,7 @@
 // body: BlocBuilder<TransactionCubit, TransactionState>(
 // builder: (context, state) {
 // return ListViewSeparated<Transaction>(
-// list: state.transactions,
+// list: state.transactions,x
 // itemBuilder: (context, _, transaction) {
 // return TransactionListItem(transaction: transaction);
 // },
@@ -18,7 +18,7 @@
 //           itemCount: transactions.groupByDate.keys.length,
 //           itemBuilder: (context, index) {
 //             final tDate =
-//                 transactions.groupByDate.keys.elementAt(index);
+//                 transactions. groupByDate.keys.elementAt(index);
 //
 //             return Column(
 //               children: [
