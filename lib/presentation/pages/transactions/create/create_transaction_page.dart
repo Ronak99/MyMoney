@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get_utils/src/extensions/context_extensions.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_money/constants/constants.dart';
 import 'package:my_money/presentation/pages/transactions/create/state/create_transaction_cubit.dart';
 import 'package:my_money/presentation/pages/transactions/create/widgets/account_and_category_selector.dart';
 import 'package:my_money/presentation/pages/transactions/create/widgets/amount_field.dart';
@@ -15,74 +15,47 @@ class CreateTransactionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      title: "Import",
-      body: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 40,
-              child: Row(
-                children: [
-                  IconButton(
-                    onPressed: () => context.pop(),
-                    icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                  ),
-                  Text(
-                    "Create",
-                    style: context.textTheme.headlineLarge,
-                  ),
-                  const Spacer(),
-                  TextButton(
-                    onPressed: () {
-                      context.read<CreateTransactionCubit>().create();
-                      context.pop(context);
-                    },
-                    child: const Text("Save"),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 12),
-            Expanded(
-              child: ListView(
-                children: [
-                  // select transaction type
-                  const TransactionTypeSelector(),
+      title: "Create",
+      trailing: TextButton(
+        onPressed: () {
+          context.read<CreateTransactionCubit>().create();
+          context.pop(context);
+        },
+        child: const Text("Save"),
+      ),
+      onBackButtonPressed: context.pop,
+      body: ListView(
+        children: [
+          // select transaction type
+          const TransactionTypeSelector(),
 
-                  const SizedBox(height: 12),
+          const SizedBox(height: kVerticalSpacing),
 
-                  // account and category selector
-                  const AccountAndCategorySelector(),
+          // account and category selector
+          const AccountAndCategorySelector(),
 
-                  const SizedBox(height: 12),
+          const SizedBox(height: kVerticalSpacing),
 
-                  // date
-                  const DateTimeSelector(),
+          // date
+          const DateTimeSelector(),
 
-                  const SizedBox(height: 12),
+          const SizedBox(height: kVerticalSpacing),
 
-                  // amount
-                  CustomTextField(
-                    hint: "Amount",
-                    onChange: context.read<CreateTransactionCubit>().setAmount,
-                  ),
+          // amount
+          CustomTextField(
+            hint: "Amount",
+            onChange: context.read<CreateTransactionCubit>().setAmount,
+          ),
 
-                  const SizedBox(height: 12),
+          const SizedBox(height: kVerticalSpacing),
 
-                  // name
-                  CustomTextField(
-                    hint: "Notes",
-                    onChange: context.read<CreateTransactionCubit>().setNotes,
-                    maxLines: 4,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          // name
+          CustomTextField(
+            hint: "Notes",
+            onChange: context.read<CreateTransactionCubit>().setNotes,
+            maxLines: 4,
+          ),
+        ],
       ),
     );
   }

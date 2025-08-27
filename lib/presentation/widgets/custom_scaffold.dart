@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/src/extensions/context_extensions.dart';
 
 class CustomScaffold extends StatelessWidget {
   final String? title;
@@ -7,6 +8,7 @@ class CustomScaffold extends StatelessWidget {
   final Widget? bottomNavigationBar;
   final Widget? leading;
   final Widget? trailing;
+  final VoidCallback? onBackButtonPressed;
 
   const CustomScaffold({
     super.key,
@@ -16,24 +18,58 @@ class CustomScaffold extends StatelessWidget {
     this.leading,
     this.trailing,
     this.bottomNavigationBar,
+    this.onBackButtonPressed,
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: title != null ? Text(title!) : null,
-        leading: leading,
-        actions: [
-          if (trailing != null) ...[trailing!, const SizedBox(width: 16)]
-        ],
-      ),
       floatingActionButton: fab,
-      body: SizedBox(
-        width: double.infinity,
-        child: body,
-      ),
       bottomNavigationBar: bottomNavigationBar,
+      body: SafeArea(
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(bottom: 12),
+                child: Row(
+                  children: [
+                    if (onBackButtonPressed != null)
+                      SizedBox(
+                        height: 30,
+                        width: 30,
+                        child: IconButton(
+                          onPressed: onBackButtonPressed,
+                          padding: EdgeInsets.zero,
+                          alignment: Alignment.center,
+                          icon: const Icon(
+                            Icons.arrow_back_ios_new_rounded,
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                    if (title != null)
+                      GestureDetector(
+                        onTap: onBackButtonPressed,
+                        child: Text(
+                          title!,
+                          style: context.textTheme.headlineSmall!
+                              .copyWith(fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    const Spacer(),
+                    if (trailing != null) trailing!,
+                  ],
+                ),
+              ),
+              Expanded(child: body),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
