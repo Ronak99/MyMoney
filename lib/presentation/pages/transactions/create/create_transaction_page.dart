@@ -25,6 +25,7 @@ class CreateTransactionPage extends StatelessWidget {
       ),
       onBackButtonPressed: context.pop,
       body: ListView(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         children: [
           // select transaction type
           const TransactionTypeSelector(),

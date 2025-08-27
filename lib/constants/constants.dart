@@ -1,0 +1,1 @@
+  const double kVerticalSpacing = 12.0;

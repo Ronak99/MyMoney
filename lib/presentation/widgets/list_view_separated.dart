@@ -13,6 +13,8 @@ class ListViewSeparated<T> extends StatelessWidget {
   final SeapratorBuilder? seapratorBuilder;
   final ItemBuilder<T> itemBuilder;
   final String emptyStateText;
+  final Axis axis;
+  final EdgeInsets padding;
 
   const ListViewSeparated({
     super.key,
@@ -20,6 +22,8 @@ class ListViewSeparated<T> extends StatelessWidget {
     required this.itemBuilder,
     this.emptyStateText = "No items.",
     this.seapratorBuilder,
+    this.axis = Axis.vertical,
+    this.padding =  EdgeInsets.zero,
   });
 
   @override
@@ -30,6 +34,8 @@ class ListViewSeparated<T> extends StatelessWidget {
       );
     }
     return ListView.separated(
+      scrollDirection: axis,
+      padding: padding,
       itemBuilder: (context, index) => itemBuilder(context, index, list[index]),
       separatorBuilder: seapratorBuilder ?? (context, index) => const Divider(),
       itemCount: list.length,

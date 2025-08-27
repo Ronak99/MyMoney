@@ -27,14 +27,14 @@ class CustomScaffold extends StatelessWidget {
       floatingActionButton: fab,
       bottomNavigationBar: bottomNavigationBar,
       body: SafeArea(
-        child: Container(
+        child: SizedBox(
           width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 margin: const EdgeInsets.only(bottom: 12),
+                padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: Row(
                   children: [
                     if (onBackButtonPressed != null)
