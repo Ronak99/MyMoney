@@ -15,10 +15,10 @@ class HomePage extends StatelessWidget {
 
     List<Routes> tabBarRoutes = [
       Routes.TRANSACTIONS,
-      Routes.ANALYSIS,
+      // Routes.ANALYSIS,
       Routes.IMPORT,
       Routes.ACCOUNTS,
-      Routes.SETTINGS
+      // Routes.SETTINGS
     ];
 
     int currentIndex =

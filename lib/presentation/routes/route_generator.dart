@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_money/model/transaction.dart';
 import 'package:my_money/presentation/pages/accounts/account_page.dart';
 import 'package:my_money/presentation/pages/accounts/modify/modify_account_page.dart';
 import 'package:my_money/presentation/pages/accounts/modify/state/modify_account_cubit.dart';
@@ -57,12 +58,12 @@ class RouteGenerator {
           builder: (context, state, child) {
             return _build(HomePage(child: child));
           },
-          branches: [
+          branches:[
             Routes.TRANSACTIONS,
-            Routes.ANALYSIS,
+            // Routes.ANALYSIS,
             Routes.IMPORT,
             Routes.ACCOUNTS,
-            Routes.SETTINGS
+            // Routes.SETTINGS
           ]
               .map(
                 (e) => StatefulShellBranch(
@@ -88,8 +89,12 @@ class RouteGenerator {
         GoRoute(
           path: Routes.CREATE_TRANSACTION.value,
           builder: (context, state) => BlocProvider(
-            lazy: false,
-            create: (context) => CreateTransactionCubit(),
+            lazy: true,
+            create: (context) => CreateTransactionCubit(
+              account: RouteGenerator.accountCubit.state.accounts.first,
+              category: RouteGenerator.categoryCubit.state.categories.first,
+              transactionType: TransactionType.expense,
+            ),
             child: const CreateTransactionPage(),
           ),
         ),
