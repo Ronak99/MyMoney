@@ -9,7 +9,8 @@ class MyMoneyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       routerConfig: router,
-      theme: AppTheme.dark,
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme().buildTheme(brightness: Brightness.dark),
     );
   }
 }

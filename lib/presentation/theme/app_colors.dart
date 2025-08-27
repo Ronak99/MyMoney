@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 /// Keep all hard-coded hex here.
 final class AppColors {
   // Brand / seed
-  static const Color seed = Color(0xFF22D3EE); // vibrant cyan/teal
+  static const Color seed = Color(0xFF22D3EE);
   static const Color brand = seed;
 
   // Neutrals (ink-like dark)
