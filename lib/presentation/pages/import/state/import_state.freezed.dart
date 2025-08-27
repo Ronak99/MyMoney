@@ -19,6 +19,9 @@ mixin _$ImportState {
   bool? get isLoading => throw _privateConstructorUsedError;
   String? get previousPassword => throw _privateConstructorUsedError;
   List<Transaction> get transactions => throw _privateConstructorUsedError;
+  List<Transaction> get filteredTransactions =>
+      throw _privateConstructorUsedError;
+  DateTime? get selectedDate => throw _privateConstructorUsedError;
 
   /// Create a copy of ImportState
   /// with the given fields replaced by the non-null parameter values.
@@ -36,7 +39,9 @@ abstract class $ImportStateCopyWith<$Res> {
   $Res call(
       {bool? isLoading,
       String? previousPassword,
-      List<Transaction> transactions});
+      List<Transaction> transactions,
+      List<Transaction> filteredTransactions,
+      DateTime? selectedDate});
 }
 
 /// @nodoc
@@ -57,6 +62,8 @@ class _$ImportStateCopyWithImpl<$Res, $Val extends ImportState>
     Object? isLoading = freezed,
     Object? previousPassword = freezed,
     Object? transactions = null,
+    Object? filteredTransactions = null,
+    Object? selectedDate = freezed,
   }) {
     return _then(_value.copyWith(
       isLoading: freezed == isLoading
@@ -71,6 +78,14 @@ class _$ImportStateCopyWithImpl<$Res, $Val extends ImportState>
           ? _value.transactions
           : transactions // ignore: cast_nullable_to_non_nullable
               as List<Transaction>,
+      filteredTransactions: null == filteredTransactions
+          ? _value.filteredTransactions
+          : filteredTransactions // ignore: cast_nullable_to_non_nullable
+              as List<Transaction>,
+      selectedDate: freezed == selectedDate
+          ? _value.selectedDate
+          : selectedDate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -86,7 +101,9 @@ abstract class _$$ImportStateImplCopyWith<$Res>
   $Res call(
       {bool? isLoading,
       String? previousPassword,
-      List<Transaction> transactions});
+      List<Transaction> transactions,
+      List<Transaction> filteredTransactions,
+      DateTime? selectedDate});
 }
 
 /// @nodoc
@@ -105,6 +122,8 @@ class __$$ImportStateImplCopyWithImpl<$Res>
     Object? isLoading = freezed,
     Object? previousPassword = freezed,
     Object? transactions = null,
+    Object? filteredTransactions = null,
+    Object? selectedDate = freezed,
   }) {
     return _then(_$ImportStateImpl(
       isLoading: freezed == isLoading
@@ -119,6 +138,14 @@ class __$$ImportStateImplCopyWithImpl<$Res>
           ? _value._transactions
           : transactions // ignore: cast_nullable_to_non_nullable
               as List<Transaction>,
+      filteredTransactions: null == filteredTransactions
+          ? _value._filteredTransactions
+          : filteredTransactions // ignore: cast_nullable_to_non_nullable
+              as List<Transaction>,
+      selectedDate: freezed == selectedDate
+          ? _value.selectedDate
+          : selectedDate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -129,8 +156,11 @@ class _$ImportStateImpl implements _ImportState {
   _$ImportStateImpl(
       {this.isLoading = false,
       this.previousPassword = null,
-      final List<Transaction> transactions = const []})
-      : _transactions = transactions;
+      final List<Transaction> transactions = const [],
+      final List<Transaction> filteredTransactions = const [],
+      this.selectedDate})
+      : _transactions = transactions,
+        _filteredTransactions = filteredTransactions;
 
   @override
   @JsonKey()
@@ -147,9 +177,22 @@ class _$ImportStateImpl implements _ImportState {
     return EqualUnmodifiableListView(_transactions);
   }
 
+  final List<Transaction> _filteredTransactions;
+  @override
+  @JsonKey()
+  List<Transaction> get filteredTransactions {
+    if (_filteredTransactions is EqualUnmodifiableListView)
+      return _filteredTransactions;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_filteredTransactions);
+  }
+
+  @override
+  final DateTime? selectedDate;
+
   @override
   String toString() {
-    return 'ImportState(isLoading: $isLoading, previousPassword: $previousPassword, transactions: $transactions)';
+    return 'ImportState(isLoading: $isLoading, previousPassword: $previousPassword, transactions: $transactions, filteredTransactions: $filteredTransactions, selectedDate: $selectedDate)';
   }
 
   @override
@@ -162,12 +205,21 @@ class _$ImportStateImpl implements _ImportState {
             (identical(other.previousPassword, previousPassword) ||
                 other.previousPassword == previousPassword) &&
             const DeepCollectionEquality()
-                .equals(other._transactions, _transactions));
+                .equals(other._transactions, _transactions) &&
+            const DeepCollectionEquality()
+                .equals(other._filteredTransactions, _filteredTransactions) &&
+            (identical(other.selectedDate, selectedDate) ||
+                other.selectedDate == selectedDate));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading, previousPassword,
-      const DeepCollectionEquality().hash(_transactions));
+  int get hashCode => Object.hash(
+      runtimeType,
+      isLoading,
+      previousPassword,
+      const DeepCollectionEquality().hash(_transactions),
+      const DeepCollectionEquality().hash(_filteredTransactions),
+      selectedDate);
 
   /// Create a copy of ImportState
   /// with the given fields replaced by the non-null parameter values.
@@ -182,7 +234,9 @@ abstract class _ImportState implements ImportState {
   factory _ImportState(
       {final bool? isLoading,
       final String? previousPassword,
-      final List<Transaction> transactions}) = _$ImportStateImpl;
+      final List<Transaction> transactions,
+      final List<Transaction> filteredTransactions,
+      final DateTime? selectedDate}) = _$ImportStateImpl;
 
   @override
   bool? get isLoading;
@@ -190,6 +244,10 @@ abstract class _ImportState implements ImportState {
   String? get previousPassword;
   @override
   List<Transaction> get transactions;
+  @override
+  List<Transaction> get filteredTransactions;
+  @override
+  DateTime? get selectedDate;
 
   /// Create a copy of ImportState
   /// with the given fields replaced by the non-null parameter values.

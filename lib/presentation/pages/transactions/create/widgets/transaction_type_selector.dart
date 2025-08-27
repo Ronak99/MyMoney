@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_money/extensions/build_context.dart';
+import 'package:my_money/extensions/string.dart';
 import 'package:my_money/model/transaction.dart';
 import 'package:my_money/presentation/pages/transactions/create/state/create_transaction_cubit.dart';
 import 'package:my_money/presentation/pages/transactions/create/state/create_transaction_state.dart';
@@ -9,26 +11,45 @@ class TransactionTypeSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CreateTransactionCubit, CreateTransactionState>(
-      buildWhen: (prev, next) => prev.transactionType != next.transactionType,
-      builder: (context, state) {
-        return Row(
-          children: TransactionType.values
-              .map((e) => GestureDetector(
-                    onTap: () => context
-                        .read<CreateTransactionCubit>()
-                        .setTransactionType(e),
-                    child: Row(
-                      children: [
-                        if (state.transactionType == e)
-                          const Icon(Icons.check_circle),
-                        Text(e.name),
-                      ],
-                    ),
-                  ))
-              .toList(),
-        );
-      },
+    final validTransactionValues =
+        TransactionType.values.where((e) => e != TransactionType.none).toList();
+
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        color: context.colorScheme.surfaceContainerHighest,
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      child: BlocBuilder<CreateTransactionCubit, CreateTransactionState>(
+        buildWhen: (prev, next) => prev.transactionType != next.transactionType,
+        builder: (context, state) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: validTransactionValues
+                .map((e) => Expanded(
+                  child: GestureDetector(
+                        onTap: () => context
+                            .read<CreateTransactionCubit>()
+                            .setTransactionType(e),
+                        behavior: HitTestBehavior.translucent,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          alignment: Alignment.center,
+                          child: Text(
+                            e.name.capitalizeFirstLetter,
+                            style: context.textTheme.bodyLarge!.copyWith(
+                              color: e == state.transactionType
+                                  ? context.colorScheme.primary
+                                  : null,
+                            ),
+                          ),
+                        ),
+                      ),
+                ))
+                .toList(),
+          );
+        },
+      ),
     );
   }
 }

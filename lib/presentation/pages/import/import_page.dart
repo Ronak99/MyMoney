@@ -24,14 +24,6 @@ class ImportPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              height: 40,
-              child: Text(
-                "Import",
-                style: context.textTheme.headlineLarge,
-              ),
-            ),
-            const SizedBox(height: 12),
             ValueListenableBuilder(
               valueListenable: showInfoDialog,
               builder: (context, value, child) =>

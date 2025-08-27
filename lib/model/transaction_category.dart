@@ -22,4 +22,8 @@ class TransactionCategory {
     required this.type,
     required this.createdOn,
   });
+
+  factory TransactionCategory.unknown() {
+    return TransactionCategory(name: 'unknown', description: 'unknown', type: CategoryType.expense, createdOn: DateTime.now());
+  }
 }

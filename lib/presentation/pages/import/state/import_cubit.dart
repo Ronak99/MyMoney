@@ -4,6 +4,9 @@ import 'package:go_router/go_router.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_money/enums/date_action.dart';
+import 'package:my_money/extensions/date.dart';
+import 'package:my_money/extensions/peer_app.dart';
 import 'package:my_money/model/transaction.dart';
 import 'package:my_money/packages/parser/exceptions/exceptions.dart';
 import 'package:my_money/packages/parser/parser.dart';
@@ -13,9 +16,11 @@ import 'package:my_money/presentation/routes/routes.dart';
 import 'package:my_money/presentation/widgets/custom_bottom_sheet.dart';
 
 class ImportCubit extends Cubit<ImportState> {
-  ImportCubit() : super(ImportState());
+  ImportCubit() : super(ImportState()) {
+    emit(state.copyWith(selectedDate: DateTime.now()));
+  }
 
-  void onImport(BuildContext context, {required Bank bank}) async {
+  void onImport(BuildContext context, {Bank? bank, PeerApp? peerApp}) async {
     if (RouteGenerator.accountCubit.state.accounts.isEmpty) {
       CustomBottomSheet.noBankAccount().show(context);
       return;
@@ -23,11 +28,18 @@ class ImportCubit extends Cubit<ImportState> {
     try {
       final pickedFile = await pickFile();
       if (!context.mounted) return;
-      await _handleImport(
-        context,
-        pickedFile: pickedFile,
-        bank: bank,
-      );
+
+      if(bank != null) {
+        await _handleBankStatementImport(
+          context,
+          pickedFile: pickedFile,
+          bank: bank,
+        );
+      }
+
+      if(peerApp != null){
+        await _handlePeerAppDataImport();
+      }
     } catch (e) {}
   }
 
@@ -43,7 +55,9 @@ class ImportCubit extends Cubit<ImportState> {
     return pickedFile;
   }
 
-  Future<void> _handleImport(
+  Future<void> _handlePeerAppDataImport() async {}
+
+  Future<void> _handleBankStatementImport(
     BuildContext context, {
     required FilePickerResult pickedFile,
     required Bank bank,
@@ -68,6 +82,8 @@ class ImportCubit extends Cubit<ImportState> {
         ),
       );
 
+      updateDate(action: DateAction.setSpecific, specificDate: DateTime.now());
+
       if (!context.mounted) return;
 
       context.push(Routes.VIEW_IMPORTS.value);
@@ -78,7 +94,7 @@ class ImportCubit extends Cubit<ImportState> {
 
       emit(state.copyWith(previousPassword: password));
 
-      _handleImport(
+      _handleBankStatementImport(
         context,
         pickedFile: pickedFile,
         bank: bank,
@@ -93,7 +109,7 @@ class ImportCubit extends Cubit<ImportState> {
 
       emit(state.copyWith(previousPassword: password));
 
-      _handleImport(
+      _handleBankStatementImport(
         context,
         pickedFile: pickedFile,
         bank: bank,
@@ -102,5 +118,29 @@ class ImportCubit extends Cubit<ImportState> {
     } catch (e) {
       print(e);
     }
+  }
+
+  void updateDate({
+    required DateAction action,
+    DateTime? specificDate,
+  }) {
+    final DateTime targetDate = switch (action) {
+      DateAction.setSpecific => specificDate ?? DateTime.now(),
+      DateAction.incrementMonth => state.selectedDate!.nextMonth,
+      DateAction.decrementMonth => state.selectedDate!.prevMonth,
+    };
+
+    List<Transaction> filteredTransactions = state.transactions
+        .where((e) =>
+            e.date.isAfter(targetDate.startOfTheMonth) &&
+            e.date.isBefore(targetDate.endOfTheMonth))
+        .toList();
+
+    emit(
+      state.copyWith(
+        selectedDate: targetDate,
+        filteredTransactions: filteredTransactions,
+      ),
+    );
   }
 }

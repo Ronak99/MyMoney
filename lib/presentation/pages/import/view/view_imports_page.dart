@@ -1,256 +1,123 @@
-import 'dart:io';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_sticky_header/flutter_sticky_header.dart';
+import 'package:my_money/enums/date_action.dart';
 import 'package:my_money/extensions/build_context.dart';
+import 'package:my_money/extensions/date.dart';
+import 'package:my_money/extensions/transactions.dart';
 import 'package:my_money/model/transaction.dart';
-import 'package:my_money/packages/parser/parser.dart';
-import 'package:my_money/presentation/routes/route_generator.dart';
-import 'package:my_money/presentation/widgets/custom_bottom_sheet.dart';
+import 'package:my_money/presentation/pages/home/widgets/transaction_list_item.dart';
+import 'package:my_money/presentation/pages/import/state/import_cubit.dart';
+import 'package:my_money/presentation/pages/import/state/import_state.dart';
+import 'package:my_money/presentation/pages/import/widgets/imported_transaction_list_item.dart';
+import 'package:my_money/presentation/widgets/capsule_date_selector.dart';
 import 'package:my_money/presentation/widgets/custom_scaffold.dart';
+import 'package:my_money/presentation/widgets/list_view_separated.dart';
+import 'package:go_router/go_router.dart';
 
 class ViewImportsPage extends StatelessWidget {
   const ViewImportsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final ValueNotifier<bool> showInfoDialog = ValueNotifier(true);
-    final ValueNotifier<Bank> selectedBank = ValueNotifier(Bank.fi);
-
     return CustomScaffold(
       title: "View Imports",
       body: Container(
         width: double.infinity,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 40,
-              child: Text(
-                "View Imports",
-                style: context.textTheme.headlineLarge,
-              ),
-            ),
-            const SizedBox(height: 12),
-            ValueListenableBuilder(
-              valueListenable: showInfoDialog,
-              builder: (context, value, child) =>
-                  value ? child! : const SizedBox.shrink(),
-              child: InfoCard(onDismiss: () => showInfoDialog.value = false),
-            ),
-            const SizedBox(height: 16),
-            ImportSection(
-              title: "Statement",
-              description:
-                  "We have added PDF parsers for bank statements for select banks.",
-              actionLabel: "Import",
-              onImport: () async {
-                CustomBottomSheet.noBankAccount().show(context);
-                // try{
-                //   final pickedFile = await pickFile();
-                //   await _handleImport(pickedFile, selectedBank.value);
-                // }catch(e){}
-              },
-              selectedBank: selectedBank,
-            ),
-            const Divider(
-              height: 50,
-            ),
-            ImportSection(
-              title: "Existing Records",
-              description:
-                  "Import CSV from your existing finance management apps.",
-              actionLabel: "Import",
-              onImport: () async {
-
-              },
-              selectedBank: selectedBank,
-              isCsv: true,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Future<void> _handleImport(FilePickerResult pickedFile, Bank bank) async {
-    PlatformFile file = pickedFile.files.first;
-
-    List<Transaction> transactions =
-        await BankStatementService.instance.extract(
-      file: File(file.path!),
-      bank: bank,
-      password: "",
-    );
-
-    RouteGenerator.transactionCubit.setTransactions(transactions);
-  }
-}
-
-/// Reusable info card with dismiss button
-class InfoCard extends StatelessWidget {
-  final VoidCallback onDismiss;
-
-  const InfoCard({super.key, required this.onDismiss});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
-        color: context.colorScheme.primary.withOpacity(.1),
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-      child: Column(
-        children: [
-          Row(
+        child: BlocBuilder<ImportCubit, ImportState>(builder: (context, state) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(Icons.notes, color: context.colorScheme.primary),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              SizedBox(
+                height: 40,
+                child: Row(
                   children: [
-                    Text(
-                      "Privacy Built-In!",
-                      style: context.textTheme.bodyLarge!.copyWith(
-                        fontWeight: FontWeight.w700,
-                        color: context.colorScheme.onSurface,
-                      ),
+                    IconButton(
+                      onPressed: () => context.pop(),
+                      icon: const Icon(Icons.arrow_back_ios_new_rounded),
                     ),
-                    const SizedBox(height: 4),
                     Text(
-                      "This app keeps all your data on your device, nothing is stored in the cloud.",
-                      style: context.textTheme.bodySmall!.copyWith(
-                        color: context.colorScheme.onSurface.withOpacity(.8),
-                      ),
+                      "View Imports",
+                      style: context.textTheme.headlineLarge,
                     ),
+                    const Spacer(),
+                    if (state.filteredTransactions.isNotEmpty)
+                      TextButton(
+                        onPressed: () {},
+                        child: const Text("Save"),
+                      ),
                   ],
                 ),
               ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Row(
-            children: [
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () => CustomBottomSheet.privacy().show(context),
-                  child: const Text("Learn More"),
+              Container(
+                height: 40,
+                margin: const EdgeInsets.symmetric(vertical: 16),
+                alignment: Alignment.center,
+                child: CapsuleDateSelector(
+                  context: context,
+                  selectedDate: state.selectedDate!.formatDate,
+                  onPrev: () => context
+                      .read<ImportCubit>()
+                      .updateDate(action: DateAction.decrementMonth),
+                  onNext: () => context
+                      .read<ImportCubit>()
+                      .updateDate(action: DateAction.incrementMonth),
                 ),
               ),
-              const SizedBox(width: 12),
               Expanded(
-                child: TextButton(
-                  onPressed: onDismiss,
-                  child: const Text("Dismiss"),
+                child: CustomScrollView(
+                  slivers: state.filteredTransactions.groupByDate.keys
+                      .map(
+                        (key) => SliverStickyHeader(
+                          header: Container(
+                            alignment: Alignment.centerLeft,
+                            decoration: BoxDecoration(
+                              color: context.colorScheme.surface,
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: context.colorScheme.primary
+                                      .withOpacity(.2),
+                                ),
+                              ),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 12,
+                            ),
+                            child: Text(key.formatDate),
+                          ),
+                          sliver: SliverToBoxAdapter(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                    color: context.colorScheme.primary
+                                        .withOpacity(.2),
+                                  ),
+                                ),
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                              child: Column(
+                                children: state.transactions.groupByDate[key]!
+                                    .map(
+                                      (transaction) =>
+                                          ImportedTransactionListItem(
+                                        transaction: transaction,
+                                      ),
+                                    )
+                                    .toList(),
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                      .toList(),
                 ),
               ),
             ],
-          ),
-        ],
+          );
+        }),
       ),
-    );
-  }
-}
-
-/// Reusable section for bank import
-class ImportSection extends StatelessWidget {
-  final String title;
-  final String description;
-  final String actionLabel;
-  final Future<void> Function() onImport;
-  final ValueNotifier<Bank> selectedBank;
-  final bool isCsv;
-
-  const ImportSection({
-    super.key,
-    required this.title,
-    required this.description,
-    required this.actionLabel,
-    required this.onImport,
-    required this.selectedBank,
-    this.isCsv = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ValueListenableBuilder<Bank>(
-      valueListenable: selectedBank,
-      builder: (context, bank, _) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(title, style: context.textTheme.headlineSmall),
-            const SizedBox(height: 4),
-            Text(
-              description,
-              style: context.textTheme.bodySmall!.copyWith(
-                color: context.colorScheme.onSurface.withOpacity(.8),
-              ),
-            ),
-            const SizedBox(height: 16),
-            BankSelectorRow(
-              selectedBank: bank,
-              onBankSelected: (b) => selectedBank.value = b,
-              onImport: onImport,
-              actionLabel: actionLabel,
-              isCsv: isCsv,
-            ),
-          ],
-        );
-      },
-    );
-  }
-}
-
-/// Row with dropdown + import button
-class BankSelectorRow extends StatelessWidget {
-  final Bank selectedBank;
-  final ValueChanged<Bank> onBankSelected;
-  final Future<void> Function() onImport;
-  final String actionLabel;
-  final bool isCsv;
-
-  const BankSelectorRow({
-    super.key,
-    required this.selectedBank,
-    required this.onBankSelected,
-    required this.onImport,
-    required this.actionLabel,
-    this.isCsv = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: DropdownMenu<Bank>(
-            initialSelection: selectedBank,
-            width: double.infinity,
-            dropdownMenuEntries: Bank.values
-                .map((e) => DropdownMenuEntry<Bank>(
-                      value: e,
-                      label: e.name,
-                    ))
-                .toList(),
-            onSelected: (bank) {
-              if (bank != null) onBankSelected(bank);
-            },
-          ),
-        ),
-        const SizedBox(width: 16),
-        isCsv
-            ? TextButton(
-                onPressed: onImport,
-                child: Text(actionLabel),
-              )
-            : ElevatedButton(
-                onPressed: onImport,
-                child: Text(actionLabel),
-              ),
-      ],
     );
   }
 }
