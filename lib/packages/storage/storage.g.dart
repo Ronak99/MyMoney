@@ -422,6 +422,18 @@ class _$_CategoryDao extends _CategoryDao {
                   'type': item.type.index,
                   'createdOn': __DateTimeConverter.encode(item.createdOn)
                 },
+            changeListener),
+        _transactionCategoryUpdateAdapter = UpdateAdapter(
+            database,
+            'categories',
+            ['id'],
+            (TransactionCategory item) => <String, Object?>{
+                  'id': item.id,
+                  'name': item.name,
+                  'description': item.description,
+                  'type': item.type.index,
+                  'createdOn': __DateTimeConverter.encode(item.createdOn)
+                },
             changeListener);
 
   final sqflite.DatabaseExecutor database;
@@ -432,6 +444,8 @@ class _$_CategoryDao extends _CategoryDao {
 
   final InsertionAdapter<TransactionCategory>
       _transactionCategoryInsertionAdapter;
+
+  final UpdateAdapter<TransactionCategory> _transactionCategoryUpdateAdapter;
 
   @override
   Stream<List<TransactionCategory>> streamAllCategories() {
@@ -472,6 +486,12 @@ class _$_CategoryDao extends _CategoryDao {
   @override
   Future<int> insertCategory(TransactionCategory category) {
     return _transactionCategoryInsertionAdapter.insertAndReturnId(
+        category, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<int> updateCategory(TransactionCategory category) {
+    return _transactionCategoryUpdateAdapter.updateAndReturnChangedRows(
         category, OnConflictStrategy.abort);
   }
 }

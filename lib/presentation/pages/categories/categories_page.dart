@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/model/transaction_category.dart';
 import 'package:my_money/presentation/pages/categories/widgets/category_list_item.dart';
 import 'package:my_money/presentation/routes/routes.dart';
+import 'package:my_money/presentation/widgets/custom_bottom_sheet.dart';
 import 'package:my_money/presentation/widgets/custom_scaffold.dart';
 import 'package:my_money/presentation/widgets/list_view_separated.dart';
 import 'package:go_router/go_router.dart';
@@ -18,7 +19,7 @@ class CategoriesPage extends StatelessWidget {
       title: 'No items',
       fab: FloatingActionButton(
         heroTag: 'categories',
-        onPressed: () => context.push(Routes.MODIFY_CATEGORY.value),
+        onPressed: () => CustomBottomSheet.modifyCategory().show(context),
         child: const Icon(Icons.add),
       ),
       body: BlocBuilder<CategoryCubit, CategoryState>(
