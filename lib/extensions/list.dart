@@ -5,4 +5,6 @@ extension ListExtensions<T> on List<T> {
     if (count >= length) return this;
     return sublist(length - count);
   }
+
+  T? get getFirst => isEmpty ? null : first;
 }
