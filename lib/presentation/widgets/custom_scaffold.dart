@@ -56,7 +56,7 @@ class CustomScaffold extends StatelessWidget {
                         onTap: onBackButtonPressed,
                         child: Text(
                           title!,
-                          style: context.textTheme.headlineSmall!
+                          style: context.textTheme.headlineMedium!
                               .copyWith(fontWeight: FontWeight.w500),
                         ),
                       ),
