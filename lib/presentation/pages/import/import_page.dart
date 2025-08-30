@@ -42,7 +42,8 @@ class ImportPage extends StatelessWidget {
                     .onImport(context, bank: selectedBank.value);
               },
               selectedItem: selectedBank,
-              items: Map.fromEntries(Bank.values.map((e) => MapEntry(e, e.name))),
+              items:
+                  Map.fromEntries(Bank.values.map((e) => MapEntry(e, e.name))),
             ),
             const Divider(
               height: 50,
@@ -58,7 +59,8 @@ class ImportPage extends StatelessWidget {
                     .onImport(context, peerApp: selectedPeer.value);
               },
               selectedItem: selectedPeer,
-              items: Map.fromEntries(PeerApp.values.map((e) => MapEntry(e, e.name))),
+              items: Map.fromEntries(
+                  PeerApp.values.map((e) => MapEntry(e, e.name))),
             ),
           ],
         ),
@@ -162,7 +164,12 @@ class ImportSection<T> extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(title, style: context.textTheme.headlineSmall),
+            Text(
+              title,
+              style: context.textTheme.headlineSmall!.copyWith(
+                fontWeight: FontWeight.w500,
+              ),
+            ),
             const SizedBox(height: 4),
             Text(
               description,
