@@ -18,6 +18,7 @@ class HomePage extends StatelessWidget {
       // Routes.ANALYSIS,
       Routes.IMPORT,
       Routes.ACCOUNTS,
+      Routes.CATEGORIES,
       // Routes.SETTINGS
     ];
 
@@ -45,6 +46,7 @@ class HomePage extends StatelessWidget {
                     Routes.ANALYSIS => CupertinoIcons.graph_circle_fill,
                     Routes.IMPORT => CupertinoIcons.cloud_download_fill,
                     Routes.ACCOUNTS => Icons.wallet,
+                    Routes.CATEGORIES => Icons.category_rounded,
                     Routes.SETTINGS => CupertinoIcons.settings,
                     _ => null,
                   },

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_money/extensions/list.dart';
 import 'package:my_money/model/transaction.dart';
 import 'package:my_money/presentation/pages/accounts/account_page.dart';
 import 'package:my_money/presentation/pages/accounts/modify/modify_account_page.dart';
@@ -63,6 +64,7 @@ class RouteGenerator {
             // Routes.ANALYSIS,
             Routes.IMPORT,
             Routes.ACCOUNTS,
+            Routes.CATEGORIES,
             // Routes.SETTINGS
           ]
               .map(
@@ -74,6 +76,7 @@ class RouteGenerator {
                           switch (e) {
                         Routes.TRANSACTIONS => const TransactionsPage(),
                         Routes.ACCOUNTS => const AccountsPage(),
+                        Routes.CATEGORIES => const CategoriesPage(),
                         Routes.IMPORT =>  BlocProvider.value(
                           value: importCubit,
                           child: const ImportPage(),
@@ -91,8 +94,8 @@ class RouteGenerator {
           builder: (context, state) => BlocProvider(
             lazy: true,
             create: (context) => CreateTransactionCubit(
-              account: RouteGenerator.accountCubit.state.accounts.first,
-              category: RouteGenerator.categoryCubit.state.categories.first,
+              account: RouteGenerator.accountCubit.state.accounts.getFirst,
+              category: RouteGenerator.categoryCubit.state.categories.getFirst,
               transactionType: TransactionType.expense,
             ),
             child: const CreateTransactionPage(),
