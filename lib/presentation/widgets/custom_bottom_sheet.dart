@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_money/extensions/build_context.dart';
 import 'package:my_money/extensions/string.dart';
 import 'package:my_money/model/account.dart';
 import 'package:my_money/model/transaction_category.dart';
+import 'package:my_money/presentation/pages/accounts/widgets/account_list_item.dart';
+import 'package:my_money/presentation/pages/categories/widgets/category_list_item.dart';
 import 'package:my_money/presentation/routes/route_generator.dart';
 import 'package:my_money/presentation/routes/routes.dart';
+import 'package:my_money/presentation/widgets/list_view_separated.dart';
+import 'package:my_money/state/account/account_cubit.dart';
+import 'package:my_money/state/account/account_state.dart';
+import 'package:my_money/state/category/category_cubit.dart';
+import 'package:my_money/state/category/category_state.dart';
 
 class CustomBottomSheet extends StatefulWidget {
   final String? title;
@@ -13,7 +21,7 @@ class CustomBottomSheet extends StatefulWidget {
   final String actionButtonText;
   final double? height;
   final Widget? child;
-  final Function(BuildContext context) onActionButtonPressed;
+  final Function(BuildContext context)? onActionButtonPressed;
 
   const CustomBottomSheet._({
     super.key,
@@ -21,7 +29,7 @@ class CustomBottomSheet extends StatefulWidget {
     this.child,
     this.content,
     required this.actionButtonText,
-    required this.onActionButtonPressed,
+    this.onActionButtonPressed,
     this.height,
   });
 
@@ -100,7 +108,7 @@ class CustomBottomSheet extends StatefulWidget {
       title: null,
       actionButtonText: account == null ? "Create Account" : "Update Account",
       height: 275,
-      onActionButtonPressed: (context) {
+      onActionButtonPressed: (context) async {
         final result = formKey.currentState!.validateGranularly();
         _heightOffset.value = result.length * 15;
 
@@ -108,12 +116,16 @@ class CustomBottomSheet extends StatefulWidget {
 
         formKey.currentState!.save();
 
-        RouteGenerator.accountCubit.addAccount(
+        final createdAccount = await RouteGenerator.accountCubit.addAccount(
           Account(
-              name: accountName!, balance: balance, createdOn: DateTime.now()),
+            name: accountName!,
+            balance: balance,
+            createdOn: DateTime.now(),
+          ),
         );
 
-        context.pop();
+        if (!context.mounted) return;
+        context.pop(createdAccount);
       },
       child: Form(
         key: formKey,
@@ -163,7 +175,7 @@ class CustomBottomSheet extends StatefulWidget {
       actionButtonText:
           category == null ? "Create Category" : "Update Category",
       height: 375,
-      onActionButtonPressed: (context) {
+      onActionButtonPressed: (context) async {
         final result = formKey.currentState!.validateGranularly();
         _heightOffset.value = result.length * 15;
 
@@ -171,7 +183,7 @@ class CustomBottomSheet extends StatefulWidget {
 
         formKey.currentState!.save();
 
-        RouteGenerator.categoryCubit.addCategory(
+        final category = await RouteGenerator.categoryCubit.addCategory(
           TransactionCategory(
             name: name!,
             description: description!,
@@ -180,7 +192,8 @@ class CustomBottomSheet extends StatefulWidget {
           ),
         );
 
-        context.pop();
+        if(!context.mounted) return;
+        context.pop(category);
       },
       child: Form(
         key: formKey,
@@ -193,24 +206,24 @@ class CustomBottomSheet extends StatefulWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: CategoryType.values
                       .map((e) => Expanded(
-                    child: GestureDetector(
-                      onTap: () => categoryTypeNotifier.value = e,
-                      behavior: HitTestBehavior.translucent,
-                      child: Container(
-                        padding:
-                        const EdgeInsets.symmetric(vertical: 12),
-                        alignment: Alignment.center,
-                        child: Text(
-                          e.name.capitalizeFirstLetter,
-                          style: context.textTheme.bodyLarge!.copyWith(
-                            color: e == categoryType
-                                ? context.colorScheme.primary
-                                : null,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ))
+                            child: GestureDetector(
+                              onTap: () => categoryTypeNotifier.value = e,
+                              behavior: HitTestBehavior.translucent,
+                              child: Container(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 12),
+                                alignment: Alignment.center,
+                                child: Text(
+                                  e.name.capitalizeFirstLetter,
+                                  style: context.textTheme.bodyLarge!.copyWith(
+                                    color: e == categoryType
+                                        ? context.colorScheme.primary
+                                        : null,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ))
                       .toList(),
                 );
               },
@@ -244,6 +257,58 @@ class CustomBottomSheet extends StatefulWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  factory CustomBottomSheet.selectAccount({Account? account}) {
+    return CustomBottomSheet._(
+      title: null,
+      actionButtonText: "Create New Account",
+      height: 275,
+      onActionButtonPressed: (context) async {
+        await CustomBottomSheet.modifyAccount().show(context);
+        if (!context.mounted) return;
+      },
+      child: BlocBuilder<AccountCubit, AccountState>(
+        bloc: RouteGenerator.accountCubit,
+        builder: (context, state) {
+          return ListViewSeparated<Account>(
+            list: state.accounts,
+            itemBuilder: (context, _, account) {
+              return AccountListItem(
+                account: account,
+                onTap: () => context.pop(account),
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+
+  factory CustomBottomSheet.selectCategory({TransactionCategory? category}) {
+    return CustomBottomSheet._(
+      title: null,
+      actionButtonText: "Create New Category",
+      height: 275,
+      onActionButtonPressed: (context) async {
+        await CustomBottomSheet.modifyCategory().show(context);
+        if (!context.mounted) return;
+      },
+      child: BlocBuilder<CategoryCubit, CategoryState>(
+        bloc: RouteGenerator.categoryCubit,
+        builder: (context, state) {
+          return ListViewSeparated<TransactionCategory>(
+            list: state.categories,
+            itemBuilder: (context, _, category) {
+              return CategoryListItem(
+                category: category,
+                onTap: () => context.pop(category),
+              );
+            },
+          );
+        },
       ),
     );
   }
@@ -320,15 +385,19 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                       ),
                       const SizedBox(height: 16),
                     ],
-                    if (widget.child != null) widget.child!,
-                    const Spacer(),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () => widget.onActionButtonPressed(context),
-                        child: Text(widget.actionButtonText),
-                      ),
-                    )
+                    if (widget.child != null)
+                      Expanded(child: widget.child!)
+                    else
+                      const Spacer(),
+                    if (widget.onActionButtonPressed != null)
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () =>
+                              widget.onActionButtonPressed!(context),
+                          child: Text(widget.actionButtonText),
+                        ),
+                      )
                   ],
                 ),
               ),

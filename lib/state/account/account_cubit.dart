@@ -16,9 +16,18 @@ class AccountCubit extends Cubit<AccountState> {
     });
   }
 
-  Future<void> addAccount(Account account) async {
+  Future<Account> addAccount(Account account) async {
     try{
       await Get.find<LocalStorageService>().addAccount(account);
+      return account;
+    }catch(e){
+      rethrow;
+    }
+  }
+
+  Future<void> updateAccount(Account account) async {
+    try{
+      await Get.find<LocalStorageService>().updateAccount(account);
     }catch(e){
       rethrow;
     }

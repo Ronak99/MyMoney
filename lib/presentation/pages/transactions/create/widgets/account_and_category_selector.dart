@@ -5,17 +5,15 @@ import 'package:my_money/model/account.dart';
 import 'package:my_money/model/transaction_category.dart';
 import 'package:my_money/presentation/pages/transactions/create/state/create_transaction_cubit.dart';
 import 'package:my_money/presentation/pages/transactions/create/state/create_transaction_state.dart';
-
-import 'account_selector_sheet.dart';
-import 'category_selector_sheet.dart';
+import 'package:my_money/presentation/routes/route_generator.dart';
+import 'package:my_money/presentation/widgets/custom_bottom_sheet.dart';
 
 class SelectorItem<T> extends StatelessWidget {
   final IconData icon;
   final String placeholder;
   final T? selectedItem;
   final String Function(T) getDisplayName;
-  final Future<T?> Function(BuildContext) onTap;
-  final void Function(T) onSelected;
+  final VoidCallback onTap;
   final bool isLast;
 
   const SelectorItem({
@@ -25,7 +23,6 @@ class SelectorItem<T> extends StatelessWidget {
     required this.selectedItem,
     required this.getDisplayName,
     required this.onTap,
-    required this.onSelected,
     this.isLast = false,
   });
 
@@ -35,12 +32,7 @@ class SelectorItem<T> extends StatelessWidget {
       children: [
         GestureDetector(
           behavior: HitTestBehavior.translucent,
-          onTap: () async {
-            final selected = await onTap(context);
-            if (selected == null) return;
-            if (!context.mounted) return;
-            onSelected(selected);
-          },
+          onTap: onTap,
           child: Container(
             padding: const EdgeInsets.only(top: 16, bottom: 16, right: 16),
             margin: const EdgeInsets.only(left: 24),
@@ -90,7 +82,6 @@ class SelectorContainer extends StatelessWidget {
   }
 }
 
-// Updated AccountAndCategorySelector using the generic widgets
 class AccountAndCategorySelector extends StatelessWidget {
   const AccountAndCategorySelector({super.key});
 
@@ -103,13 +94,23 @@ class AccountAndCategorySelector extends StatelessWidget {
           builder: (context, state) {
             return SelectorItem<Account>(
               icon: Icons.wallet,
-              placeholder: "Select Account",
+              placeholder: "Create First Account",
               selectedItem: state.account,
               getDisplayName: (account) => account.name,
-              onTap: (context) => AccountSelectorSheet.show(context),
-              onSelected: (account) => context
-                  .read<CreateTransactionCubit>()
-                  .setAccount(account),
+              onTap: () async {
+                Account? account = state.account;
+                if (RouteGenerator.accountCubit.state.accounts.isEmpty) {
+                  account = await CustomBottomSheet.modifyAccount()
+                      .show<Account?>(context);
+                } else {
+                  account =
+                      await CustomBottomSheet.selectAccount(account: account)
+                          .show(context);
+                }
+                if (!context.mounted) return;
+                if (account == null) return;
+                context.read<CreateTransactionCubit>().setAccount(account);
+              },
             );
           },
         ),
@@ -117,15 +118,25 @@ class AccountAndCategorySelector extends StatelessWidget {
           buildWhen: (prev, next) => prev.category != next.category,
           builder: (context, state) {
             return SelectorItem<TransactionCategory>(
-              icon: Icons.category,
-              placeholder: "Select Category",
+              icon: Icons.category_rounded,
+              isLast: true,
+              placeholder: "Create First Category",
               selectedItem: state.category,
               getDisplayName: (category) => category.name,
-              onTap: (context) => CategorySelectorSheet.show(context),
-              onSelected: (category) => context
-                  .read<CreateTransactionCubit>()
-                  .setCategory(category),
-              isLast: true,
+              onTap: () async {
+                TransactionCategory? category = state.category;
+                if (RouteGenerator.categoryCubit.state.categories.isEmpty) {
+                  category = await CustomBottomSheet.modifyCategory()
+                      .show(context);
+                } else {
+                  category =
+                  await CustomBottomSheet.selectCategory(category: category)
+                      .show(context);
+                }
+                if (!context.mounted) return;
+                if (category == null) return;
+                context.read<CreateTransactionCubit>().setCategory(category);
+              },
             );
           },
         ),
