@@ -5,6 +5,7 @@ import 'package:my_money/extensions/string.dart';
 import 'package:my_money/model/transaction.dart';
 import 'package:my_money/presentation/pages/transactions/create/state/create_transaction_cubit.dart';
 import 'package:my_money/presentation/pages/transactions/create/state/create_transaction_state.dart';
+import 'package:my_money/presentation/widgets/form_container.dart';
 
 class TransactionTypeSelector extends StatelessWidget {
   const TransactionTypeSelector({super.key});
@@ -14,12 +15,7 @@ class TransactionTypeSelector extends StatelessWidget {
     final validTransactionValues =
         TransactionType.values.where((e) => e != TransactionType.none).toList();
 
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        color: context.colorScheme.surfaceContainerHighest,
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 12),
+    return FormContainer(
       child: BlocBuilder<CreateTransactionCubit, CreateTransactionState>(
         buildWhen: (prev, next) => prev.transactionType != next.transactionType,
         builder: (context, state) {

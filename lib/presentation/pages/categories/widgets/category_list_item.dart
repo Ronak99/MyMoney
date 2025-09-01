@@ -37,11 +37,6 @@ class CategoryListItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(category.name),
-                        Row(
-                          children: [
-                            Text(category.description),
-                          ],
-                        ),
                       ],
                     )
                   ],

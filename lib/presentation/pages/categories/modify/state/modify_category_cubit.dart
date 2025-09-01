@@ -35,7 +35,6 @@ class ModifyCategoryCubit extends Cubit<ModifyCategoryState> {
   void create() {
     TransactionCategory category = TransactionCategory(
       name: state.name!,
-      description: state.description!,
       type: state.type!,
       createdOn: state.createdOn!,
     );

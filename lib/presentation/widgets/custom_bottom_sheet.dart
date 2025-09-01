@@ -166,7 +166,6 @@ class CustomBottomSheet extends StatefulWidget {
   factory CustomBottomSheet.modifyCategory({TransactionCategory? category}) {
     final formKey = GlobalKey<FormState>();
     String? name = category?.name;
-    String? description = category?.description;
     final categoryTypeNotifier =
         ValueNotifier<CategoryType>(category?.type ?? CategoryType.expense);
 
@@ -186,7 +185,6 @@ class CustomBottomSheet extends StatefulWidget {
         final category = await RouteGenerator.categoryCubit.addCategory(
           TransactionCategory(
             name: name!,
-            description: description!,
             type: categoryTypeNotifier.value,
             createdOn: DateTime.now(),
           ),
@@ -239,20 +237,6 @@ class CustomBottomSheet extends StatefulWidget {
               ),
               onSaved: (value) {
                 name = value!;
-              },
-            ),
-            const SizedBox(height: 16),
-            TextFormField(
-              initialValue: description,
-              maxLines: 2,
-              validator: (value) => value != null && value.trim().isEmpty
-                  ? "Please provide a description"
-                  : null,
-              decoration: const InputDecoration(
-                hintText: "Description",
-              ),
-              onSaved: (value) {
-                description = value!;
               },
             ),
           ],

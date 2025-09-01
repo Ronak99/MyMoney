@@ -104,7 +104,7 @@ class _$_AppDatabase extends _AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `accounts` (`id` INTEGER, `name` TEXT NOT NULL, `balance` REAL NOT NULL, `createdOn` INTEGER NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `categories` (`id` INTEGER, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `type` INTEGER NOT NULL, `createdOn` INTEGER NOT NULL, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `categories` (`id` INTEGER, `name` TEXT NOT NULL, `type` INTEGER NOT NULL, `createdOn` INTEGER NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE INDEX `idx_transactions_date` ON `transactions` (`date`)');
         await database.execute(
@@ -418,7 +418,6 @@ class _$_CategoryDao extends _CategoryDao {
             (TransactionCategory item) => <String, Object?>{
                   'id': item.id,
                   'name': item.name,
-                  'description': item.description,
                   'type': item.type.index,
                   'createdOn': __DateTimeConverter.encode(item.createdOn)
                 },
@@ -430,7 +429,6 @@ class _$_CategoryDao extends _CategoryDao {
             (TransactionCategory item) => <String, Object?>{
                   'id': item.id,
                   'name': item.name,
-                  'description': item.description,
                   'type': item.type.index,
                   'createdOn': __DateTimeConverter.encode(item.createdOn)
                 },
@@ -453,7 +451,6 @@ class _$_CategoryDao extends _CategoryDao {
         mapper: (Map<String, Object?> row) => TransactionCategory(
             id: row['id'] as int?,
             name: row['name'] as String,
-            description: row['description'] as String,
             type: CategoryType.values[row['type'] as int],
             createdOn: __DateTimeConverter.decode(row['createdOn'] as int)),
         queryableName: 'categories',
@@ -466,7 +463,6 @@ class _$_CategoryDao extends _CategoryDao {
         mapper: (Map<String, Object?> row) => TransactionCategory(
             id: row['id'] as int?,
             name: row['name'] as String,
-            description: row['description'] as String,
             type: CategoryType.values[row['type'] as int],
             createdOn: __DateTimeConverter.decode(row['createdOn'] as int)),
         arguments: [id]);
@@ -478,7 +474,6 @@ class _$_CategoryDao extends _CategoryDao {
         mapper: (Map<String, Object?> row) => TransactionCategory(
             id: row['id'] as int?,
             name: row['name'] as String,
-            description: row['description'] as String,
             type: CategoryType.values[row['type'] as int],
             createdOn: __DateTimeConverter.decode(row['createdOn'] as int)));
   }

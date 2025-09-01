@@ -28,7 +28,6 @@ extension TCAViewExtension on TransactionWithCategoryAndAccountView {
     return TransactionCategory(
       id: c_id!,
       name: c_name ?? '',
-      description: c_description ?? '',
       type: catType,
       createdOn: DateTime.fromMillisecondsSinceEpoch(c_createdOn ?? 0),
     );
