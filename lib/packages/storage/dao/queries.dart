@@ -18,7 +18,7 @@ class _Queries {
 
     c.id                AS c_id,
     c.name              AS c_name,
-    c.description       AS c_description,
+    c.icon              AS c_icon,
     c.type              AS c_type,
     c.createdOn         AS c_createdOn
   FROM transactions t

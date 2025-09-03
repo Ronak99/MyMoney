@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_money/extensions/category_icon.dart';
 import 'package:my_money/model/transaction_category.dart';
 
 class CategoryListItem extends StatelessWidget {
@@ -17,30 +18,23 @@ class CategoryListItem extends StatelessWidget {
       onTap: onTap,
       behavior: HitTestBehavior.translucent,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         child: Row(
           children: [
             Container(
-              height: 50,
-              width: 50,
+              height: 45,
+              width: 45,
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.onPrimary,
                 shape: BoxShape.circle,
               ),
+              padding: const EdgeInsets.all(12),
+              child: Image.asset(category.icon.assetName),
             ),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                child: Row(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(category.name),
-                      ],
-                    )
-                  ],
-                ),
+                child: Text(category.name),
               ),
             ),
           ],

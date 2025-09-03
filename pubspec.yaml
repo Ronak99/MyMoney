@@ -47,6 +47,7 @@ dependencies:
   syncfusion_flutter_pdf: ^29.1.38
   jiffy: ^6.4.3
   file_picker: ^10.3.1
+  flutter_sticky_header: ^0.7.0
 
 dev_dependencies:
   flutter_test:
@@ -78,6 +79,7 @@ flutter:
 
   assets:
     - assets/
+    - assets/images/
 
   fonts:
     - family: SFUIText

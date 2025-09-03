@@ -102,22 +102,6 @@ class RouteGenerator {
           ),
         ),
         GoRoute(
-          path: Routes.MODIFY_CATEGORY.value,
-          builder: (context, state) => BlocProvider(
-            lazy: false,
-            create: (context) => ModifyCategoryCubit(),
-            child: const ModifyCategoryPage(),
-          ),
-        ),
-        GoRoute(
-          path: Routes.MODIFY_ACCOUNT.value,
-          builder: (context, state) => BlocProvider(
-            lazy: false,
-            create: (context) => ModifyAccountCubit(),
-            child: const ModifyAccountPage(),
-          ),
-        ),
-        GoRoute(
           path: Routes.VIEW_IMPORTS.value,
           builder: (context, state) => BlocProvider.value(
             value: importCubit,

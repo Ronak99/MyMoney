@@ -61,7 +61,7 @@ final class AppComponents {
             const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(color: s.outlineVariant, width: 1),
+          borderSide: BorderSide(color: s.outlineVariant, width: 0),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
@@ -73,7 +73,7 @@ final class AppComponents {
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(color: s.error, width: 1.4),
+          borderSide: BorderSide(color: s.error, width: 0.5),
         ),
         prefixIconColor: s.onSurfaceVariant,
         suffixIconColor: s.onSurfaceVariant,

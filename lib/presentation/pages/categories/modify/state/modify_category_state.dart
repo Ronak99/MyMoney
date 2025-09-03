@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:my_money/model/transaction_category.dart';
+import 'package:my_money/enums/category_icon.dart';
+import 'package:my_money/enums/category_type.dart';
 
 part 'modify_category_state.freezed.dart';
 
@@ -7,8 +8,8 @@ part 'modify_category_state.freezed.dart';
 class ModifyCategoryState with _$ModifyCategoryState {
   factory ModifyCategoryState({
     String? name,
-    String? description,
     @Default(CategoryType.expense) CategoryType? type,
     DateTime? createdOn,
+    CategoryIcon? icon,
   }) = _ModifyCategoryState;
 }

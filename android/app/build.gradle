@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.blueskystudios.mymoney.my_money"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 35
     ndkVersion = flutter.ndkVersion
 
     compileOptions {

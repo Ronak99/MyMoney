@@ -4,6 +4,7 @@ import 'package:my_money/extensions/build_context.dart';
 import 'package:my_money/extensions/date.dart';
 import 'package:my_money/presentation/pages/transactions/create/state/create_transaction_cubit.dart';
 import 'package:my_money/presentation/pages/transactions/create/state/create_transaction_state.dart';
+import 'package:my_money/presentation/widgets/form_container.dart';
 
 class DateTimeSelector extends StatelessWidget {
   const DateTimeSelector({super.key});
@@ -11,15 +12,11 @@ class DateTimeSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double padding = 16;
-    double ratio = 0.15;
+    double ratio = 0.30;
 
-    return Container(
+    return FormContainer(
       padding: EdgeInsets.symmetric(
         vertical: padding * (1-ratio),
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        color: context.colorScheme.surfaceContainerHighest,
       ),
       child: BlocBuilder<CreateTransactionCubit, CreateTransactionState>(
         buildWhen: (prev, next) => prev.date != next.date,

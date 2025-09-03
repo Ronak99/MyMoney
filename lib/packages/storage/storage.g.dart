@@ -104,7 +104,7 @@ class _$_AppDatabase extends _AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `accounts` (`id` INTEGER, `name` TEXT NOT NULL, `balance` REAL NOT NULL, `createdOn` INTEGER NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `categories` (`id` INTEGER, `name` TEXT NOT NULL, `type` INTEGER NOT NULL, `createdOn` INTEGER NOT NULL, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `categories` (`id` INTEGER, `name` TEXT NOT NULL, `type` INTEGER NOT NULL, `createdOn` INTEGER NOT NULL, `icon` INTEGER NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE INDEX `idx_transactions_date` ON `transactions` (`date`)');
         await database.execute(
@@ -112,7 +112,7 @@ class _$_AppDatabase extends _AppDatabase {
         await database.execute(
             'CREATE INDEX `idx_transactions_category` ON `transactions` (`categoryId`)');
         await database.execute(
-            'CREATE VIEW IF NOT EXISTS `transaction_with_category_and_account` AS   SELECT\n    t.id                AS t_id,\n    t.notes              AS t_notes,\n    t.amount            AS t_amount,\n    t.date              AS t_date,\n    t.transactionType   AS t_transactionType,\n    t.accountId         AS t_accountId,\n    t.categoryId        AS t_categoryId,\n\n    a.id                AS a_id,\n    a.name              AS a_name,\n    a.balance           AS a_balance,\n    a.createdOn         AS a_createdOn,\n\n    c.id                AS c_id,\n    c.name              AS c_name,\n    c.description       AS c_description,\n    c.type              AS c_type,\n    c.createdOn         AS c_createdOn\n  FROM transactions t\n  LEFT JOIN accounts  a ON a.id = t.accountId\n  LEFT JOIN categories c ON c.id = t.categoryId\n  ');
+            'CREATE VIEW IF NOT EXISTS `transaction_with_category_and_account` AS   SELECT\n    t.id                AS t_id,\n    t.notes              AS t_notes,\n    t.amount            AS t_amount,\n    t.date              AS t_date,\n    t.transactionType   AS t_transactionType,\n    t.accountId         AS t_accountId,\n    t.categoryId        AS t_categoryId,\n\n    a.id                AS a_id,\n    a.name              AS a_name,\n    a.balance           AS a_balance,\n    a.createdOn         AS a_createdOn,\n\n    c.id                AS c_id,\n    c.name              AS c_name,\n    c.icon              AS c_icon,\n    c.type              AS c_type,\n    c.createdOn         AS c_createdOn\n  FROM transactions t\n  LEFT JOIN accounts  a ON a.id = t.accountId\n  LEFT JOIN categories c ON c.id = t.categoryId\n  ');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -216,7 +216,7 @@ class _$_TransactionDao extends _TransactionDao {
                 a_createdOn: row['a_createdOn'] as int?,
                 c_id: row['c_id'] as int?,
                 c_name: row['c_name'] as String?,
-                c_description: row['c_description'] as String?,
+                c_icon: row['c_icon'] as String?,
                 c_type: row['c_type'] as int?,
                 c_createdOn: row['c_createdOn'] as int?));
   }
@@ -244,7 +244,7 @@ class _$_TransactionDao extends _TransactionDao {
                 a_createdOn: row['a_createdOn'] as int?,
                 c_id: row['c_id'] as int?,
                 c_name: row['c_name'] as String?,
-                c_description: row['c_description'] as String?,
+                c_icon: row['c_icon'] as String?,
                 c_type: row['c_type'] as int?,
                 c_createdOn: row['c_createdOn'] as int?),
         arguments: [startDate, endDate],
@@ -419,7 +419,8 @@ class _$_CategoryDao extends _CategoryDao {
                   'id': item.id,
                   'name': item.name,
                   'type': item.type.index,
-                  'createdOn': __DateTimeConverter.encode(item.createdOn)
+                  'createdOn': __DateTimeConverter.encode(item.createdOn),
+                  'icon': item.icon.index
                 },
             changeListener),
         _transactionCategoryUpdateAdapter = UpdateAdapter(
@@ -430,7 +431,8 @@ class _$_CategoryDao extends _CategoryDao {
                   'id': item.id,
                   'name': item.name,
                   'type': item.type.index,
-                  'createdOn': __DateTimeConverter.encode(item.createdOn)
+                  'createdOn': __DateTimeConverter.encode(item.createdOn),
+                  'icon': item.icon.index
                 },
             changeListener);
 
@@ -452,7 +454,8 @@ class _$_CategoryDao extends _CategoryDao {
             id: row['id'] as int?,
             name: row['name'] as String,
             type: CategoryType.values[row['type'] as int],
-            createdOn: __DateTimeConverter.decode(row['createdOn'] as int)),
+            createdOn: __DateTimeConverter.decode(row['createdOn'] as int),
+            icon: CategoryIcon.values[row['icon'] as int]),
         queryableName: 'categories',
         isView: false);
   }
@@ -464,7 +467,8 @@ class _$_CategoryDao extends _CategoryDao {
             id: row['id'] as int?,
             name: row['name'] as String,
             type: CategoryType.values[row['type'] as int],
-            createdOn: __DateTimeConverter.decode(row['createdOn'] as int)),
+            createdOn: __DateTimeConverter.decode(row['createdOn'] as int),
+            icon: CategoryIcon.values[row['icon'] as int]),
         arguments: [id]);
   }
 
@@ -475,7 +479,8 @@ class _$_CategoryDao extends _CategoryDao {
             id: row['id'] as int?,
             name: row['name'] as String,
             type: CategoryType.values[row['type'] as int],
-            createdOn: __DateTimeConverter.decode(row['createdOn'] as int)));
+            createdOn: __DateTimeConverter.decode(row['createdOn'] as int),
+            icon: CategoryIcon.values[row['icon'] as int]));
   }
 
   @override

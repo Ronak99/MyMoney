@@ -7,6 +7,7 @@ import 'package:my_money/presentation/pages/transactions/create/state/create_tra
 import 'package:my_money/presentation/pages/transactions/create/state/create_transaction_state.dart';
 import 'package:my_money/presentation/routes/route_generator.dart';
 import 'package:my_money/presentation/widgets/custom_bottom_sheet.dart';
+import 'package:my_money/presentation/widgets/form_container.dart';
 
 class SelectorItem<T> extends StatelessWidget {
   final IconData icon;
@@ -62,85 +63,67 @@ class SelectorItem<T> extends StatelessWidget {
   }
 }
 
-class SelectorContainer extends StatelessWidget {
-  final List<Widget> children;
-
-  const SelectorContainer({
-    super.key,
-    required this.children,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        color: context.colorScheme.surfaceContainerHighest,
-      ),
-      child: Column(children: children),
-    );
-  }
-}
-
 class AccountAndCategorySelector extends StatelessWidget {
   const AccountAndCategorySelector({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return SelectorContainer(
-      children: [
-        BlocBuilder<CreateTransactionCubit, CreateTransactionState>(
-          buildWhen: (prev, next) => prev.account != next.account,
-          builder: (context, state) {
-            return SelectorItem<Account>(
-              icon: Icons.wallet,
-              placeholder: "Create First Account",
-              selectedItem: state.account,
-              getDisplayName: (account) => account.name,
-              onTap: () async {
-                Account? account = state.account;
-                if (RouteGenerator.accountCubit.state.accounts.isEmpty) {
-                  account = await CustomBottomSheet.modifyAccount()
-                      .show<Account?>(context);
-                } else {
-                  account =
-                      await CustomBottomSheet.selectAccount(account: account)
-                          .show(context);
-                }
-                if (!context.mounted) return;
-                if (account == null) return;
-                context.read<CreateTransactionCubit>().setAccount(account);
-              },
-            );
-          },
-        ),
-        BlocBuilder<CreateTransactionCubit, CreateTransactionState>(
-          buildWhen: (prev, next) => prev.category != next.category,
-          builder: (context, state) {
-            return SelectorItem<TransactionCategory>(
-              icon: Icons.category_rounded,
-              isLast: true,
-              placeholder: "Create First Category",
-              selectedItem: state.category,
-              getDisplayName: (category) => category.name,
-              onTap: () async {
-                TransactionCategory? category = state.category;
-                if (RouteGenerator.categoryCubit.state.categories.isEmpty) {
-                  category = await CustomBottomSheet.modifyCategory()
-                      .show(context);
-                } else {
-                  category =
-                  await CustomBottomSheet.selectCategory(category: category)
-                      .show(context);
-                }
-                if (!context.mounted) return;
-                if (category == null) return;
-                context.read<CreateTransactionCubit>().setCategory(category);
-              },
-            );
-          },
-        ),
-      ],
+    return FormContainer(
+      child: Column(
+        children: [
+          BlocBuilder<CreateTransactionCubit, CreateTransactionState>(
+            buildWhen: (prev, next) => prev.account != next.account,
+            builder: (context, state) {
+              return SelectorItem<Account>(
+                icon: Icons.wallet,
+                placeholder: "Create First Account",
+                selectedItem: state.account,
+                getDisplayName: (account) => account.name,
+                onTap: () async {
+                  Account? account = state.account;
+                  if (RouteGenerator.accountCubit.state.accounts.isEmpty) {
+                    account = await CustomBottomSheet.modifyAccount()
+                        .show<Account?>(context);
+                  } else {
+                    account =
+                        await CustomBottomSheet.selectAccount(account: account)
+                            .show(context);
+                  }
+                  if (!context.mounted) return;
+                  if (account == null) return;
+                  context.read<CreateTransactionCubit>().setAccount(account);
+                },
+              );
+            },
+          ),
+          BlocBuilder<CreateTransactionCubit, CreateTransactionState>(
+            buildWhen: (prev, next) => prev.category != next.category,
+            builder: (context, state) {
+              return SelectorItem<TransactionCategory>(
+                icon: Icons.category_rounded,
+                isLast: true,
+                placeholder: "Create First Category",
+                selectedItem: state.category,
+                getDisplayName: (category) => category.name,
+                onTap: () async {
+                  TransactionCategory? category = state.category;
+                  if (RouteGenerator.categoryCubit.state.categories.isEmpty) {
+                    category =
+                        await CustomBottomSheet.modifyCategory().show(context);
+                  } else {
+                    category = await CustomBottomSheet.selectCategory(
+                            category: category)
+                        .show(context);
+                  }
+                  if (!context.mounted) return;
+                  if (category == null) return;
+                  context.read<CreateTransactionCubit>().setCategory(category);
+                },
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 }

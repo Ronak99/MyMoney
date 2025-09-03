@@ -4,11 +4,11 @@ import 'app_typography.dart';
 import 'app_components.dart';
 
 /// Public entry points: [AppTheme.light] and [AppTheme.dark]
-final class AppTheme {
-  static ThemeData light = _buildTheme(brightness: Brightness.light);
-  static ThemeData dark = _buildTheme(brightness: Brightness.dark);
+class AppTheme {
+  // static ThemeData light = _buildTheme(brightness: Brightness.light);
+  // static ThemeData dark = _buildTheme(brightness: Brightness.dark);
 
-  static ThemeData _buildTheme({required Brightness brightness}) {
+  ThemeData buildTheme({required Brightness brightness}) {
     final scheme = _colorScheme(brightness);
     final text = AppTypography.textTheme(scheme);
 
@@ -53,7 +53,7 @@ final class AppTheme {
   }
 
   /// Material 3 native scheme, harmonized from a seed and adjusted for fintech.
-  static ColorScheme _colorScheme(Brightness b) {
+  ColorScheme _colorScheme(Brightness b) {
     final base = ColorScheme.fromSeed(
       seedColor: AppColors.seed,
       brightness: b,
@@ -63,6 +63,8 @@ final class AppTheme {
       // Intoxicating dark variant; richer surfaces and crisp contrast.
       return base.copyWith(
         surface: AppColors.ink900,
+        onSurface: Colors.white,
+        inverseSurface: Colors.black,
         surfaceContainerHighest: AppColors.ink700,
         surfaceContainerHigh: AppColors.ink700,
         surfaceContainer: AppColors.ink800,

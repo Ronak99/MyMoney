@@ -20,6 +20,7 @@ mixin _$ModifyCategoryState {
   String? get description => throw _privateConstructorUsedError;
   CategoryType? get type => throw _privateConstructorUsedError;
   DateTime? get createdOn => throw _privateConstructorUsedError;
+  CategoryIcon? get icon => throw _privateConstructorUsedError;
 
   /// Create a copy of ModifyCategoryState
   /// with the given fields replaced by the non-null parameter values.
@@ -38,7 +39,8 @@ abstract class $ModifyCategoryStateCopyWith<$Res> {
       {String? name,
       String? description,
       CategoryType? type,
-      DateTime? createdOn});
+      DateTime? createdOn,
+      CategoryIcon? icon});
 }
 
 /// @nodoc
@@ -60,6 +62,7 @@ class _$ModifyCategoryStateCopyWithImpl<$Res, $Val extends ModifyCategoryState>
     Object? description = freezed,
     Object? type = freezed,
     Object? createdOn = freezed,
+    Object? icon = freezed,
   }) {
     return _then(_value.copyWith(
       name: freezed == name
@@ -78,6 +81,10 @@ class _$ModifyCategoryStateCopyWithImpl<$Res, $Val extends ModifyCategoryState>
           ? _value.createdOn
           : createdOn // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      icon: freezed == icon
+          ? _value.icon
+          : icon // ignore: cast_nullable_to_non_nullable
+              as CategoryIcon?,
     ) as $Val);
   }
 }
@@ -94,7 +101,8 @@ abstract class _$$ModifyCategoryStateImplCopyWith<$Res>
       {String? name,
       String? description,
       CategoryType? type,
-      DateTime? createdOn});
+      DateTime? createdOn,
+      CategoryIcon? icon});
 }
 
 /// @nodoc
@@ -114,6 +122,7 @@ class __$$ModifyCategoryStateImplCopyWithImpl<$Res>
     Object? description = freezed,
     Object? type = freezed,
     Object? createdOn = freezed,
+    Object? icon = freezed,
   }) {
     return _then(_$ModifyCategoryStateImpl(
       name: freezed == name
@@ -132,6 +141,10 @@ class __$$ModifyCategoryStateImplCopyWithImpl<$Res>
           ? _value.createdOn
           : createdOn // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      icon: freezed == icon
+          ? _value.icon
+          : icon // ignore: cast_nullable_to_non_nullable
+              as CategoryIcon?,
     ));
   }
 }
@@ -143,7 +156,8 @@ class _$ModifyCategoryStateImpl implements _ModifyCategoryState {
       {this.name,
       this.description,
       this.type = CategoryType.expense,
-      this.createdOn});
+      this.createdOn,
+      this.icon});
 
   @override
   final String? name;
@@ -154,10 +168,12 @@ class _$ModifyCategoryStateImpl implements _ModifyCategoryState {
   final CategoryType? type;
   @override
   final DateTime? createdOn;
+  @override
+  final CategoryIcon? icon;
 
   @override
   String toString() {
-    return 'ModifyCategoryState(name: $name, description: $description, type: $type, createdOn: $createdOn)';
+    return 'ModifyCategoryState(name: $name, description: $description, type: $type, createdOn: $createdOn, icon: $icon)';
   }
 
   @override
@@ -170,12 +186,13 @@ class _$ModifyCategoryStateImpl implements _ModifyCategoryState {
                 other.description == description) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.createdOn, createdOn) ||
-                other.createdOn == createdOn));
+                other.createdOn == createdOn) &&
+            (identical(other.icon, icon) || other.icon == icon));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, name, description, type, createdOn);
+      Object.hash(runtimeType, name, description, type, createdOn, icon);
 
   /// Create a copy of ModifyCategoryState
   /// with the given fields replaced by the non-null parameter values.
@@ -192,7 +209,8 @@ abstract class _ModifyCategoryState implements ModifyCategoryState {
       {final String? name,
       final String? description,
       final CategoryType? type,
-      final DateTime? createdOn}) = _$ModifyCategoryStateImpl;
+      final DateTime? createdOn,
+      final CategoryIcon? icon}) = _$ModifyCategoryStateImpl;
 
   @override
   String? get name;
@@ -202,6 +220,8 @@ abstract class _ModifyCategoryState implements ModifyCategoryState {
   CategoryType? get type;
   @override
   DateTime? get createdOn;
+  @override
+  CategoryIcon? get icon;
 
   /// Create a copy of ModifyCategoryState
   /// with the given fields replaced by the non-null parameter values.
