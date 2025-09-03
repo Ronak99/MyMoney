@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_sticky_header/flutter_sticky_header.dart';
+import 'package:go_router/go_router.dart';
 import 'package:my_money/enums/date_action.dart';
 import 'package:my_money/extensions/build_context.dart';
 import 'package:my_money/extensions/date.dart';
 import 'package:my_money/extensions/transactions.dart';
 import 'package:my_money/model/transaction.dart';
-import 'package:my_money/presentation/pages/home/widgets/transaction_list_item.dart';
 import 'package:my_money/presentation/pages/import/state/import_cubit.dart';
 import 'package:my_money/presentation/pages/import/state/import_state.dart';
 import 'package:my_money/presentation/pages/import/widgets/imported_transaction_list_item.dart';
 import 'package:my_money/presentation/widgets/capsule_date_selector.dart';
 import 'package:my_money/presentation/widgets/custom_scaffold.dart';
-import 'package:my_money/presentation/widgets/list_view_separated.dart';
-import 'package:go_router/go_router.dart';
+import 'package:my_money/presentation/widgets/list_view_with_header.dart';
 
 class ViewImportsPage extends StatelessWidget {
   const ViewImportsPage({super.key});
@@ -22,7 +20,7 @@ class ViewImportsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomScaffold(
       title: "View Imports",
-      body: Container(
+      body: SizedBox(
         width: double.infinity,
         child: BlocBuilder<ImportCubit, ImportState>(builder: (context, state) {
           return Column(
@@ -65,53 +63,11 @@ class ViewImportsPage extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: CustomScrollView(
-                  slivers: state.filteredTransactions.groupByDate.keys
-                      .map(
-                        (key) => SliverStickyHeader(
-                          header: Container(
-                            alignment: Alignment.centerLeft,
-                            decoration: BoxDecoration(
-                              color: context.colorScheme.surface,
-                              border: Border(
-                                bottom: BorderSide(
-                                  color: context.colorScheme.primary
-                                      .withOpacity(.2),
-                                ),
-                              ),
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 12,
-                            ),
-                            child: Text(key.formatDate),
-                          ),
-                          sliver: SliverToBoxAdapter(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(
-                                    color: context.colorScheme.primary
-                                        .withOpacity(.2),
-                                  ),
-                                ),
-                              ),
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              child: Column(
-                                children: state.transactions.groupByDate[key]!
-                                    .map(
-                                      (transaction) =>
-                                          ImportedTransactionListItem(
-                                        transaction: transaction,
-                                      ),
-                                    )
-                                    .toList(),
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
-                      .toList(),
+                child: ListViewWithHeader<DateTime, Transaction>(
+                  map: state.filteredTransactions.groupByDate,
+                  headerBuilder: (date) => Text(date.formatDate),
+                  itemBuilder: (item) =>
+                      ImportedTransactionListItem(transaction: item),
                 ),
               ),
             ],

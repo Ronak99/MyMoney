@@ -23,12 +23,13 @@ extension TCAViewExtension on TransactionWithCategoryAndAccountView {
             rawType >= 0 &&
             rawType < CategoryType.values.length)
         ? CategoryType.values[rawType]
-        : CategoryType.expense; // sensible fallback
+        : CategoryType.expense;
 
     return TransactionCategory(
       id: c_id!,
       name: c_name ?? '',
       type: catType,
+      icon: c_icon?.convertToCategoryIcon ?? CategoryIcon.unknown,
       createdOn: DateTime.fromMillisecondsSinceEpoch(c_createdOn ?? 0),
     );
   }
@@ -77,7 +78,7 @@ class TransactionWithCategoryAndAccountView {
 
   final int? c_id;
   final String? c_name;
-  final String? c_description;
+  final String? c_icon;
   final int? c_type;
   final int? c_createdOn;
 
@@ -95,7 +96,7 @@ class TransactionWithCategoryAndAccountView {
     this.a_createdOn,
     this.c_id,
     this.c_name,
-    this.c_description,
+    this.c_icon,
     this.c_type,
     this.c_createdOn,
   });
