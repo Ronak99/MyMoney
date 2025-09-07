@@ -44,6 +44,9 @@ class $AssetsImagesGen {
   AssetGenImage get entertainment =>
       const AssetGenImage('assets/images/entertainment.png');
 
+  /// File path: assets/images/fi.jpg
+  AssetGenImage get fi => const AssetGenImage('assets/images/fi.jpg');
+
   /// File path: assets/images/food.png
   AssetGenImage get food => const AssetGenImage('assets/images/food.png');
 
@@ -56,6 +59,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/home.png
   AssetGenImage get home => const AssetGenImage('assets/images/home.png');
 
+  /// File path: assets/images/icici.png
+  AssetGenImage get icici => const AssetGenImage('assets/images/icici.png');
+
   /// File path: assets/images/insurance.png
   AssetGenImage get insurance =>
       const AssetGenImage('assets/images/insurance.png');
@@ -63,6 +69,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/investments.png
   AssetGenImage get investments =>
       const AssetGenImage('assets/images/investments.png');
+
+  /// File path: assets/images/mastercard.png
+  AssetGenImage get mastercard =>
+      const AssetGenImage('assets/images/mastercard.png');
 
   /// File path: assets/images/refunds.png
   AssetGenImage get refunds => const AssetGenImage('assets/images/refunds.png');
@@ -72,6 +82,9 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/sale.png
   AssetGenImage get sale => const AssetGenImage('assets/images/sale.png');
+
+  /// File path: assets/images/sbi.jpg
+  AssetGenImage get sbi => const AssetGenImage('assets/images/sbi.jpg');
 
   /// File path: assets/images/shopping.png
   AssetGenImage get shopping =>
@@ -89,6 +102,9 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/unknown.png
   AssetGenImage get unknown => const AssetGenImage('assets/images/unknown.png');
+
+  /// File path: assets/images/visa.png
+  AssetGenImage get visa => const AssetGenImage('assets/images/visa.png');
 
   /// File path: assets/images/wallet.png
   AssetGenImage get wallet => const AssetGenImage('assets/images/wallet.png');
@@ -108,20 +124,25 @@ class $AssetsImagesGen {
         education,
         electronics,
         entertainment,
+        fi,
         food,
         friends,
         health,
         home,
+        icici,
         insurance,
         investments,
+        mastercard,
         refunds,
         salary,
         sale,
+        sbi,
         shopping,
         sport,
         tax,
         transportation,
         unknown,
+        visa,
         wallet,
         walletOg
       ];

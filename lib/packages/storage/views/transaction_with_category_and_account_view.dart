@@ -9,6 +9,7 @@ extension TCAViewExtension on TransactionWithCategoryAndAccountView {
       id: a_id!,
       name: a_name ?? '',
       balance: (a_balance ?? 0).toInt(),
+      icon: a_icon != null ? AccountIcon.values[a_icon!] : AccountIcon.unknown,
       createdOn: DateTime.fromMillisecondsSinceEpoch(a_createdOn ?? 0),
     );
   }
@@ -73,6 +74,7 @@ class TransactionWithCategoryAndAccountView {
 
   final int? a_id;
   final String? a_name;
+  final int? a_icon;
   final int? a_balance;
   final int? a_createdOn;
 
@@ -92,6 +94,7 @@ class TransactionWithCategoryAndAccountView {
     this.t_categoryId,
     this.a_id,
     this.a_name,
+    this.a_icon,
     this.a_balance,
     this.a_createdOn,
     this.c_id,

@@ -102,7 +102,7 @@ class _$_AppDatabase extends _AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `transactions` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `notes` TEXT NOT NULL, `amount` REAL NOT NULL, `date` INTEGER NOT NULL, `categoryId` INTEGER, `accountId` INTEGER, `transactionType` INTEGER NOT NULL, FOREIGN KEY (`categoryId`) REFERENCES `categories` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`accountId`) REFERENCES `accounts` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `accounts` (`id` INTEGER, `name` TEXT NOT NULL, `balance` INTEGER NOT NULL, `createdOn` INTEGER NOT NULL, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `accounts` (`id` INTEGER, `name` TEXT NOT NULL, `balance` INTEGER NOT NULL, `createdOn` INTEGER NOT NULL, `icon` INTEGER NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `categories` (`id` INTEGER, `name` TEXT NOT NULL, `type` INTEGER NOT NULL, `createdOn` INTEGER NOT NULL, `icon` INTEGER NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
@@ -212,6 +212,7 @@ class _$_TransactionDao extends _TransactionDao {
                 t_categoryId: row['t_categoryId'] as int?,
                 a_id: row['a_id'] as int?,
                 a_name: row['a_name'] as String?,
+                a_icon: row['a_icon'] as int?,
                 a_balance: row['a_balance'] as int?,
                 a_createdOn: row['a_createdOn'] as int?,
                 c_id: row['c_id'] as int?,
@@ -240,6 +241,7 @@ class _$_TransactionDao extends _TransactionDao {
                 t_categoryId: row['t_categoryId'] as int?,
                 a_id: row['a_id'] as int?,
                 a_name: row['a_name'] as String?,
+                a_icon: row['a_icon'] as int?,
                 a_balance: row['a_balance'] as int?,
                 a_createdOn: row['a_createdOn'] as int?,
                 c_id: row['c_id'] as int?,
@@ -319,7 +321,8 @@ class _$_AccountDao extends _AccountDao {
                   'id': item.id,
                   'name': item.name,
                   'balance': item.balance,
-                  'createdOn': __DateTimeConverter.encode(item.createdOn)
+                  'createdOn': __DateTimeConverter.encode(item.createdOn),
+                  'icon': item.icon.index
                 },
             changeListener),
         _accountUpdateAdapter = UpdateAdapter(
@@ -330,7 +333,8 @@ class _$_AccountDao extends _AccountDao {
                   'id': item.id,
                   'name': item.name,
                   'balance': item.balance,
-                  'createdOn': __DateTimeConverter.encode(item.createdOn)
+                  'createdOn': __DateTimeConverter.encode(item.createdOn),
+                  'icon': item.icon.index
                 },
             changeListener),
         _accountDeletionAdapter = DeletionAdapter(
@@ -341,7 +345,8 @@ class _$_AccountDao extends _AccountDao {
                   'id': item.id,
                   'name': item.name,
                   'balance': item.balance,
-                  'createdOn': __DateTimeConverter.encode(item.createdOn)
+                  'createdOn': __DateTimeConverter.encode(item.createdOn),
+                  'icon': item.icon.index
                 },
             changeListener);
 
@@ -364,7 +369,8 @@ class _$_AccountDao extends _AccountDao {
             id: row['id'] as int?,
             name: row['name'] as String,
             balance: row['balance'] as int,
-            createdOn: __DateTimeConverter.decode(row['createdOn'] as int)),
+            createdOn: __DateTimeConverter.decode(row['createdOn'] as int),
+            icon: AccountIcon.values[row['icon'] as int]),
         arguments: [id]);
   }
 
@@ -375,7 +381,8 @@ class _$_AccountDao extends _AccountDao {
             id: row['id'] as int?,
             name: row['name'] as String,
             balance: row['balance'] as int,
-            createdOn: __DateTimeConverter.decode(row['createdOn'] as int)));
+            createdOn: __DateTimeConverter.decode(row['createdOn'] as int),
+            icon: AccountIcon.values[row['icon'] as int]));
   }
 
   @override
@@ -385,7 +392,8 @@ class _$_AccountDao extends _AccountDao {
             id: row['id'] as int?,
             name: row['name'] as String,
             balance: row['balance'] as int,
-            createdOn: __DateTimeConverter.decode(row['createdOn'] as int)),
+            createdOn: __DateTimeConverter.decode(row['createdOn'] as int),
+            icon: AccountIcon.values[row['icon'] as int]),
         queryableName: 'accounts',
         isView: false);
   }

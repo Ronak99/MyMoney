@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_money/extensions/account_icon.dart';
 import 'package:my_money/extensions/build_context.dart';
 import 'package:my_money/extensions/category_icon.dart';
 import 'package:my_money/model/account.dart';
@@ -78,7 +79,9 @@ class AccountAndCategorySelector extends StatelessWidget {
             buildWhen: (prev, next) => prev.account != next.account,
             builder: (context, state) {
               return SelectorItem<Account>(
-                icon: Icon(Icons.wallet),
+                icon: state.account == null
+                    ? const Icon(Icons.wallet)
+                    : Image.asset(state.account!.icon.assetName),
                 placeholder: "Create First Account",
                 selectedItem: state.account,
                 getDisplayName: (account) => account.name,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_money/extensions/account_icon.dart';
 import 'package:my_money/model/account.dart';
 
 class AccountListItem extends StatelessWidget {
@@ -17,12 +18,14 @@ class AccountListItem extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              height: 50,
-              width: 50,
+              height: 45,
+              width: 45,
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.onPrimary,
                 shape: BoxShape.circle,
               ),
+              padding: const EdgeInsets.all(12),
+              child: Image.asset(account.icon.assetName),
             ),
             Expanded(
               child: Padding(
