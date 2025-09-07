@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:go_router/go_router.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:my_money/enums/date_action.dart';
 import 'package:my_money/extensions/date.dart';
 import 'package:my_money/extensions/peer_app.dart';
@@ -26,10 +26,10 @@ class ImportCubit extends Cubit<ImportState> {
       return;
     }
     try {
-      final pickedFile = await pickFile();
-      if (!context.mounted) return;
+      final pickedFile = await pickFile(shouldPickCsv: bank == null);
 
-      if(bank != null) {
+      if (bank != null) {
+        if (!context.mounted) return;
         await _handleBankStatementImport(
           context,
           pickedFile: pickedFile,
@@ -37,8 +37,9 @@ class ImportCubit extends Cubit<ImportState> {
         );
       }
 
-      if(peerApp != null){
-        await _handlePeerAppDataImport();
+      if (peerApp != null) {
+        if (!context.mounted) return;
+        await _handlePeerAppDataImport(context, pickedFile: pickedFile);
       }
     } catch (e) {}
   }
@@ -55,7 +56,27 @@ class ImportCubit extends Cubit<ImportState> {
     return pickedFile;
   }
 
-  Future<void> _handlePeerAppDataImport() async {}
+  Future<void> _handlePeerAppDataImport(
+    BuildContext context, {
+    required FilePickerResult pickedFile,
+  }) async {
+    PlatformFile file = pickedFile.files.first;
+
+    emit(state.copyWith(isLoading: true));
+
+    List<Transaction> transactions =
+        await AppStatementService.instance.extract(file: File(file.path!));
+
+    emit(
+      state.copyWith(
+        isLoading: false,
+        transactions: transactions,
+      ),
+    );
+
+    if (!context.mounted) return;
+    context.push(Routes.VIEW_IMPORTS.value);
+  }
 
   Future<void> _handleBankStatementImport(
     BuildContext context, {
