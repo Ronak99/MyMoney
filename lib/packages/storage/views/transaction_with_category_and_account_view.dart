@@ -8,7 +8,7 @@ extension TCAViewExtension on TransactionWithCategoryAndAccountView {
     return Account(
       id: a_id!,
       name: a_name ?? '',
-      balance: (a_balance ?? 0).toDouble(),
+      balance: (a_balance ?? 0).toInt(),
       createdOn: DateTime.fromMillisecondsSinceEpoch(a_createdOn ?? 0),
     );
   }
@@ -29,7 +29,7 @@ extension TCAViewExtension on TransactionWithCategoryAndAccountView {
       id: c_id!,
       name: c_name ?? '',
       type: catType,
-      icon: c_icon?.convertToCategoryIcon ?? CategoryIcon.unknown,
+      icon: c_icon != null ? CategoryIcon.values[c_icon!] : CategoryIcon.unknown,
       createdOn: DateTime.fromMillisecondsSinceEpoch(c_createdOn ?? 0),
     );
   }
@@ -73,12 +73,12 @@ class TransactionWithCategoryAndAccountView {
 
   final int? a_id;
   final String? a_name;
-  final double? a_balance;
+  final int? a_balance;
   final int? a_createdOn;
 
   final int? c_id;
   final String? c_name;
-  final String? c_icon;
+  final int? c_icon;
   final int? c_type;
   final int? c_createdOn;
 

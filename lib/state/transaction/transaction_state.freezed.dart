@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$TransactionState {
   List<Transaction> get transactions => throw _privateConstructorUsedError;
   DateTime? get selectedDate => throw _privateConstructorUsedError;
+  bool get isLoading => throw _privateConstructorUsedError;
 
   /// Create a copy of TransactionState
   /// with the given fields replaced by the non-null parameter values.
@@ -32,7 +33,8 @@ abstract class $TransactionStateCopyWith<$Res> {
           TransactionState value, $Res Function(TransactionState) then) =
       _$TransactionStateCopyWithImpl<$Res, TransactionState>;
   @useResult
-  $Res call({List<Transaction> transactions, DateTime? selectedDate});
+  $Res call(
+      {List<Transaction> transactions, DateTime? selectedDate, bool isLoading});
 }
 
 /// @nodoc
@@ -52,6 +54,7 @@ class _$TransactionStateCopyWithImpl<$Res, $Val extends TransactionState>
   $Res call({
     Object? transactions = null,
     Object? selectedDate = freezed,
+    Object? isLoading = null,
   }) {
     return _then(_value.copyWith(
       transactions: null == transactions
@@ -62,6 +65,10 @@ class _$TransactionStateCopyWithImpl<$Res, $Val extends TransactionState>
           ? _value.selectedDate
           : selectedDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -74,7 +81,8 @@ abstract class _$$TransactionStateImplCopyWith<$Res>
       __$$TransactionStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<Transaction> transactions, DateTime? selectedDate});
+  $Res call(
+      {List<Transaction> transactions, DateTime? selectedDate, bool isLoading});
 }
 
 /// @nodoc
@@ -92,6 +100,7 @@ class __$$TransactionStateImplCopyWithImpl<$Res>
   $Res call({
     Object? transactions = null,
     Object? selectedDate = freezed,
+    Object? isLoading = null,
   }) {
     return _then(_$TransactionStateImpl(
       transactions: null == transactions
@@ -102,6 +111,10 @@ class __$$TransactionStateImplCopyWithImpl<$Res>
           ? _value.selectedDate
           : selectedDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -110,7 +123,9 @@ class __$$TransactionStateImplCopyWithImpl<$Res>
 
 class _$TransactionStateImpl implements _TransactionState {
   _$TransactionStateImpl(
-      {final List<Transaction> transactions = const [], this.selectedDate})
+      {final List<Transaction> transactions = const [],
+      this.selectedDate,
+      this.isLoading = true})
       : _transactions = transactions;
 
   final List<Transaction> _transactions;
@@ -124,10 +139,13 @@ class _$TransactionStateImpl implements _TransactionState {
 
   @override
   final DateTime? selectedDate;
+  @override
+  @JsonKey()
+  final bool isLoading;
 
   @override
   String toString() {
-    return 'TransactionState(transactions: $transactions, selectedDate: $selectedDate)';
+    return 'TransactionState(transactions: $transactions, selectedDate: $selectedDate, isLoading: $isLoading)';
   }
 
   @override
@@ -138,12 +156,17 @@ class _$TransactionStateImpl implements _TransactionState {
             const DeepCollectionEquality()
                 .equals(other._transactions, _transactions) &&
             (identical(other.selectedDate, selectedDate) ||
-                other.selectedDate == selectedDate));
+                other.selectedDate == selectedDate) &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(_transactions), selectedDate);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_transactions),
+      selectedDate,
+      isLoading);
 
   /// Create a copy of TransactionState
   /// with the given fields replaced by the non-null parameter values.
@@ -158,12 +181,15 @@ class _$TransactionStateImpl implements _TransactionState {
 abstract class _TransactionState implements TransactionState {
   factory _TransactionState(
       {final List<Transaction> transactions,
-      final DateTime? selectedDate}) = _$TransactionStateImpl;
+      final DateTime? selectedDate,
+      final bool isLoading}) = _$TransactionStateImpl;
 
   @override
   List<Transaction> get transactions;
   @override
   DateTime? get selectedDate;
+  @override
+  bool get isLoading;
 
   /// Create a copy of TransactionState
   /// with the given fields replaced by the non-null parameter values.

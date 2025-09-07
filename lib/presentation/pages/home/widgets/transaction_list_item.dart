@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:my_money/extensions/category_icon.dart';
 import 'package:my_money/model/transaction.dart';
-import 'package:my_money/presentation/widgets/list_item.dart';
 
 class TransactionListItem extends StatelessWidget {
   final Transaction transaction;
@@ -13,14 +13,17 @@ class TransactionListItem extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         children: [
-          Container(
-            height: 50,
-            width: 50,
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.onPrimary,
-              shape: BoxShape.circle,
+          if (transaction.category != null)
+            Container(
+              height: 45,
+              width: 45,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.onPrimary,
+                shape: BoxShape.circle,
+              ),
+              padding: const EdgeInsets.all(12),
+              child: Image.asset(transaction.category!.icon.assetName),
             ),
-          ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),

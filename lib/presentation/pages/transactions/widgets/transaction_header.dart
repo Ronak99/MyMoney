@@ -7,8 +7,8 @@ class TransactionHeader extends StatelessWidget {
   final String selectedDate;
   final VoidCallback onPrev;
   final VoidCallback onNext;
-  final VoidCallback onFilter;
-  final VoidCallback onSearch;
+  final VoidCallback? onFilter;
+  final VoidCallback? onSearch;
 
   const TransactionHeader({
     super.key,
@@ -27,22 +27,24 @@ class TransactionHeader extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _CircleIconButton(
-            icon: Icons.filter_list,
-            onTap: onFilter,
-            context: context,
-          ),
+          if (onFilter != null)
+            _CircleIconButton(
+              icon: Icons.filter_list,
+              onTap: onFilter!,
+              context: context,
+            ),
           CapsuleDateSelector(
             context: context,
             selectedDate: selectedDate,
             onPrev: onPrev,
             onNext: onNext,
           ),
-          _CircleIconButton(
-            icon: CupertinoIcons.search,
-            onTap: onSearch,
-            context: context,
-          ),
+          if (onSearch != null)
+            _CircleIconButton(
+              icon: CupertinoIcons.search,
+              onTap: onSearch!,
+              context: context,
+            ),
         ],
       ),
     );

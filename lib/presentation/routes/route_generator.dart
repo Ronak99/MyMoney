@@ -3,11 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/extensions/list.dart';
 import 'package:my_money/model/transaction.dart';
 import 'package:my_money/presentation/pages/accounts/account_page.dart';
-import 'package:my_money/presentation/pages/accounts/modify/modify_account_page.dart';
-import 'package:my_money/presentation/pages/accounts/modify/state/modify_account_cubit.dart';
 import 'package:my_money/presentation/pages/categories/categories_page.dart';
-import 'package:my_money/presentation/pages/categories/modify/modify_category_page.dart';
-import 'package:my_money/presentation/pages/categories/modify/state/modify_category_cubit.dart';
 import 'package:my_money/presentation/pages/home/home_page.dart';
 import 'package:my_money/presentation/pages/import/import_page.dart';
 import 'package:my_money/presentation/pages/import/state/import_cubit.dart';
@@ -26,6 +22,7 @@ class RouteGenerator {
       GlobalKey<NavigatorState>();
 
   static BuildContext? get context => rootNavigatorKey.currentContext;
+
 
   static late AccountCubit accountCubit;
   static late TransactionCubit transactionCubit;

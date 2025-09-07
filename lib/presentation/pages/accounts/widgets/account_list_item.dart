@@ -40,7 +40,7 @@ class AccountListItem extends StatelessWidget {
               ),
             ),
             Text(
-              account.balance.toString(),
+              account.formatBalance,
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                 color: Theme.of(context).colorScheme.primary,
               ),

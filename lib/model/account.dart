@@ -1,4 +1,5 @@
 import 'package:floor/floor.dart';
+import 'package:my_money/extensions/double.dart';
 
 @Entity(tableName: 'accounts')
 class Account {
@@ -6,7 +7,7 @@ class Account {
   final int? id;
 
   final String name;
-  final double balance;
+  final int balance;
   final DateTime createdOn;
 
   Account({
@@ -15,4 +16,6 @@ class Account {
     required this.balance,
     required this.createdOn,
   });
+
+  String get formatBalance => balance.formatCurrency;
 }

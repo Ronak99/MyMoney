@@ -20,47 +20,50 @@ class ListViewWithHeader<T, K> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: map.keys
-          .map(
-            (key) => SliverStickyHeader(
-              header: Container(
-                alignment: Alignment.centerLeft,
-                decoration: BoxDecoration(
-                  color: context.colorScheme.surface,
-                  border: Border(
-                    bottom: BorderSide(
-                      color: context.colorScheme.primary.withOpacity(.2),
-                    ),
-                  ),
-                ),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 12,
-                ),
-                child: headerBuilder(key),
-              ),
-              sliver: SliverToBoxAdapter(
-                child: Container(
+    return Container(
+      height: MediaQuery.of(context).size.height,
+      child: CustomScrollView(
+        slivers: map.keys
+            .map(
+              (key) => SliverStickyHeader(
+                header: Container(
+                  alignment: Alignment.centerLeft,
                   decoration: BoxDecoration(
+                    color: context.colorScheme.surface,
                     border: Border(
                       bottom: BorderSide(
                         color: context.colorScheme.primary.withOpacity(.2),
                       ),
                     ),
                   ),
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  child: ListViewSeparated(
-                    list: map[key]!,
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemBuilder: (context, index, item) => itemBuilder(item),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
+                  child: headerBuilder(key),
+                ),
+                sliver: SliverToBoxAdapter(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color: context.colorScheme.primary.withOpacity(.2),
+                        ),
+                      ),
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    child: ListViewSeparated(
+                      list: map[key]!,
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (context, index, item) => itemBuilder(item),
+                    ),
                   ),
                 ),
               ),
-            ),
-          )
-          .toList(),
+            )
+            .toList(),
+      ),
     );
   }
 }

@@ -8,5 +8,6 @@ class TransactionState with _$TransactionState {
   factory TransactionState({
     @Default([]) List<Transaction> transactions,
     DateTime? selectedDate,
+    @Default(true) bool isLoading,
   }) = _TransactionState;
 }

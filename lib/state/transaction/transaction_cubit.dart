@@ -6,6 +6,7 @@ import 'package:my_money/enums/date_action.dart';
 import 'package:my_money/extensions/date.dart';
 import 'package:my_money/model/transaction.dart';
 import 'package:my_money/packages/storage/storage.dart';
+
 import 'transaction_state.dart';
 
 class TransactionCubit extends Cubit<TransactionState> {
@@ -27,7 +28,10 @@ class TransactionCubit extends Cubit<TransactionState> {
       endDate: state.selectedDate!.endOfTheMonth,
     )
         .listen((data) {
-      emit(state.copyWith(transactions: data));
+      emit(state.copyWith(
+        transactions: data,
+        isLoading: false,
+      ));
     });
   }
 

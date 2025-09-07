@@ -7,12 +7,14 @@ class CustomTextField extends StatelessWidget {
   final String hint;
   final TextInputType keyboardType;
   final int? maxLines;
+  final bool autofocus;
 
   const CustomTextField({
     super.key,
     required this.onChange,
     required this.hint,
     this.maxLines,
+    this.autofocus = false,
     this.keyboardType = TextInputType.text,
   });
 
@@ -20,6 +22,7 @@ class CustomTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       onChanged: onChange,
+      autofocus: autofocus,
       decoration: InputDecoration(
         hintText: hint,
       ),

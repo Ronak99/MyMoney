@@ -13,7 +13,7 @@ class TransactionTypeSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final validTransactionValues =
-        TransactionType.values.where((e) => e != TransactionType.none).toList();
+        TransactionType.values.where((e) => e != TransactionType.none && e != TransactionType.transfer).toList();
 
     return FormContainer(
       child: BlocBuilder<CreateTransactionCubit, CreateTransactionState>(

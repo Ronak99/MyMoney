@@ -63,9 +63,9 @@ class ViewImportsPage extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: ListViewWithHeader<DateTime, Transaction>(
+                child: ListViewWithHeader<String, Transaction>(
                   map: state.filteredTransactions.groupByDate,
-                  headerBuilder: (date) => Text(date.formatDate),
+                  headerBuilder: (date) => Text(date),
                   itemBuilder: (item) =>
                       ImportedTransactionListItem(transaction: item),
                 ),

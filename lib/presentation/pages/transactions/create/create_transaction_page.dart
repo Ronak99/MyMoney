@@ -48,6 +48,8 @@ class CreateTransactionPage extends StatelessWidget {
           CustomTextField(
             hint: "Amount",
             onChange: context.read<CreateTransactionCubit>().setAmount,
+            keyboardType: TextInputType.number,
+            autofocus: true,
           ),
 
           const SizedBox(height: kVerticalSpacing),
@@ -60,35 +62,6 @@ class CreateTransactionPage extends StatelessWidget {
           ),
 
           const SizedBox(height: kVerticalSpacing),
-
-          Center(
-            child: Builder(
-              builder: (context) {
-                double iconSize = 80;
-                return Stack(
-                  alignment: Alignment.bottomCenter,
-                  children: [
-                    Container(
-                      height: iconSize,
-                      width: iconSize,
-                      decoration: const BoxDecoration(
-                        color: Colors.red,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                    ClipPath(
-                      clipper: BottomHalfClipper(),
-                      child: Container(
-                        height: iconSize,
-                        width: iconSize,
-                        child: Image.asset(CategoryIcon.values[6].assetName)
-                      ),
-                    ),
-                  ],
-                );
-              }
-            ),
-          ),
         ],
       ),
     );

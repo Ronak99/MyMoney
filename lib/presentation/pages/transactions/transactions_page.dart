@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -10,6 +11,7 @@ import 'package:my_money/presentation/pages/transactions/widgets/transaction_hea
 import 'package:my_money/presentation/routes/route_generator.dart';
 import 'package:my_money/presentation/routes/routes.dart';
 import 'package:my_money/presentation/widgets/custom_scaffold.dart';
+import 'package:my_money/presentation/widgets/empty_state.dart';
 import 'package:my_money/presentation/widgets/list_view_with_header.dart';
 import 'package:my_money/state/transaction/transaction_cubit.dart';
 import 'package:my_money/state/transaction/transaction_state.dart';
@@ -19,37 +21,56 @@ class TransactionsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
-      fab: FloatingActionButton(
-        heroTag: 'transactions',
-        onPressed: () => context.push(Routes.CREATE_TRANSACTION.value),
-        child: const Icon(Icons.add),
-      ),
-      body: BlocBuilder<TransactionCubit, TransactionState>(
-          builder: (context, state) {
-        return Column(
-          children: [
-            TransactionHeader(
-              selectedDate: state.selectedDate!.formatDate,
-              onPrev: () => RouteGenerator.transactionCubit
-                  .updateDate(action: DateAction.decrementMonth),
-              onNext: () => RouteGenerator.transactionCubit.updateDate(
-                action: DateAction.incrementMonth,
+    return BlocBuilder<TransactionCubit, TransactionState>(
+      builder: (context, state) {
+        return CustomScaffold(
+          fab: state.transactions.isEmpty
+              ? null
+              : FloatingActionButton(
+                  heroTag: 'transactions',
+                  onPressed: () =>
+                      context.push(Routes.CREATE_TRANSACTION.value),
+                  child: const Icon(Icons.add),
+                ),
+          body: Column(
+            children: [
+              TransactionHeader(
+                selectedDate: state.selectedDate!.formatDate,
+                onPrev: () => RouteGenerator.transactionCubit
+                    .updateDate(action: DateAction.decrementMonth),
+                onNext: () => RouteGenerator.transactionCubit.updateDate(
+                  action: DateAction.incrementMonth,
+                ),
+                onFilter: () {},
+                onSearch: () {},
               ),
-              onFilter: () {},
-              onSearch: () {},
-            ),
-            const SizedBox(height: 16),
-            Expanded(
-              child: ListViewWithHeader<DateTime, Transaction>(
-                map: state.transactions.groupByDate,
-                headerBuilder: (date) => Text(date.formatDate),
-                itemBuilder: (item) => TransactionListItem(transaction: item),
-              ),
-            ),
-          ],
+              const SizedBox(height: 16),
+              if (state.isLoading)
+                const Expanded(
+                  child: Center(
+                    child: CupertinoActivityIndicator(),
+                  ),
+                )
+              else
+                Expanded(
+                  child: AnimatedCrossFade(
+                    firstChild: ListViewWithHeader<String, Transaction>(
+                      map: state.transactions.groupByDate,
+                      headerBuilder: (date) => Text(date),
+                      itemBuilder: (item) =>
+                          TransactionListItem(transaction: item),
+                    ),
+                    secondChild: EmptyState.noTransactions(context),
+                    crossFadeState: state.transactions.isNotEmpty
+                        ? CrossFadeState.showFirst
+                        : CrossFadeState.showSecond,
+                    duration: const Duration(milliseconds: 350),
+                  ),
+                ),
+            ],
+          ),
         );
-      }),
+      },
     );
   }
 }

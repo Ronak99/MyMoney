@@ -103,7 +103,7 @@ class CustomBottomSheet extends StatefulWidget {
   factory CustomBottomSheet.modifyAccount({Account? account}) {
     final formKey = GlobalKey<FormState>();
     String? accountName = account?.name;
-    double balance = account?.balance ?? 0;
+    int balance = account?.balance ?? 0;
 
     return CustomBottomSheet._(
       title: null,
@@ -134,6 +134,8 @@ class CustomBottomSheet extends StatefulWidget {
           children: [
             TextFormField(
               initialValue: accountName,
+              autofocus: true,
+              keyboardType: TextInputType.number,
               validator: (value) => value != null && value.trim().isEmpty
                   ? "Please provide an account name"
                   : null,
@@ -155,7 +157,7 @@ class CustomBottomSheet extends StatefulWidget {
                 hintText: "Initial Balance",
               ),
               onSaved: (value) {
-                balance = double.parse(value!);
+                balance = double.parse(value!).round();
               },
             ),
           ],
@@ -237,6 +239,7 @@ class CustomBottomSheet extends StatefulWidget {
             const SizedBox(height: 12),
             TextFormField(
               initialValue: name,
+              autofocus: true,
               validator: (value) => value != null && value.trim().isEmpty
                   ? "Please provide a category name"
                   : null,

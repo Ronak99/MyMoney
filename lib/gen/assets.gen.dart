@@ -64,6 +64,10 @@ class $AssetsImagesGen {
   AssetGenImage get investments =>
       const AssetGenImage('assets/images/investments.png');
 
+  /// File path: assets/images/no_content.png
+  AssetGenImage get noContent =>
+      const AssetGenImage('assets/images/no_content.png');
+
   /// File path: assets/images/refunds.png
   AssetGenImage get refunds => const AssetGenImage('assets/images/refunds.png');
 
@@ -90,6 +94,13 @@ class $AssetsImagesGen {
   /// File path: assets/images/unknown.png
   AssetGenImage get unknown => const AssetGenImage('assets/images/unknown.png');
 
+  /// File path: assets/images/wallet.png
+  AssetGenImage get wallet => const AssetGenImage('assets/images/wallet.png');
+
+  /// File path: assets/images/wallet_og.png
+  AssetGenImage get walletOg =>
+      const AssetGenImage('assets/images/wallet_og.png');
+
   /// List of all assets
   List<AssetGenImage> get values => [
         baby,
@@ -107,6 +118,7 @@ class $AssetsImagesGen {
         home,
         insurance,
         investments,
+        noContent,
         refunds,
         salary,
         sale,
@@ -114,7 +126,9 @@ class $AssetsImagesGen {
         sport,
         tax,
         transportation,
-        unknown
+        unknown,
+        wallet,
+        walletOg
       ];
 }
 

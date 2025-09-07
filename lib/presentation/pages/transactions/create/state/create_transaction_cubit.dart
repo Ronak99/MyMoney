@@ -64,7 +64,7 @@ class CreateTransactionCubit extends Cubit<CreateTransactionState> {
 
   void create() {
     Transaction transaction = Transaction(
-      notes: state.notes!,
+      notes: state.notes ?? '',
       amount: state.amount!,
       date: state.date!,
       transactionType: state.transactionType!,
