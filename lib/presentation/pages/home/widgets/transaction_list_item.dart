@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_money/extensions/build_context.dart';
 import 'package:my_money/extensions/category_icon.dart';
 import 'package:my_money/model/transaction.dart';
 
@@ -45,10 +46,14 @@ class TransactionListItem extends StatelessWidget {
             ),
           ),
           Text(
-            transaction.amount.toString(),
-            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                  color: Theme.of(context).colorScheme.primary,
-                ),
+            "${transaction.transactionType == TransactionType.expense ? "-" : ""} ${transaction.amount}",
+            style: context.textTheme.bodyLarge!.copyWith(
+              color: switch (transaction.transactionType) {
+                TransactionType.transfer => context.colorScheme.primary,
+                TransactionType.income => context.colorScheme.tertiary,
+                _ => context.colorScheme.error,
+              },
+            ),
           ),
         ],
       ),
