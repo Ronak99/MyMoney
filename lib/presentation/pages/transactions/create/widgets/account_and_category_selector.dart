@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/extensions/build_context.dart';
+import 'package:my_money/extensions/category_icon.dart';
 import 'package:my_money/model/account.dart';
 import 'package:my_money/model/transaction_category.dart';
 import 'package:my_money/presentation/pages/transactions/create/state/create_transaction_cubit.dart';
@@ -10,7 +11,7 @@ import 'package:my_money/presentation/widgets/custom_bottom_sheet.dart';
 import 'package:my_money/presentation/widgets/form_container.dart';
 
 class SelectorItem<T> extends StatelessWidget {
-  final IconData icon;
+  final Widget icon;
   final String placeholder;
   final T? selectedItem;
   final String Function(T) getDisplayName;
@@ -39,7 +40,7 @@ class SelectorItem<T> extends StatelessWidget {
             margin: const EdgeInsets.only(left: 24),
             child: Row(
               children: [
-                Icon(icon),
+                SizedBox(height: 22, width: 22, child: icon),
                 const SizedBox(width: 12),
                 Text(selectedItem != null
                     ? getDisplayName(selectedItem!)
@@ -64,7 +65,9 @@ class SelectorItem<T> extends StatelessWidget {
 }
 
 class AccountAndCategorySelector extends StatelessWidget {
-  const AccountAndCategorySelector({super.key});
+  const AccountAndCategorySelector({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +78,7 @@ class AccountAndCategorySelector extends StatelessWidget {
             buildWhen: (prev, next) => prev.account != next.account,
             builder: (context, state) {
               return SelectorItem<Account>(
-                icon: Icons.wallet,
+                icon: Icon(Icons.wallet),
                 placeholder: "Create First Account",
                 selectedItem: state.account,
                 getDisplayName: (account) => account.name,
@@ -100,7 +103,10 @@ class AccountAndCategorySelector extends StatelessWidget {
             buildWhen: (prev, next) => prev.category != next.category,
             builder: (context, state) {
               return SelectorItem<TransactionCategory>(
-                icon: Icons.category_rounded,
+                icon: state.category == null
+                    ? const Icon(Icons.category_rounded)
+                    : Image.asset(state.category!.icon.assetName),
+                // SvgPicture.asset(state.category!.icon.assetName),
                 isLast: true,
                 placeholder: "Create First Category",
                 selectedItem: state.category,
@@ -112,8 +118,8 @@ class AccountAndCategorySelector extends StatelessWidget {
                         await CustomBottomSheet.modifyCategory().show(context);
                   } else {
                     category = await CustomBottomSheet.selectCategory(
-                            category: category)
-                        .show(context);
+                      category: category,
+                    ).show(context);
                   }
                   if (!context.mounted) return;
                   if (category == null) return;

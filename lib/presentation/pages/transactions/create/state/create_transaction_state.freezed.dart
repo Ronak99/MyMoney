@@ -168,14 +168,15 @@ class __$$CreateTransactionStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$CreateTransactionStateImpl implements _CreateTransactionState {
+class _$CreateTransactionStateImpl extends _CreateTransactionState {
   _$CreateTransactionStateImpl(
       {this.transactionType = TransactionType.expense,
       this.account,
       this.category,
       this.notes,
       this.amount,
-      this.date});
+      this.date})
+      : super._();
 
   @override
   @JsonKey()
@@ -225,7 +226,7 @@ class _$CreateTransactionStateImpl implements _CreateTransactionState {
           _$CreateTransactionStateImpl>(this, _$identity);
 }
 
-abstract class _CreateTransactionState implements CreateTransactionState {
+abstract class _CreateTransactionState extends CreateTransactionState {
   factory _CreateTransactionState(
       {final TransactionType? transactionType,
       final Account? account,
@@ -233,6 +234,7 @@ abstract class _CreateTransactionState implements CreateTransactionState {
       final String? notes,
       final double? amount,
       final DateTime? date}) = _$CreateTransactionStateImpl;
+  _CreateTransactionState._() : super._();
 
   @override
   TransactionType? get transactionType;

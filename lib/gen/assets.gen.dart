@@ -64,10 +64,6 @@ class $AssetsImagesGen {
   AssetGenImage get investments =>
       const AssetGenImage('assets/images/investments.png');
 
-  /// File path: assets/images/no_content.png
-  AssetGenImage get noContent =>
-      const AssetGenImage('assets/images/no_content.png');
-
   /// File path: assets/images/refunds.png
   AssetGenImage get refunds => const AssetGenImage('assets/images/refunds.png');
 
@@ -118,7 +114,6 @@ class $AssetsImagesGen {
         home,
         insurance,
         investments,
-        noContent,
         refunds,
         salary,
         sale,
@@ -132,10 +127,21 @@ class $AssetsImagesGen {
       ];
 }
 
+class $AssetsVectorGen {
+  const $AssetsVectorGen();
+
+  /// File path: assets/vector/no_content.svg
+  String get noContent => 'assets/vector/no_content.svg';
+
+  /// List of all assets
+  List<String> get values => [noContent];
+}
+
 class Assets {
   const Assets._();
 
   static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const $AssetsVectorGen vector = $AssetsVectorGen();
 }
 
 class AssetGenImage {

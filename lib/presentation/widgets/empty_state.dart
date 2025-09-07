@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_money/extensions/build_context.dart';
 import 'package:my_money/gen/assets.gen.dart';
@@ -6,7 +7,7 @@ import 'package:my_money/presentation/routes/routes.dart';
 
 class EmptyState extends StatelessWidget {
   final String text;
-  final Image image;
+  final String image;
   final List<Widget> actions;
 
   const EmptyState._(
@@ -31,7 +32,7 @@ class EmptyState extends StatelessWidget {
     return EmptyState._(
       text: "No records in this month",
       actions: actions,
-      image: Assets.images.noContent.image(),
+      image: Assets.vector.noContent
     );
   }
 
@@ -43,15 +44,8 @@ class EmptyState extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SizedBox(
-          width: width * .35,
-          child: image,
-        ),
-        const SizedBox(height: 12),
-        Text(
-          text,
-          style: context.textTheme.titleMedium!.copyWith(
-            color: context.colorScheme.onSurface.withOpacity(.8),
-          ),
+          height: 220,
+          child: SvgPicture.asset(image),
         ),
         const SizedBox(height: 24),
         ...actions,

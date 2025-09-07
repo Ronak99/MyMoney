@@ -8,6 +8,8 @@ part 'create_transaction_state.freezed.dart';
 
 @freezed
 class CreateTransactionState with _$CreateTransactionState {
+  const CreateTransactionState._();
+
   factory CreateTransactionState({
     @Default(TransactionType.expense) TransactionType? transactionType,
     Account? account,
@@ -16,4 +18,7 @@ class CreateTransactionState with _$CreateTransactionState {
     double? amount,
     DateTime? date,
   }) = _CreateTransactionState;
+
+  bool get isValid => amount != null && category != null && account != null;
+
 }

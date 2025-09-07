@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_money/extensions/build_context.dart';
 import 'package:my_money/extensions/list.dart';
 import 'package:my_money/model/transaction.dart';
 import 'package:my_money/presentation/pages/accounts/account_page.dart';
@@ -23,6 +24,7 @@ class RouteGenerator {
 
   static BuildContext? get context => rootNavigatorKey.currentContext;
 
+  static double get safeAreaHeight => context!.safeAreaHeight;
 
   static late AccountCubit accountCubit;
   static late TransactionCubit transactionCubit;

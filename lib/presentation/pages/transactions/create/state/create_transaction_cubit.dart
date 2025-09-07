@@ -5,6 +5,7 @@ import 'package:my_money/model/transaction.dart';
 import 'package:my_money/model/transaction_category.dart';
 import 'package:my_money/presentation/pages/transactions/create/state/create_transaction_state.dart';
 import 'package:my_money/presentation/routes/route_generator.dart';
+import 'package:my_money/presentation/widgets/custom_bottom_sheet.dart';
 
 class CreateTransactionCubit extends Cubit<CreateTransactionState> {
   CreateTransactionCubit({
@@ -62,7 +63,7 @@ class CreateTransactionCubit extends Cubit<CreateTransactionState> {
     }
   }
 
-  void create() {
+  Future<bool> create() async {
     Transaction transaction = Transaction(
       notes: state.notes ?? '',
       amount: state.amount!,
@@ -73,5 +74,6 @@ class CreateTransactionCubit extends Cubit<CreateTransactionState> {
     );
 
     RouteGenerator.transactionCubit.addTransaction(transaction);
+    return true;
   }
 }
