@@ -299,7 +299,7 @@ class CustomBottomSheet extends StatefulWidget {
     return CustomBottomSheet._(
       title: null,
       actionButtonText: "Create New Account",
-      height: 275,
+      height: 350,
       onActionButtonPressed: (context) async {
         await CustomBottomSheet.modifyAccount().show(context);
         if (!context.mounted) return;
@@ -325,7 +325,7 @@ class CustomBottomSheet extends StatefulWidget {
     return CustomBottomSheet._(
       title: null,
       actionButtonText: "Create New Category",
-      height: 275,
+      height: 500,
       onActionButtonPressed: (context) async {
         await CustomBottomSheet.modifyCategory().show(context);
         if (!context.mounted) return;
@@ -348,12 +348,11 @@ class CustomBottomSheet extends StatefulWidget {
   }
 
   Future<T?> show<T>(BuildContext context) => showModalBottomSheet(
-        context: context,
+        context: RouteGenerator.context!,
         backgroundColor: Colors.transparent,
         isScrollControlled: true,
-        builder: (context) {
-          return this;
-        },
+        constraints: BoxConstraints(maxHeight: RouteGenerator.safeAreaHeight),
+        builder: (context) => this,
       );
 
   @override
@@ -362,6 +361,12 @@ class CustomBottomSheet extends StatefulWidget {
 
 class _CustomBottomSheetState extends State<CustomBottomSheet> {
   @override
+  void initState() {
+    super.initState();
+    CustomBottomSheet._heightOffset.value = 0;
+  }
+
+  @override
   void dispose() {
     CustomBottomSheet._heightOffset.value = 0;
     super.dispose();
@@ -369,75 +374,87 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: CustomBottomSheet._heightOffset,
-      builder: (context, value, static) {
-        return AnimatedContainer(
-          duration: const Duration(milliseconds: 350),
-          curve: Curves.easeInOut,
-          padding: const EdgeInsets.all(16),
-          height: widget.height + value,
-          child: static,
-        );
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          color: context.colorScheme.surface,
-        ),
-        child: Column(
-          children: [
-            // the handle: might need it in the future.
-            // Container(
-            //   decoration: BoxDecoration(
-            //     color: Colors.grey,
-            //     borderRadius: BorderRadius.circular(20),
-            //   ),
-            //   margin: const EdgeInsets.symmetric(vertical: 12),
-            //   height: 4,
-            //   width: 100,
-            // ),
-            // const SizedBox(height: 4),
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  color: context.colorScheme.primary.withOpacity(.1),
-                ),
-                padding: const EdgeInsets.all(24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (widget.title != null)
-                      Text(widget.title!, style: context.textTheme.titleLarge),
-                    if (widget.content != null) ...[
-                      const SizedBox(height: 16),
-                      Text(
-                        widget.content!,
-                        style: context.textTheme.bodyMedium!.copyWith(
-                          height: 1.6,
+    return Container(
+      margin: EdgeInsets.only(
+        bottom: MediaQuery.viewInsetsOf(context).bottom,
+      ),
+      child: ValueListenableBuilder(
+        valueListenable: CustomBottomSheet._heightOffset,
+        builder: (context, value, static) {
+          return AnimatedContainer(
+            duration: const Duration(milliseconds: 350),
+            curve: Curves.easeInOut,
+            padding: const EdgeInsets.all(16),
+            height: widget.height + value,
+            child: static,
+          );
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            color: context.colorScheme.surface,
+          ),
+          child: Column(
+            children: [
+              // the handle: might need it in the future.
+              // Container(
+              //   decoration: BoxDecoration(
+              //     color: Colors.grey,
+              //     borderRadius: BorderRadius.circular(20),
+              //   ),
+              //   margin: const EdgeInsets.symmetric(vertical: 12),
+              //   height: 4,
+              //   width: 100,
+              // ),
+              // const SizedBox(height: 4),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    color: context.colorScheme.primary.withOpacity(.1),
+                  ),
+                  padding: const EdgeInsets.all(24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (widget.title != null)
+                        Text(widget.title!,
+                            style: context.textTheme.titleLarge),
+                      if (widget.content != null) ...[
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          child: Text(
+                            widget.content!,
+                            style: context.textTheme.bodyMedium!.copyWith(
+                              height: 1.6,
+                            ),
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 16),
+                      ],
+                      if (widget.child != null)
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 16),
+                            child: widget.child!,
+                          ),
+                        )
+                      else
+                        const Spacer(),
+                      if (widget.onActionButtonPressed != null)
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () =>
+                                widget.onActionButtonPressed!(context),
+                            child: Text(widget.actionButtonText),
+                          ),
+                        )
                     ],
-                    if (widget.child != null)
-                      Expanded(child: widget.child!)
-                    else
-                      const Spacer(),
-                    if (widget.onActionButtonPressed != null)
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () =>
-                              widget.onActionButtonPressed!(context),
-                          child: Text(widget.actionButtonText),
-                        ),
-                      )
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
