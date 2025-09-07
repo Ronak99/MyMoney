@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_money/enums/account_icon.dart';
 import 'package:my_money/enums/category_icon.dart';
 import 'package:my_money/enums/category_type.dart';
+import 'package:my_money/extensions/account_icon.dart';
 import 'package:my_money/extensions/build_context.dart';
 import 'package:my_money/extensions/category_icon.dart';
 import 'package:my_money/extensions/string.dart';
@@ -104,11 +106,13 @@ class CustomBottomSheet extends StatefulWidget {
     final formKey = GlobalKey<FormState>();
     String? accountName = account?.name;
     int balance = account?.balance ?? 0;
+    final accountIconNotifier =
+    ValueNotifier<AccountIcon>(account?.icon ?? AccountIcon.unknown);
 
     return CustomBottomSheet._(
       title: null,
       actionButtonText: account == null ? "Create Account" : "Update Account",
-      height: 275,
+      height: 500,
       onActionButtonPressed: (context) async {
         final result = formKey.currentState!.validateGranularly();
         _heightOffset.value = result.length * 15;
@@ -122,6 +126,7 @@ class CustomBottomSheet extends StatefulWidget {
             name: accountName!,
             balance: balance,
             createdOn: DateTime.now(),
+            icon: accountIconNotifier.value,
           ),
         );
 
@@ -159,6 +164,45 @@ class CustomBottomSheet extends StatefulWidget {
               onSaved: (value) {
                 balance = double.parse(value!).round();
               },
+            ),
+            Expanded(
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 16,
+                ),
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                itemCount: AccountIcon.values.length,
+                itemBuilder: (context, index) {
+                  AccountIcon item = AccountIcon.values[index];
+
+                  return GestureDetector(
+                    onTap: () => accountIconNotifier.value = item,
+                    behavior: HitTestBehavior.translucent,
+                    child: ValueListenableBuilder(
+                      valueListenable: accountIconNotifier,
+                      builder: (context, categoryIcon, child) =>
+                          AnimatedContainer(
+                            padding: const EdgeInsets.all(16),
+                            duration: const Duration(milliseconds: 150),
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: categoryIcon == item
+                                    ? context.colorScheme.primary.withOpacity(.1)
+                                    : Colors.transparent,
+                                border: Border.all(
+                                  color: categoryIcon == item
+                                      ? context.colorScheme.primary.withOpacity(.3)
+                                      : Colors.transparent,
+                                )),
+                            child: child,
+                          ),
+                      child: Image.asset(item.assetName),
+                    ),
+                  );
+                },
+              ),
             ),
           ],
         ),
