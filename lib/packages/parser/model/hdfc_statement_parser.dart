@@ -1,8 +1,6 @@
-import 'package:my_money/extensions/list.dart';
-import 'package:my_money/model/transaction.dart';
-import 'package:my_money/packages/parser/parser.dart';
+part of '../parser.dart';
 
-class HdfcStatementParser extends BankStatementParser {
+class HdfcStatementParser extends Parser {
   @override
   List<Transaction> parse(String text) {
     List<Transaction> transactions = [];

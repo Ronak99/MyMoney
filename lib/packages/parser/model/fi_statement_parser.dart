@@ -1,6 +1,6 @@
 part of '../parser.dart';
 
-class FiStatementParser implements BankStatementParser {
+class FiStatementParser implements Parser {
   final int currentYear = DateTime.now().year;
 
   @override

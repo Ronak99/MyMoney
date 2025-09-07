@@ -10,12 +10,12 @@ class BankStatementService {
 
   BankStatementService._();
 
-  final BankStatementParser _fiStatementParser = FiStatementParser();
-  final BankStatementParser _iciciStatementParser = IciciStatmentParser();
-  final BankStatementParser _sbiStatementParser = SbiStatementParser();
-  final BankStatementParser _hdfcStatementParser = HdfcStatementParser();
+  final Parser _fiStatementParser = FiStatementParser();
+  final Parser _iciciStatementParser = IciciStatmentParser();
+  final Parser _sbiStatementParser = SbiStatementParser();
+  final Parser _hdfcStatementParser = HdfcStatementParser();
 
-  final _PdfManager _pdfManager = _PdfManager();
+  final PdfManager _pdfManager = PdfManager();
 
   Future<List<Transaction>> extractViaAsset({
     required Bank bank,

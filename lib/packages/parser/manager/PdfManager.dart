@@ -1,6 +1,6 @@
 part of '../parser.dart';
 
-class _PdfManager {
+class PdfManager {
   Future<String> loadAndRetrieveContent({
     required String filename,
     required String password,

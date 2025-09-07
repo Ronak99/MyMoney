@@ -1,5 +1,5 @@
 part of '../parser.dart';
 
-abstract class BankStatementParser {
+abstract class Parser {
   List<Transaction> parse(String text);
 }
