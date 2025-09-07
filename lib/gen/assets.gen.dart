@@ -44,8 +44,8 @@ class $AssetsImagesGen {
   AssetGenImage get entertainment =>
       const AssetGenImage('assets/images/entertainment.png');
 
-  /// File path: assets/images/fi.jpg
-  AssetGenImage get fi => const AssetGenImage('assets/images/fi.jpg');
+  /// File path: assets/images/fi.png
+  AssetGenImage get fi => const AssetGenImage('assets/images/fi.png');
 
   /// File path: assets/images/food.png
   AssetGenImage get food => const AssetGenImage('assets/images/food.png');
@@ -83,8 +83,8 @@ class $AssetsImagesGen {
   /// File path: assets/images/sale.png
   AssetGenImage get sale => const AssetGenImage('assets/images/sale.png');
 
-  /// File path: assets/images/sbi.jpg
-  AssetGenImage get sbi => const AssetGenImage('assets/images/sbi.jpg');
+  /// File path: assets/images/sbi.png
+  AssetGenImage get sbi => const AssetGenImage('assets/images/sbi.png');
 
   /// File path: assets/images/shopping.png
   AssetGenImage get shopping =>

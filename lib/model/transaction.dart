@@ -1,6 +1,8 @@
 import 'package:floor/floor.dart';
+import 'package:my_money/extensions/list.dart';
 import 'package:my_money/model/account.dart';
 import 'package:my_money/model/transaction_category.dart';
+import 'package:my_money/presentation/routes/route_generator.dart';
 
 @Entity(
   tableName: 'transactions',
@@ -50,6 +52,39 @@ class Transaction {
     this.account,
     this.category,
   });
+
+  factory Transaction.empty() => Transaction(
+        notes: '',
+        amount: 0,
+        date: DateTime.now(),
+        account: RouteGenerator.accountCubit.state.accounts.getFirst,
+        category: RouteGenerator.categoryCubit.state.categories.getFirst,
+        transactionType: TransactionType.expense,
+      );
+
+  Transaction copyWith({
+    int? id,
+    String? notes,
+    double? amount,
+    DateTime? date,
+    int? categoryId,
+    int? accountId,
+    TransactionType? transactionType,
+    Account? account,
+    TransactionCategory? category,
+  }) {
+    return Transaction(
+      id: id ?? this.id,
+      notes: notes ?? this.notes,
+      amount: amount ?? this.amount,
+      date: date ?? this.date,
+      categoryId: categoryId ?? this.categoryId,
+      accountId: accountId ?? this.accountId,
+      transactionType: transactionType ?? this.transactionType,
+      account: account ?? this.account,
+      category: category ?? this.category,
+    );
+  }
 }
 
 enum TransactionType {

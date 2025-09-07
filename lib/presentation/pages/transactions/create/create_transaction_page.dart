@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_money/constants/constants.dart';
+import 'package:my_money/model/transaction.dart';
 import 'package:my_money/presentation/pages/transactions/create/state/create_transaction_cubit.dart';
 import 'package:my_money/presentation/pages/transactions/create/state/create_transaction_state.dart';
 import 'package:my_money/presentation/pages/transactions/create/widgets/account_and_category_selector.dart';
@@ -10,8 +11,15 @@ import 'package:my_money/presentation/pages/transactions/create/widgets/date_tim
 import 'package:my_money/presentation/pages/transactions/create/widgets/transaction_type_selector.dart';
 import 'package:my_money/presentation/widgets/custom_scaffold.dart';
 
+class CreateTransactionParams {
+  final Transaction? transaction;
+
+  CreateTransactionParams({this.transaction});
+}
+
 class CreateTransactionPage extends StatelessWidget {
-  const CreateTransactionPage({super.key});
+  final CreateTransactionParams params;
+  const CreateTransactionPage({super.key, required this.params});
 
   @override
   Widget build(BuildContext context) {

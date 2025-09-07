@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:my_money/extensions/build_context.dart';
 import 'package:my_money/extensions/category_icon.dart';
 import 'package:my_money/model/transaction.dart';
+import 'package:my_money/presentation/pages/transactions/create/create_transaction_page.dart';
+import 'package:my_money/presentation/routes/routes.dart';
 
 class TransactionListItem extends StatelessWidget {
   final Transaction transaction;
@@ -10,52 +13,59 @@ class TransactionListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        children: [
-          if (transaction.category != null)
-            Container(
-              height: 45,
-              width: 45,
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.onPrimary,
-                shape: BoxShape.circle,
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () => context.push(
+        Routes.CREATE_TRANSACTION.value,
+        extra: CreateTransactionParams(transaction: transaction),
+      ),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Row(
+          children: [
+            if (transaction.category != null)
+              Container(
+                height: 45,
+                width: 45,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.onPrimary,
+                  shape: BoxShape.circle,
+                ),
+                padding: const EdgeInsets.all(12),
+                child: Image.asset(transaction.category!.icon.assetName),
               ),
-              padding: const EdgeInsets.all(12),
-              child: Image.asset(transaction.category!.icon.assetName),
-            ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(transaction.category?.name ?? 'Unknown'),
-                      Row(
-                        children: [
-                          Text(transaction.account?.name ?? 'Unknown'),
-                        ],
-                      ),
-                    ],
-                  )
-                ],
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Row(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(transaction.category?.name ?? 'Unknown'),
+                        Row(
+                          children: [
+                            Text(transaction.account?.name ?? 'Unknown'),
+                          ],
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-          Text(
-            "${transaction.transactionType == TransactionType.expense ? "-" : ""} ${transaction.amount}",
-            style: context.textTheme.bodyLarge!.copyWith(
-              color: switch (transaction.transactionType) {
-                TransactionType.transfer => context.colorScheme.primary,
-                TransactionType.income => context.colorScheme.tertiary,
-                _ => context.colorScheme.error,
-              },
+            Text(
+              "${transaction.transactionType == TransactionType.expense ? "-" : ""} ${transaction.amount}",
+              style: context.textTheme.bodyLarge!.copyWith(
+                color: switch (transaction.transactionType) {
+                  TransactionType.transfer => context.colorScheme.primary,
+                  TransactionType.income => context.colorScheme.tertiary,
+                  _ => context.colorScheme.error,
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

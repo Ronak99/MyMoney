@@ -5,51 +5,47 @@ import 'package:my_money/model/transaction.dart';
 import 'package:my_money/model/transaction_category.dart';
 import 'package:my_money/presentation/pages/transactions/create/state/create_transaction_state.dart';
 import 'package:my_money/presentation/routes/route_generator.dart';
-import 'package:my_money/presentation/widgets/custom_bottom_sheet.dart';
 
 class CreateTransactionCubit extends Cubit<CreateTransactionState> {
-  CreateTransactionCubit({
-    String? notes,
-    Account? account,
-    TransactionCategory? category,
-    TransactionType? transactionType,
-    DateTime? date,
-    double? amount,
-  }) : super(CreateTransactionState(
-          notes: notes,
-          account: account,
-          category: category,
-          transactionType: transactionType,
-          date: DateTime.now(),
-          amount: amount,
-        ));
+  CreateTransactionCubit({Transaction? transaction})
+      : super(
+          CreateTransactionState(
+            transaction: transaction ?? Transaction.empty(),
+          ),
+        );
 
   void setNotes(String notes) {
-    emit(state.copyWith(notes: notes));
+    emit(
+        state.copyWith(transaction: state.transaction!.copyWith(notes: notes)));
   }
 
   void setAccount(Account account) {
-    emit(state.copyWith(account: account));
+    emit(state.copyWith(
+        transaction: state.transaction!.copyWith(account: account)));
   }
 
   void setCategory(TransactionCategory category) {
-    emit(state.copyWith(category: category));
+    emit(state.copyWith(
+        transaction: state.transaction!.copyWith(category: category)));
   }
 
   void setTransactionType(TransactionType type) {
-    emit(state.copyWith(transactionType: type));
+    emit(state.copyWith(
+        transaction: state.transaction!.copyWith(transactionType: type)));
   }
 
   void setDate(DateTime date) {
-    emit(state.copyWith(date: date));
+    emit(state.copyWith(transaction: state.transaction!.copyWith(date: date)));
   }
 
   void setTime(TimeOfDay time) {
     emit(
       state.copyWith(
-        date: state.date!.copyWith(
-          hour: time.hour,
-          minute: time.minute,
+        transaction: state.transaction!.copyWith(
+          date: state.transaction!.date.copyWith(
+            hour: time.hour,
+            minute: time.minute,
+          ),
         ),
       ),
     );
@@ -57,23 +53,20 @@ class CreateTransactionCubit extends Cubit<CreateTransactionState> {
 
   void setAmount(String amount) {
     try {
-      emit(state.copyWith(amount: double.tryParse(amount)));
+      emit(
+        state.copyWith(
+          transaction: state.transaction!.copyWith(
+            amount: double.tryParse(amount),
+          ),
+        ),
+      );
     } catch (e) {
       rethrow;
     }
   }
 
   Future<bool> create() async {
-    Transaction transaction = Transaction(
-      notes: state.notes ?? '',
-      amount: state.amount!,
-      date: state.date!,
-      transactionType: state.transactionType!,
-      accountId: state.account?.id,
-      categoryId: state.category?.id,
-    );
-
-    RouteGenerator.transactionCubit.addTransaction(transaction);
+    RouteGenerator.transactionCubit.addTransaction(state.transaction!);
     return true;
   }
 }

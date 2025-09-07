@@ -1,4 +1,3 @@
-import 'package:floor/floor.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:my_money/model/account.dart';
 import 'package:my_money/model/transaction.dart';
@@ -11,14 +10,16 @@ class CreateTransactionState with _$CreateTransactionState {
   const CreateTransactionState._();
 
   factory CreateTransactionState({
-    @Default(TransactionType.expense) TransactionType? transactionType,
-    Account? account,
-    TransactionCategory? category,
-    String? notes,
-    double? amount,
-    DateTime? date,
+    @Default(null) Transaction? transaction,
   }) = _CreateTransactionState;
 
-  bool get isValid => amount != null && category != null && account != null;
+  bool get isValid => transaction!= null &&
+      transaction!.amount > 0 &&
+      transaction!.category != null &&
+      transaction!.account != null;
 
+  TransactionCategory? get category => transaction!.category;
+  Account? get account => transaction!.account;
+  DateTime? get date => transaction!.date;
+  TransactionType? get transactionType => transaction!.transactionType;
 }

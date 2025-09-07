@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:my_money/extensions/build_context.dart';
-import 'package:my_money/extensions/list.dart';
-import 'package:my_money/model/transaction.dart';
 import 'package:my_money/presentation/pages/accounts/account_page.dart';
 import 'package:my_money/presentation/pages/categories/categories_page.dart';
 import 'package:my_money/presentation/pages/home/home_page.dart';
@@ -14,7 +13,6 @@ import 'package:my_money/presentation/pages/transactions/create/state/create_tra
 import 'package:my_money/presentation/pages/transactions/transactions_page.dart';
 import 'package:my_money/presentation/routes/routes.dart';
 import 'package:my_money/state/account/account_cubit.dart';
-import 'package:go_router/go_router.dart';
 import 'package:my_money/state/category/category_cubit.dart';
 import 'package:my_money/state/transaction/transaction_cubit.dart';
 
@@ -58,7 +56,7 @@ class RouteGenerator {
           builder: (context, state, child) {
             return _build(HomePage(child: child));
           },
-          branches:[
+          branches: [
             Routes.TRANSACTIONS,
             // Routes.ANALYSIS,
             Routes.IMPORT,
@@ -76,10 +74,10 @@ class RouteGenerator {
                         Routes.TRANSACTIONS => const TransactionsPage(),
                         Routes.ACCOUNTS => const AccountsPage(),
                         Routes.CATEGORIES => const CategoriesPage(),
-                        Routes.IMPORT =>  BlocProvider.value(
-                          value: importCubit,
-                          child: const ImportPage(),
-                        ),
+                        Routes.IMPORT => BlocProvider.value(
+                            value: importCubit,
+                            child: const ImportPage(),
+                          ),
                         _ => const SizedBox.shrink(),
                       },
                     ),
@@ -93,11 +91,11 @@ class RouteGenerator {
           builder: (context, state) => BlocProvider(
             lazy: true,
             create: (context) => CreateTransactionCubit(
-              account: RouteGenerator.accountCubit.state.accounts.getFirst,
-              category: RouteGenerator.categoryCubit.state.categories.getFirst,
-              transactionType: TransactionType.expense,
+                transaction:
+                    (state.extra as CreateTransactionParams).transaction,),
+            child: CreateTransactionPage(
+              params: state.extra as CreateTransactionParams,
             ),
-            child: const CreateTransactionPage(),
           ),
         ),
         GoRoute(

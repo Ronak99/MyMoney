@@ -16,12 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$CreateTransactionState {
-  TransactionType? get transactionType => throw _privateConstructorUsedError;
-  Account? get account => throw _privateConstructorUsedError;
-  TransactionCategory? get category => throw _privateConstructorUsedError;
-  String? get notes => throw _privateConstructorUsedError;
-  double? get amount => throw _privateConstructorUsedError;
-  DateTime? get date => throw _privateConstructorUsedError;
+  Transaction? get transaction => throw _privateConstructorUsedError;
 
   /// Create a copy of CreateTransactionState
   /// with the given fields replaced by the non-null parameter values.
@@ -36,13 +31,7 @@ abstract class $CreateTransactionStateCopyWith<$Res> {
           $Res Function(CreateTransactionState) then) =
       _$CreateTransactionStateCopyWithImpl<$Res, CreateTransactionState>;
   @useResult
-  $Res call(
-      {TransactionType? transactionType,
-      Account? account,
-      TransactionCategory? category,
-      String? notes,
-      double? amount,
-      DateTime? date});
+  $Res call({Transaction? transaction});
 }
 
 /// @nodoc
@@ -61,38 +50,13 @@ class _$CreateTransactionStateCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? transactionType = freezed,
-    Object? account = freezed,
-    Object? category = freezed,
-    Object? notes = freezed,
-    Object? amount = freezed,
-    Object? date = freezed,
+    Object? transaction = freezed,
   }) {
     return _then(_value.copyWith(
-      transactionType: freezed == transactionType
-          ? _value.transactionType
-          : transactionType // ignore: cast_nullable_to_non_nullable
-              as TransactionType?,
-      account: freezed == account
-          ? _value.account
-          : account // ignore: cast_nullable_to_non_nullable
-              as Account?,
-      category: freezed == category
-          ? _value.category
-          : category // ignore: cast_nullable_to_non_nullable
-              as TransactionCategory?,
-      notes: freezed == notes
-          ? _value.notes
-          : notes // ignore: cast_nullable_to_non_nullable
-              as String?,
-      amount: freezed == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as double?,
-      date: freezed == date
-          ? _value.date
-          : date // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+      transaction: freezed == transaction
+          ? _value.transaction
+          : transaction // ignore: cast_nullable_to_non_nullable
+              as Transaction?,
     ) as $Val);
   }
 }
@@ -106,13 +70,7 @@ abstract class _$$CreateTransactionStateImplCopyWith<$Res>
       __$$CreateTransactionStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {TransactionType? transactionType,
-      Account? account,
-      TransactionCategory? category,
-      String? notes,
-      double? amount,
-      DateTime? date});
+  $Res call({Transaction? transaction});
 }
 
 /// @nodoc
@@ -130,38 +88,13 @@ class __$$CreateTransactionStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? transactionType = freezed,
-    Object? account = freezed,
-    Object? category = freezed,
-    Object? notes = freezed,
-    Object? amount = freezed,
-    Object? date = freezed,
+    Object? transaction = freezed,
   }) {
     return _then(_$CreateTransactionStateImpl(
-      transactionType: freezed == transactionType
-          ? _value.transactionType
-          : transactionType // ignore: cast_nullable_to_non_nullable
-              as TransactionType?,
-      account: freezed == account
-          ? _value.account
-          : account // ignore: cast_nullable_to_non_nullable
-              as Account?,
-      category: freezed == category
-          ? _value.category
-          : category // ignore: cast_nullable_to_non_nullable
-              as TransactionCategory?,
-      notes: freezed == notes
-          ? _value.notes
-          : notes // ignore: cast_nullable_to_non_nullable
-              as String?,
-      amount: freezed == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as double?,
-      date: freezed == date
-          ? _value.date
-          : date // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+      transaction: freezed == transaction
+          ? _value.transaction
+          : transaction // ignore: cast_nullable_to_non_nullable
+              as Transaction?,
     ));
   }
 }
@@ -169,32 +102,15 @@ class __$$CreateTransactionStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$CreateTransactionStateImpl extends _CreateTransactionState {
-  _$CreateTransactionStateImpl(
-      {this.transactionType = TransactionType.expense,
-      this.account,
-      this.category,
-      this.notes,
-      this.amount,
-      this.date})
-      : super._();
+  _$CreateTransactionStateImpl({this.transaction = null}) : super._();
 
   @override
   @JsonKey()
-  final TransactionType? transactionType;
-  @override
-  final Account? account;
-  @override
-  final TransactionCategory? category;
-  @override
-  final String? notes;
-  @override
-  final double? amount;
-  @override
-  final DateTime? date;
+  final Transaction? transaction;
 
   @override
   String toString() {
-    return 'CreateTransactionState(transactionType: $transactionType, account: $account, category: $category, notes: $notes, amount: $amount, date: $date)';
+    return 'CreateTransactionState(transaction: $transaction)';
   }
 
   @override
@@ -202,19 +118,12 @@ class _$CreateTransactionStateImpl extends _CreateTransactionState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreateTransactionStateImpl &&
-            (identical(other.transactionType, transactionType) ||
-                other.transactionType == transactionType) &&
-            (identical(other.account, account) || other.account == account) &&
-            (identical(other.category, category) ||
-                other.category == category) &&
-            (identical(other.notes, notes) || other.notes == notes) &&
-            (identical(other.amount, amount) || other.amount == amount) &&
-            (identical(other.date, date) || other.date == date));
+            (identical(other.transaction, transaction) ||
+                other.transaction == transaction));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, transactionType, account, category, notes, amount, date);
+  int get hashCode => Object.hash(runtimeType, transaction);
 
   /// Create a copy of CreateTransactionState
   /// with the given fields replaced by the non-null parameter values.
@@ -227,27 +136,12 @@ class _$CreateTransactionStateImpl extends _CreateTransactionState {
 }
 
 abstract class _CreateTransactionState extends CreateTransactionState {
-  factory _CreateTransactionState(
-      {final TransactionType? transactionType,
-      final Account? account,
-      final TransactionCategory? category,
-      final String? notes,
-      final double? amount,
-      final DateTime? date}) = _$CreateTransactionStateImpl;
+  factory _CreateTransactionState({final Transaction? transaction}) =
+      _$CreateTransactionStateImpl;
   _CreateTransactionState._() : super._();
 
   @override
-  TransactionType? get transactionType;
-  @override
-  Account? get account;
-  @override
-  TransactionCategory? get category;
-  @override
-  String? get notes;
-  @override
-  double? get amount;
-  @override
-  DateTime? get date;
+  Transaction? get transaction;
 
   /// Create a copy of CreateTransactionState
   /// with the given fields replaced by the non-null parameter values.

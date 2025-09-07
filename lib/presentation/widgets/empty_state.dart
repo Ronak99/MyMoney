@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_money/extensions/build_context.dart';
 import 'package:my_money/gen/assets.gen.dart';
+import 'package:my_money/presentation/pages/transactions/create/create_transaction_page.dart';
 import 'package:my_money/presentation/routes/routes.dart';
 
 class EmptyState extends StatelessWidget {
@@ -19,7 +20,10 @@ class EmptyState extends StatelessWidget {
   factory EmptyState.noTransactions(BuildContext context) {
     final actions = [
       ElevatedButton(
-        onPressed: () => context.push(Routes.CREATE_TRANSACTION.value),
+        onPressed: () => context.push(
+          Routes.CREATE_TRANSACTION.value,
+          extra: CreateTransactionParams(),
+        ),
         child: const Text("Record your first transaction"),
       ),
       const SizedBox(height: 12),
@@ -30,16 +34,13 @@ class EmptyState extends StatelessWidget {
     ];
 
     return EmptyState._(
-      text: "No records in this month",
-      actions: actions,
-      image: Assets.vector.noContent
-    );
+        text: "No records in this month",
+        actions: actions,
+        image: Assets.vector.noContent);
   }
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
