@@ -173,7 +173,7 @@ class CustomBottomSheet extends StatefulWidget {
                   mainAxisSpacing: 16,
                 ),
                 padding: const EdgeInsets.symmetric(vertical: 12),
-                itemCount: AccountIcon.values.length,
+                itemCount: AccountIcon.values.where((e) => e.name == AccountIcon.unknown.name).length,
                 itemBuilder: (context, index) {
                   AccountIcon item = AccountIcon.values[index];
 
@@ -302,7 +302,7 @@ class CustomBottomSheet extends StatefulWidget {
                   mainAxisSpacing: 16,
                 ),
                 padding: const EdgeInsets.symmetric(vertical: 12),
-                itemCount: CategoryIcon.values.length,
+                itemCount: CategoryIcon.values.where((e) => e.name != CategoryIcon.unknown.name).length,
                 itemBuilder: (context, index) {
                   CategoryIcon item = CategoryIcon.values[index];
 

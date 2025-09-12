@@ -1,8 +1,6 @@
 import 'package:floor/floor.dart';
-import 'package:my_money/extensions/list.dart';
 import 'package:my_money/model/account.dart';
 import 'package:my_money/model/transaction_category.dart';
-import 'package:my_money/presentation/routes/route_generator.dart';
 
 @Entity(
   tableName: 'transactions',
@@ -53,12 +51,16 @@ class Transaction {
     this.category,
   });
 
-  factory Transaction.empty() => Transaction(
+  factory Transaction.empty({
+    TransactionCategory? category,
+    Account? account,
+  }) =>
+      Transaction(
         notes: '',
         amount: 0,
         date: DateTime.now(),
-        account: RouteGenerator.accountCubit.state.accounts.getFirst,
-        category: RouteGenerator.categoryCubit.state.categories.getFirst,
+        account: account,
+        category: category,
         transactionType: TransactionType.expense,
       );
 

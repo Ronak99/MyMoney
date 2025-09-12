@@ -91,8 +91,8 @@ class RouteGenerator {
           builder: (context, state) => BlocProvider(
             lazy: true,
             create: (context) => CreateTransactionCubit(
-                transaction:
-                    (state.extra as CreateTransactionParams).transaction,),
+              transaction: (state.extra as CreateTransactionParams).transaction,
+            ),
             child: CreateTransactionPage(
               params: state.extra as CreateTransactionParams,
             ),

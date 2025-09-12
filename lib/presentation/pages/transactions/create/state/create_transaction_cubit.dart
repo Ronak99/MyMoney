@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_money/extensions/list.dart';
 import 'package:my_money/model/account.dart';
 import 'package:my_money/model/transaction.dart';
 import 'package:my_money/model/transaction_category.dart';
@@ -10,23 +11,43 @@ class CreateTransactionCubit extends Cubit<CreateTransactionState> {
   CreateTransactionCubit({Transaction? transaction})
       : super(
           CreateTransactionState(
-            transaction: transaction ?? Transaction.empty(),
+            transaction: transaction ??
+                Transaction.empty(
+                  account: RouteGenerator.accountCubit.state.accounts.getFirst,
+                  category:
+                      RouteGenerator.categoryCubit.state.categories.getFirst,
+                ),
           ),
         );
 
   void setNotes(String notes) {
     emit(
-        state.copyWith(transaction: state.transaction!.copyWith(notes: notes)));
+      state.copyWith(
+        transaction: state.transaction!.copyWith(notes: notes),
+      ),
+    );
   }
 
   void setAccount(Account account) {
-    emit(state.copyWith(
-        transaction: state.transaction!.copyWith(account: account)));
+    emit(
+      state.copyWith(
+        transaction: state.transaction!.copyWith(
+          accountId: account.id,
+          account: account,
+        ),
+      ),
+    );
   }
 
   void setCategory(TransactionCategory category) {
-    emit(state.copyWith(
-        transaction: state.transaction!.copyWith(category: category)));
+    emit(
+      state.copyWith(
+        transaction: state.transaction!.copyWith(
+          categoryId: category.id,
+          category: category,
+        ),
+      ),
+    );
   }
 
   void setTransactionType(TransactionType type) {
@@ -66,6 +87,7 @@ class CreateTransactionCubit extends Cubit<CreateTransactionState> {
   }
 
   Future<bool> create() async {
+    // return true;
     RouteGenerator.transactionCubit.addTransaction(state.transaction!);
     return true;
   }
