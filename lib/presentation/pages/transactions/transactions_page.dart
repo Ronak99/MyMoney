@@ -38,7 +38,7 @@ class TransactionsPage extends StatelessWidget {
           body: Column(
             children: [
               TransactionHeader(
-                selectedDate: state.selectedDate!.formatDate,
+                selectedDate: state.selectedDate!.monthYear,
                 onPrev: () => RouteGenerator.transactionCubit
                     .updateDate(action: DateAction.decrementMonth),
                 onNext: () => RouteGenerator.transactionCubit.updateDate(

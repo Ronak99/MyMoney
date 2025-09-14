@@ -63,6 +63,8 @@ class Transaction {
         date: DateTime.now(),
         account: account,
         category: category,
+        accountId: account?.id,
+        categoryId: category?.id,
         transactionType: TransactionType.expense,
       );
 
