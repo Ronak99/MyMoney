@@ -18,4 +18,7 @@ abstract class _CategoryDao {
 
   @update
   Future<int> updateCategory(TransactionCategory category);
+
+  @delete
+  Future<int> deleteCategory(TransactionCategory category);
 }

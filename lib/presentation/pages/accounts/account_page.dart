@@ -5,6 +5,7 @@ import 'package:my_money/presentation/pages/accounts/widgets/account_list_item.d
 import 'package:my_money/presentation/routes/routes.dart';
 import 'package:my_money/presentation/widgets/custom_bottom_sheet.dart';
 import 'package:my_money/presentation/widgets/custom_scaffold.dart';
+import 'package:my_money/presentation/widgets/list_item.dart';
 import 'package:my_money/presentation/widgets/list_view_separated.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_money/state/account/account_cubit.dart';
@@ -27,7 +28,7 @@ class AccountsPage extends StatelessWidget {
             return ListViewSeparated<Account>(
               list: state.accounts,
               itemBuilder: (context, _, account) {
-                return AccountListItem(account: account);
+                return ListItem.account(account);
               },
             );
           }),

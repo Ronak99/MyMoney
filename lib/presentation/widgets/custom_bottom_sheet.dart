@@ -121,7 +121,7 @@ class CustomBottomSheet extends StatefulWidget {
 
         formKey.currentState!.save();
 
-        final createdAccount = await RouteGenerator.accountCubit.addAccount(
+        final createdAccount = await RouteGenerator.accountCubit.add(
           Account(
             name: accountName!,
             balance: balance,
@@ -153,7 +153,7 @@ class CustomBottomSheet extends StatefulWidget {
             ),
             const SizedBox(height: 16),
             TextFormField(
-              initialValue: balance.toString(),
+              initialValue: balance == 0 ? null : balance.toString(),
               validator: (value) => value != null && value.trim().isEmpty
                   ? "Please provide an initial amount"
                   : null,
@@ -210,7 +210,7 @@ class CustomBottomSheet extends StatefulWidget {
     );
   }
 
-  factory CustomBottomSheet.modifyCategory({TransactionCategory? category}) {
+  factory CustomBottomSheet.modifyCategory([TransactionCategory? category]) {
     final formKey = GlobalKey<FormState>();
     String? name = category?.name;
     final categoryTypeNotifier =
@@ -231,7 +231,7 @@ class CustomBottomSheet extends StatefulWidget {
 
         formKey.currentState!.save();
 
-        final category = await RouteGenerator.categoryCubit.addCategory(
+        final category = await RouteGenerator.categoryCubit.add(
           TransactionCategory(
             name: name!,
             type: categoryTypeNotifier.value,
@@ -391,7 +391,7 @@ class CustomBottomSheet extends StatefulWidget {
     );
   }
 
-  Future<T?> show<T>(BuildContext context) => showModalBottomSheet(
+  Future<T?> show<T>([BuildContext? context]) => showModalBottomSheet(
         context: RouteGenerator.context!,
         backgroundColor: Colors.transparent,
         isScrollControlled: true,

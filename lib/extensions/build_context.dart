@@ -1,17 +1,74 @@
 import 'package:flutter/material.dart';
+import 'package:my_money/model/menu_item.dart';
 
 extension BuildContextExtension on BuildContext {
   TextTheme get textTheme => Theme.of(this).textTheme;
 
   ColorScheme get colorScheme => Theme.of(this).colorScheme;
 
-  void showSuccessSnackBar(String content) => ScaffoldMessenger.of(this).showSnackBar(SnackBarUtils.success(content: content));
+  void showSuccessSnackBar(String content) => ScaffoldMessenger.of(this)
+      .showSnackBar(SnackBarUtils.success(content: content));
 
   double get height => MediaQuery.of(this).size.height;
 
   double get width => MediaQuery.of(this).size.width;
 
-  double get safeAreaHeight => MediaQuery.of(this).size.height - MediaQuery.paddingOf(this).top;
+  double get safeAreaHeight =>
+      MediaQuery.of(this).size.height - MediaQuery.paddingOf(this).top;
+
+  void showCustomMenu(List<MenuItem> items) {
+    final RenderBox button = findRenderObject() as RenderBox;
+    final RenderBox overlay =
+        Navigator.of(this).overlay!.context.findRenderObject() as RenderBox;
+
+    const Offset offset = Offset(0, 50);
+    final RelativeRect position = RelativeRect.fromRect(
+      Rect.fromPoints(
+        button.localToGlobal(offset, ancestor: overlay),
+        button.localToGlobal(
+          button.size.bottomRight(Offset.zero) + offset,
+          ancestor: overlay,
+        ),
+      ),
+      Rect.fromPoints(
+          Offset.zero, Offset(overlay.size.width, overlay.size.height)),
+    );
+
+    showMenu<String>(
+      context: this,
+      position: position,
+      items: items
+          .map(
+            (e) => PopupMenuItem<String>(
+              value: e.value,
+              height: 0,
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
+              onTap: e.onTap,
+              child: Row(
+                children: [
+                  Icon(
+                    e.icon,
+                    size: 16,
+                    color: e.isDestructive
+                        ? colorScheme.error
+                        : colorScheme.onSurface,
+                  ),
+                  const SizedBox(width: 12),
+                  Text(
+                    e.label,
+                    style: TextStyle(
+                      color: e.isDestructive
+                          ? colorScheme.error
+                          : colorScheme.onSurface,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          )
+          .toList(),
+    );
+  }
 }
 
 enum SnackBarType {
@@ -66,10 +123,10 @@ class SnackBarUtils {
       action: action ??
           (actionLabel != null && onActionPressed != null
               ? SnackBarAction(
-            label: actionLabel,
-            textColor: Colors.white,
-            onPressed: onActionPressed,
-          )
+                  label: actionLabel,
+                  textColor: Colors.white,
+                  onPressed: onActionPressed,
+                )
               : null),
     );
   }

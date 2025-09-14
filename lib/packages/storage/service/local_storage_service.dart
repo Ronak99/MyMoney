@@ -35,15 +35,13 @@ class LocalStorageService implements _LocalStorageImpl {
   }
 
   @override
-  Future<void> deleteAccount(int id) {
-    // TODO: implement deleteAccount
-    throw UnimplementedError();
+  Future<void> deleteAccount(Account account) {
+    return database.accountDao.deleteAccount(account);
   }
 
   @override
-  Future<void> deleteCategory(int id) {
-    // TODO: implement deleteCategory
-    throw UnimplementedError();
+  Future<void> deleteCategory(TransactionCategory category) {
+    return database.categoryDao.deleteCategory(category);
   }
 
   @override

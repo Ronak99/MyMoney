@@ -100,7 +100,7 @@ class _$_AppDatabase extends _AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `transactions` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `notes` TEXT NOT NULL, `amount` REAL NOT NULL, `date` INTEGER NOT NULL, `categoryId` INTEGER, `accountId` INTEGER, `transactionType` INTEGER NOT NULL, FOREIGN KEY (`categoryId`) REFERENCES `categories` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`accountId`) REFERENCES `accounts` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
+            'CREATE TABLE IF NOT EXISTS `transactions` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `notes` TEXT NOT NULL, `amount` REAL NOT NULL, `date` INTEGER NOT NULL, `categoryId` INTEGER, `accountId` INTEGER, `transactionType` INTEGER NOT NULL, FOREIGN KEY (`categoryId`) REFERENCES `categories` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE, FOREIGN KEY (`accountId`) REFERENCES `accounts` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `accounts` (`id` INTEGER, `name` TEXT NOT NULL, `balance` INTEGER NOT NULL, `createdOn` INTEGER NOT NULL, `icon` INTEGER NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
@@ -442,6 +442,18 @@ class _$_CategoryDao extends _CategoryDao {
                   'createdOn': __DateTimeConverter.encode(item.createdOn),
                   'icon': item.icon.index
                 },
+            changeListener),
+        _transactionCategoryDeletionAdapter = DeletionAdapter(
+            database,
+            'categories',
+            ['id'],
+            (TransactionCategory item) => <String, Object?>{
+                  'id': item.id,
+                  'name': item.name,
+                  'type': item.type.index,
+                  'createdOn': __DateTimeConverter.encode(item.createdOn),
+                  'icon': item.icon.index
+                },
             changeListener);
 
   final sqflite.DatabaseExecutor database;
@@ -454,6 +466,9 @@ class _$_CategoryDao extends _CategoryDao {
       _transactionCategoryInsertionAdapter;
 
   final UpdateAdapter<TransactionCategory> _transactionCategoryUpdateAdapter;
+
+  final DeletionAdapter<TransactionCategory>
+      _transactionCategoryDeletionAdapter;
 
   @override
   Stream<List<TransactionCategory>> streamAllCategories() {
@@ -501,6 +516,12 @@ class _$_CategoryDao extends _CategoryDao {
   Future<int> updateCategory(TransactionCategory category) {
     return _transactionCategoryUpdateAdapter.updateAndReturnChangedRows(
         category, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<int> deleteCategory(TransactionCategory category) {
+    return _transactionCategoryDeletionAdapter
+        .deleteAndReturnChangedRows(category);
   }
 }
 

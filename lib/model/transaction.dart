@@ -9,11 +9,13 @@ import 'package:my_money/model/transaction_category.dart';
       childColumns: ['categoryId'],
       parentColumns: ['id'],
       entity: TransactionCategory,
+      onDelete: ForeignKeyAction.cascade,
     ),
     ForeignKey(
       childColumns: ['accountId'],
       parentColumns: ['id'],
       entity: Account,
+      onDelete: ForeignKeyAction.cascade,
     ),
   ],
   indices: [

@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_money/presentation/routes/routes.dart';
-import 'package:my_money/presentation/widgets/custom_scaffold.dart';
 
 class HomePage extends StatelessWidget {
   final Widget child;
