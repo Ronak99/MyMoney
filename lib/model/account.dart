@@ -20,6 +20,8 @@ class Account {
     required this.icon,
   });
 
+  // int activeBalance = balance + (sum of transactions.type == income && transactions.account == this) - (sum of transactions.type = expense && transactions.account == this)
+
   String get formatBalance => balance.formatCurrency;
 
   Account copyWith({
