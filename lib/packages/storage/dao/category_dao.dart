@@ -13,11 +13,8 @@ abstract class _CategoryDao {
   @Query('SELECT * FROM $tableName')
   Future<List<TransactionCategory>> findAllCategories();
 
-  @insert
+  @Insert(onConflict: OnConflictStrategy.replace)
   Future<int> insertCategory(TransactionCategory category);
-
-  @update
-  Future<int> updateCategory(TransactionCategory category);
 
   @delete
   Future<int> deleteCategory(TransactionCategory category);

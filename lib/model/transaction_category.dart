@@ -20,6 +20,22 @@ class TransactionCategory {
     required this.icon,
   });
 
+  TransactionCategory copyWith({
+    int? id,
+    String? name,
+    CategoryType? type,
+    DateTime? createdOn,
+    CategoryIcon? icon,
+  }) {
+    return TransactionCategory(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      type: type ?? this.type,
+      createdOn: createdOn ?? this.createdOn,
+      icon: icon ?? this.icon,
+    );
+  }
+
   factory TransactionCategory.dividend() {
     return TransactionCategory(
       name: 'Dividend',

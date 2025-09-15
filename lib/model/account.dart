@@ -21,4 +21,20 @@ class Account {
   });
 
   String get formatBalance => balance.formatCurrency;
+
+  Account copyWith({
+    int? id,
+    String? name,
+    int? balance,
+    AccountIcon? icon,
+    DateTime? createdOn,
+  }) {
+    return Account(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      balance: balance ?? this.balance,
+      icon: icon ?? this.icon,
+      createdOn: createdOn ?? this.createdOn,
+    );
+  }
 }

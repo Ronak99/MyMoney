@@ -109,6 +109,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/wallet.png
   AssetGenImage get wallet => const AssetGenImage('assets/images/wallet.png');
 
+  /// File path: assets/images/wallet_icon.png
+  AssetGenImage get walletIcon =>
+      const AssetGenImage('assets/images/wallet_icon.png');
+
   /// File path: assets/images/wallet_og.png
   AssetGenImage get walletOg =>
       const AssetGenImage('assets/images/wallet_og.png');
@@ -144,6 +148,7 @@ class $AssetsImagesGen {
         unknown,
         visa,
         wallet,
+        walletIcon,
         walletOg
       ];
 }

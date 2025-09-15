@@ -122,24 +122,6 @@ class LocalStorageService implements _LocalStorageImpl {
   }
 
   @override
-  Future<void> updateAccount(Account account) {
-    // TODO: implement updateAccount
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> updateCategory(TransactionCategory category) {
-    // TODO: implement updateCategory
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> updateTransaction(Transaction transaction) {
-    // TODO: implement updateTransaction
-    throw UnimplementedError();
-  }
-
-  @override
   Stream<List<TransactionCategory>> streamAllCategories() {
     return database.categoryDao.streamAllCategories();
   }

@@ -102,12 +102,13 @@ class CustomBottomSheet extends StatefulWidget {
     );
   }
 
-  factory CustomBottomSheet.modifyAccount({Account? account}) {
+  factory CustomBottomSheet.modifyAccount([Account? account]) {
     final formKey = GlobalKey<FormState>();
+
     String? accountName = account?.name;
     int balance = account?.balance ?? 0;
     final accountIconNotifier =
-    ValueNotifier<AccountIcon>(account?.icon ?? AccountIcon.unknown);
+        ValueNotifier<AccountIcon>(account?.icon ?? AccountIcon.values.first);
 
     return CustomBottomSheet._(
       title: null,
@@ -121,14 +122,21 @@ class CustomBottomSheet extends StatefulWidget {
 
         formKey.currentState!.save();
 
-        final createdAccount = await RouteGenerator.accountCubit.add(
-          Account(
-            name: accountName!,
-            balance: balance,
-            createdOn: DateTime.now(),
-            icon: accountIconNotifier.value,
-          ),
-        );
+        final accountToBeSaved = account != null
+            ? account.copyWith(
+                name: accountName!,
+                balance: balance,
+                icon: accountIconNotifier.value,
+              )
+            : Account(
+                name: accountName!,
+                balance: balance,
+                createdOn: DateTime.now(),
+                icon: accountIconNotifier.value,
+              );
+
+        final createdAccount =
+            await RouteGenerator.accountCubit.add(accountToBeSaved);
 
         if (!context.mounted) return;
         context.pop(createdAccount);
@@ -140,7 +148,6 @@ class CustomBottomSheet extends StatefulWidget {
             TextFormField(
               initialValue: accountName,
               autofocus: true,
-              keyboardType: TextInputType.number,
               validator: (value) => value != null && value.trim().isEmpty
                   ? "Please provide an account name"
                   : null,
@@ -173,7 +180,9 @@ class CustomBottomSheet extends StatefulWidget {
                   mainAxisSpacing: 16,
                 ),
                 padding: const EdgeInsets.symmetric(vertical: 12),
-                itemCount: AccountIcon.values.where((e) => e.name == AccountIcon.unknown.name).length,
+                itemCount: AccountIcon.values
+                    .where((e) => e.name == AccountIcon.unknown.name)
+                    .length,
                 itemBuilder: (context, index) {
                   AccountIcon item = AccountIcon.values[index];
 
@@ -184,20 +193,20 @@ class CustomBottomSheet extends StatefulWidget {
                       valueListenable: accountIconNotifier,
                       builder: (context, categoryIcon, child) =>
                           AnimatedContainer(
-                            padding: const EdgeInsets.all(16),
-                            duration: const Duration(milliseconds: 150),
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: categoryIcon == item
-                                    ? context.colorScheme.primary.withOpacity(.1)
-                                    : Colors.transparent,
-                                border: Border.all(
-                                  color: categoryIcon == item
-                                      ? context.colorScheme.primary.withOpacity(.3)
-                                      : Colors.transparent,
-                                )),
-                            child: child,
-                          ),
+                        padding: const EdgeInsets.all(16),
+                        duration: const Duration(milliseconds: 150),
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: categoryIcon == item
+                                ? context.colorScheme.primary.withOpacity(.1)
+                                : Colors.transparent,
+                            border: Border.all(
+                              color: categoryIcon == item
+                                  ? context.colorScheme.primary.withOpacity(.3)
+                                  : Colors.transparent,
+                            )),
+                        child: child,
+                      ),
                       child: Image.asset(item.assetName),
                     ),
                   );
@@ -215,8 +224,8 @@ class CustomBottomSheet extends StatefulWidget {
     String? name = category?.name;
     final categoryTypeNotifier =
         ValueNotifier<CategoryType>(category?.type ?? CategoryType.expense);
-    final categoryIconNotifier =
-        ValueNotifier<CategoryIcon>(category?.icon ?? CategoryIcon.unknown);
+    final categoryIconNotifier = ValueNotifier<CategoryIcon>(
+        category?.icon ?? CategoryIcon.values.first);
 
     return CustomBottomSheet._(
       title: null,
@@ -231,17 +240,24 @@ class CustomBottomSheet extends StatefulWidget {
 
         formKey.currentState!.save();
 
-        final category = await RouteGenerator.categoryCubit.add(
-          TransactionCategory(
-            name: name!,
-            type: categoryTypeNotifier.value,
-            createdOn: DateTime.now(),
-            icon: categoryIconNotifier.value,
-          ),
-        );
+        final categoryToBeSaved = category != null
+            ? category.copyWith(
+                name: name,
+                type: categoryTypeNotifier.value,
+                icon: categoryIconNotifier.value,
+              )
+            : TransactionCategory(
+                name: name!,
+                type: categoryTypeNotifier.value,
+                createdOn: DateTime.now(),
+                icon: categoryIconNotifier.value,
+              );
+
+        final createdCategory =
+            await RouteGenerator.categoryCubit.add(categoryToBeSaved);
 
         if (!context.mounted) return;
-        context.pop(category);
+        context.pop(createdCategory);
       },
       child: Form(
         key: formKey,
@@ -302,7 +318,9 @@ class CustomBottomSheet extends StatefulWidget {
                   mainAxisSpacing: 16,
                 ),
                 padding: const EdgeInsets.symmetric(vertical: 12),
-                itemCount: CategoryIcon.values.where((e) => e.name != CategoryIcon.unknown.name).length,
+                itemCount: CategoryIcon.values
+                    .where((e) => e.name != CategoryIcon.unknown.name)
+                    .length,
                 itemBuilder: (context, index) {
                   CategoryIcon item = CategoryIcon.values[index];
 
@@ -339,7 +357,7 @@ class CustomBottomSheet extends StatefulWidget {
     );
   }
 
-  factory CustomBottomSheet.selectAccount({Account? account}) {
+  factory CustomBottomSheet.selectAccount([Account? account]) {
     return CustomBottomSheet._(
       title: null,
       actionButtonText: "Create New Account",
@@ -365,7 +383,7 @@ class CustomBottomSheet extends StatefulWidget {
     );
   }
 
-  factory CustomBottomSheet.selectCategory({TransactionCategory? category}) {
+  factory CustomBottomSheet.selectCategory([TransactionCategory? category]) {
     return CustomBottomSheet._(
       title: null,
       actionButtonText: "Create New Category",

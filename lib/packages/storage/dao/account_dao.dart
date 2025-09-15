@@ -13,11 +13,8 @@ abstract class _AccountDao {
   @Query('SELECT * FROM $tableName')
   Stream<List<Account>> streamAllAccounts();
 
-  @insert
+  @Insert(onConflict: OnConflictStrategy.replace)
   Future<int> insertAccount(Account account);
-
-  @update
-  Future<void> updateAccount(Account account);
 
   @delete
   Future<void> deleteAccount(Account account);

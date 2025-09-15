@@ -24,14 +24,6 @@ class CategoryCubit extends Cubit<CategoryState> {
     }
   }
 
-  Future<void> update(TransactionCategory category) async {
-    try {
-      await Get.find<LocalStorageService>().updateCategory(category);
-    } catch (e) {
-      rethrow;
-    }
-  }
-
   Future<void> delete(TransactionCategory category) async {
     try {
       await Get.find<LocalStorageService>().deleteCategory(category);

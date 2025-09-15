@@ -16,9 +16,6 @@ abstract class _LocalStorageImpl {
   // Add a new transaction
   Future<void> addTransaction(Transaction transaction);
 
-  // Update an existing transaction
-  Future<void> updateTransaction(Transaction transaction);
-
   // Delete a transaction by ID
   Future<void> deleteTransaction(int id);
 
@@ -35,9 +32,6 @@ abstract class _LocalStorageImpl {
   // Add a new account
   Future<int> addAccount(Account account);
 
-  // Update an existing account
-  Future<void> updateAccount(Account account);
-
   Future<void> deleteAccount(Account account);
 
   // Get an account by ID
@@ -51,9 +45,6 @@ abstract class _LocalStorageImpl {
 
   // Add a new category
   Future<void> addCategory(TransactionCategory category);
-
-  // Update an existing category
-  Future<void> updateCategory(TransactionCategory category);
 
   // Delete a category by ID
   Future<void> deleteCategory(TransactionCategory category);

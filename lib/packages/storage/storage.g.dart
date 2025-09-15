@@ -155,20 +155,6 @@ class _$_TransactionDao extends _TransactionDao {
                   'transactionType': item.transactionType.index
                 },
             changeListener),
-        _transactionUpdateAdapter = UpdateAdapter(
-            database,
-            'transactions',
-            ['id'],
-            (Transaction item) => <String, Object?>{
-                  'id': item.id,
-                  'notes': item.notes,
-                  'amount': item.amount,
-                  'date': __DateTimeConverter.encode(item.date),
-                  'categoryId': item.categoryId,
-                  'accountId': item.accountId,
-                  'transactionType': item.transactionType.index
-                },
-            changeListener),
         _transactionDeletionAdapter = DeletionAdapter(
             database,
             'transactions',
@@ -191,8 +177,6 @@ class _$_TransactionDao extends _TransactionDao {
   final QueryAdapter _queryAdapter;
 
   final InsertionAdapter<Transaction> _transactionInsertionAdapter;
-
-  final UpdateAdapter<Transaction> _transactionUpdateAdapter;
 
   final DeletionAdapter<Transaction> _transactionDeletionAdapter;
 
@@ -298,12 +282,6 @@ class _$_TransactionDao extends _TransactionDao {
   }
 
   @override
-  Future<void> updateTransaction(Transaction transaction) async {
-    await _transactionUpdateAdapter.update(
-        transaction, OnConflictStrategy.replace);
-  }
-
-  @override
   Future<void> deleteTransaction(Transaction transaction) async {
     await _transactionDeletionAdapter.delete(transaction);
   }
@@ -317,18 +295,6 @@ class _$_AccountDao extends _AccountDao {
         _accountInsertionAdapter = InsertionAdapter(
             database,
             'accounts',
-            (Account item) => <String, Object?>{
-                  'id': item.id,
-                  'name': item.name,
-                  'balance': item.balance,
-                  'createdOn': __DateTimeConverter.encode(item.createdOn),
-                  'icon': item.icon.index
-                },
-            changeListener),
-        _accountUpdateAdapter = UpdateAdapter(
-            database,
-            'accounts',
-            ['id'],
             (Account item) => <String, Object?>{
                   'id': item.id,
                   'name': item.name,
@@ -357,8 +323,6 @@ class _$_AccountDao extends _AccountDao {
   final QueryAdapter _queryAdapter;
 
   final InsertionAdapter<Account> _accountInsertionAdapter;
-
-  final UpdateAdapter<Account> _accountUpdateAdapter;
 
   final DeletionAdapter<Account> _accountDeletionAdapter;
 
@@ -401,12 +365,7 @@ class _$_AccountDao extends _AccountDao {
   @override
   Future<int> insertAccount(Account account) {
     return _accountInsertionAdapter.insertAndReturnId(
-        account, OnConflictStrategy.abort);
-  }
-
-  @override
-  Future<void> updateAccount(Account account) async {
-    await _accountUpdateAdapter.update(account, OnConflictStrategy.abort);
+        account, OnConflictStrategy.replace);
   }
 
   @override
@@ -423,18 +382,6 @@ class _$_CategoryDao extends _CategoryDao {
         _transactionCategoryInsertionAdapter = InsertionAdapter(
             database,
             'categories',
-            (TransactionCategory item) => <String, Object?>{
-                  'id': item.id,
-                  'name': item.name,
-                  'type': item.type.index,
-                  'createdOn': __DateTimeConverter.encode(item.createdOn),
-                  'icon': item.icon.index
-                },
-            changeListener),
-        _transactionCategoryUpdateAdapter = UpdateAdapter(
-            database,
-            'categories',
-            ['id'],
             (TransactionCategory item) => <String, Object?>{
                   'id': item.id,
                   'name': item.name,
@@ -464,8 +411,6 @@ class _$_CategoryDao extends _CategoryDao {
 
   final InsertionAdapter<TransactionCategory>
       _transactionCategoryInsertionAdapter;
-
-  final UpdateAdapter<TransactionCategory> _transactionCategoryUpdateAdapter;
 
   final DeletionAdapter<TransactionCategory>
       _transactionCategoryDeletionAdapter;
@@ -509,13 +454,7 @@ class _$_CategoryDao extends _CategoryDao {
   @override
   Future<int> insertCategory(TransactionCategory category) {
     return _transactionCategoryInsertionAdapter.insertAndReturnId(
-        category, OnConflictStrategy.abort);
-  }
-
-  @override
-  Future<int> updateCategory(TransactionCategory category) {
-    return _transactionCategoryUpdateAdapter.updateAndReturnChangedRows(
-        category, OnConflictStrategy.abort);
+        category, OnConflictStrategy.replace);
   }
 
   @override

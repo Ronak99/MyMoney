@@ -91,9 +91,8 @@ class AccountAndCategorySelector extends StatelessWidget {
                     account = await CustomBottomSheet.modifyAccount()
                         .show<Account?>(context);
                   } else {
-                    account =
-                        await CustomBottomSheet.selectAccount(account: account)
-                            .show(context);
+                    account = await CustomBottomSheet.selectAccount(account)
+                        .show(context);
                   }
                   if (!context.mounted) return;
                   if (account == null) return;
@@ -120,9 +119,8 @@ class AccountAndCategorySelector extends StatelessWidget {
                     category =
                         await CustomBottomSheet.modifyCategory().show(context);
                   } else {
-                    category = await CustomBottomSheet.selectCategory(
-                      category: category,
-                    ).show(context);
+                    category = await CustomBottomSheet.selectCategory(category)
+                        .show(context);
                   }
                   if (!context.mounted) return;
                   if (category == null) return;

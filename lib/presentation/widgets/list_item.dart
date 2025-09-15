@@ -40,7 +40,7 @@ class ListItem extends StatelessWidget {
         style: context.textTheme.bodyLarge!
             .copyWith(color: context.colorScheme.primary),
       ),
-      onEdit: () => CustomBottomSheet.modifyAccount(account: account).show(),
+      onEdit: () => CustomBottomSheet.modifyAccount(account).show(),
       onDelete: () => RouteGenerator.accountCubit.delete(account),
     );
   }
