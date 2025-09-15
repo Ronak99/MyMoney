@@ -21,48 +21,50 @@ class ImportPage extends StatelessWidget {
       body: Container(
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ValueListenableBuilder(
-              valueListenable: showInfoDialog,
-              builder: (context, value, child) =>
-                  value ? child! : const SizedBox.shrink(),
-              child: InfoCard(onDismiss: () => showInfoDialog.value = false),
-            ),
-            const SizedBox(height: 16),
-            ImportSection(
-              title: "Statement",
-              description:
-                  "We have added PDF parsers for bank statements for select banks.",
-              actionLabel: "Import",
-              onImport: () {
-                context
-                    .read<ImportCubit>()
-                    .onImport(context, bank: selectedBank.value);
-              },
-              selectedItem: selectedBank,
-              items:
-                  Map.fromEntries(Bank.values.map((e) => MapEntry(e, e.name))),
-            ),
-            const Divider(
-              height: 50,
-            ),
-            ImportSection(
-              title: "Existing Records",
-              description:
-                  "Import CSV from your existing finance management apps.",
-              actionLabel: "Import",
-              onImport: () {
-                context
-                    .read<ImportCubit>()
-                    .onImport(context, peerApp: selectedPeer.value);
-              },
-              selectedItem: selectedPeer,
-              items: Map.fromEntries(
-                  PeerApp.values.map((e) => MapEntry(e, e.name))),
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ValueListenableBuilder(
+                valueListenable: showInfoDialog,
+                builder: (context, value, child) =>
+                    value ? child! : const SizedBox.shrink(),
+                child: InfoCard(onDismiss: () => showInfoDialog.value = false),
+              ),
+              const SizedBox(height: 16),
+              ImportSection(
+                title: "Statement",
+                description:
+                    "We have added PDF parsers for bank statements for select banks.",
+                actionLabel: "Import",
+                onImport: () {
+                  context
+                      .read<ImportCubit>()
+                      .onImport(context, bank: selectedBank.value);
+                },
+                selectedItem: selectedBank,
+                items:
+                    Map.fromEntries(Bank.values.map((e) => MapEntry(e, e.name))),
+              ),
+              const Divider(
+                height: 50,
+              ),
+              ImportSection(
+                title: "Existing Records",
+                description:
+                    "Import CSV from your existing finance management apps.",
+                actionLabel: "Import",
+                onImport: () {
+                  context
+                      .read<ImportCubit>()
+                      .onImport(context, peerApp: selectedPeer.value);
+                },
+                selectedItem: selectedPeer,
+                items: Map.fromEntries(
+                    PeerApp.values.map((e) => MapEntry(e, e.name))),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -20,33 +20,13 @@ class ViewImportsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomScaffold(
       title: "View Imports",
+      onBackButtonPressed: context.pop,
       body: SizedBox(
         width: double.infinity,
         child: BlocBuilder<ImportCubit, ImportState>(builder: (context, state) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: 40,
-                child: Row(
-                  children: [
-                    IconButton(
-                      onPressed: () => context.pop(),
-                      icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                    ),
-                    Text(
-                      "View Imports",
-                      style: context.textTheme.headlineLarge,
-                    ),
-                    const Spacer(),
-                    if (state.filteredTransactions.isNotEmpty)
-                      TextButton(
-                        onPressed: () {},
-                        child: const Text("Save"),
-                      ),
-                  ],
-                ),
-              ),
               Container(
                 height: 40,
                 margin: const EdgeInsets.symmetric(vertical: 16),

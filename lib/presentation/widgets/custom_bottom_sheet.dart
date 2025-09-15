@@ -74,6 +74,7 @@ class CustomBottomSheet extends StatefulWidget {
               : context.pop(textEditingController.text),
       child: TextField(
         controller: textEditingController,
+        autofocus: true,
         decoration: const InputDecoration(
           hintText: "Password",
         ),

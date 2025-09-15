@@ -103,7 +103,7 @@ class ImportCubit extends Cubit<ImportState> {
         ),
       );
 
-      updateDate(action: DateAction.setSpecific, specificDate: DateTime.now());
+      updateDate(action: DateAction.setSpecific, specificDate: transactions.first.date);
 
       if (!context.mounted) return;
 
