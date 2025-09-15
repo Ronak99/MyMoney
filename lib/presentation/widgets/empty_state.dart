@@ -5,6 +5,7 @@ import 'package:my_money/extensions/build_context.dart';
 import 'package:my_money/gen/assets.gen.dart';
 import 'package:my_money/presentation/pages/transactions/create/create_transaction_page.dart';
 import 'package:my_money/presentation/routes/routes.dart';
+import 'package:my_money/presentation/widgets/custom_bottom_sheet.dart';
 
 class EmptyState extends StatelessWidget {
   final String text;
@@ -30,6 +31,34 @@ class EmptyState extends StatelessWidget {
       TextButton(
         onPressed: () => context.showSuccessSnackBar("Awesome"),
         child: const Text("Import bank statement"),
+      ),
+    ];
+
+    return EmptyState._(
+        text: "No records in this month",
+        actions: actions,
+        image: Assets.vector.noContent);
+  }
+
+  factory EmptyState.noBankAccount() {
+    final actions = [
+      ElevatedButton(
+        onPressed: CustomBottomSheet.modifyAccount().show,
+        child: const Text("Create an account"),
+      ),
+    ];
+
+    return EmptyState._(
+        text: "No records in this month",
+        actions: actions,
+        image: Assets.vector.noContent);
+  }
+
+  factory EmptyState.noCategory() {
+    final actions = [
+      ElevatedButton(
+        onPressed: CustomBottomSheet.modifyCategory().show,
+        child: const Text("Create a category"),
       ),
     ];
 

@@ -27,4 +27,4 @@ part 'dao/transaction_dao.dart';
 part 'dao/account_dao.dart';
 part 'dao/category_dao.dart';
 part 'converter/date_time_converter.dart';
-part 'dao/queries.dart';
+part 'queries/queries.dart';
