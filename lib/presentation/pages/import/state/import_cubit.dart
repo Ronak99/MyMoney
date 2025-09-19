@@ -22,24 +22,39 @@ class ImportCubit extends Cubit<ImportState> {
 
   void onImport(BuildContext context, {Bank? bank, PeerApp? peerApp}) async {
     if (RouteGenerator.accountCubit.state.accounts.isEmpty) {
-      CustomBottomSheet.noBankAccount().show(context);
+      CustomBottomSheet.noBankAccount().show();
       return;
     }
-    try {
-      final pickedFile = await pickFile(shouldPickCsv: bank == null);
+    final pickedFile = await pickFile(shouldPickCsv: bank == null);
 
-      if (bank != null) {
+    emit(
+      state.copyWith(
+        selectedFile: File(pickedFile.files.first.path!),
+        selectedBank: bank,
+        selectedPeerApp: peerApp,
+        transactions: [],
+      ),
+    );
+
+    // navigate to view imports
+    if (!context.mounted) return;
+    context.push(Routes.VIEW_IMPORTS.value);
+  }
+
+  void resolveContent(BuildContext context) async {
+    try {
+      if (state.selectedBank != null) {
         if (!context.mounted) return;
         await _handleBankStatementImport(
           context,
-          pickedFile: pickedFile,
-          bank: bank,
+          file: state.selectedFile!,
+          bank: state.selectedBank!,
         );
       }
 
-      if (peerApp != null) {
+      if (state.selectedPeerApp != null) {
         if (!context.mounted) return;
-        await _handlePeerAppDataImport(context, pickedFile: pickedFile);
+        await _handlePeerAppDataImport(context, file: state.selectedFile!);
       }
     } catch (e) {}
   }
@@ -58,14 +73,12 @@ class ImportCubit extends Cubit<ImportState> {
 
   Future<void> _handlePeerAppDataImport(
     BuildContext context, {
-    required FilePickerResult pickedFile,
+    required File file,
   }) async {
-    PlatformFile file = pickedFile.files.first;
-
     emit(state.copyWith(isLoading: true));
 
     List<Transaction> transactions =
-        await AppStatementService.instance.extract(file: File(file.path!));
+        await AppStatementService.instance.extract(file: file);
 
     emit(
       state.copyWith(
@@ -73,51 +86,48 @@ class ImportCubit extends Cubit<ImportState> {
         transactions: transactions,
       ),
     );
-
-    if (!context.mounted) return;
-    context.push(Routes.VIEW_IMPORTS.value);
   }
 
   Future<void> _handleBankStatementImport(
     BuildContext context, {
-    required FilePickerResult pickedFile,
+    required File file,
     required Bank bank,
     String? password,
   }) async {
-    PlatformFile file = pickedFile.files.first;
     try {
       emit(state.copyWith(isLoading: true));
 
       List<Transaction> transactions =
           await BankStatementService.instance.extract(
-        file: File(file.path!),
+        file: File(file.path),
         bank: bank,
         password: password,
       );
 
       emit(
         state.copyWith(
-          isLoading: false,
           transactions: transactions,
           previousPassword: null,
+          isLoading: false,
         ),
       );
 
-      updateDate(action: DateAction.setSpecific, specificDate: transactions.first.date);
-
-      if (!context.mounted) return;
-
-      context.push(Routes.VIEW_IMPORTS.value);
+      updateDate(
+        action: DateAction.setSpecific,
+        specificDate: transactions.first.date,
+      );
     } on PdfLockedException {
-      String? password = await CustomBottomSheet.pdfLocked().show(context);
+      String? password = await CustomBottomSheet.pdfLocked().show();
       if (password == null) return;
       if (!context.mounted) return;
 
       emit(state.copyWith(previousPassword: password));
 
+      await Future.delayed(Duration(seconds: 1));
+
       _handleBankStatementImport(
         context,
-        pickedFile: pickedFile,
+        file: file,
         bank: bank,
         password: password,
       );
@@ -130,12 +140,12 @@ class ImportCubit extends Cubit<ImportState> {
 
       emit(state.copyWith(previousPassword: password));
 
-      _handleBankStatementImport(
-        context,
-        pickedFile: pickedFile,
-        bank: bank,
-        password: password,
-      );
+      // _handleBankStatementImport(
+      //   context,
+      //   file: file,
+      //   bank: bank,
+      //   password: password,
+      // );
     } catch (e) {
       print(e);
     }

@@ -1,33 +1,33 @@
 part of '../parser.dart';
 
 class PdfManager {
-  Future<String> loadAndRetrieveContent({
-    required String filename,
-    required String password,
-  }) async {
-    try {
-      // Load PDF from assets
-      final ByteData data = await rootBundle.load('assets/$filename');
-      final Uint8List bytes = data.buffer.asUint8List();
-
-      return await _unlockAndExtractContent(bytes: bytes, password: password);
-    } catch (e) {
-      throw Exception("PDF file not found in app bundle: $e");
-    }
-  }
+  // String loadAndRetrieveContent({
+  //   required String filename,
+  //   required String password,
+  // }) async {
+  //   try {
+  //     // Load PDF from assets
+  //     final ByteData data = await rootBundle.load('assets/$filename');
+  //     final Uint8List bytes = data.buffer.asUint8List();
+  //
+  //     return _unlockAndExtractContent(bytes: bytes, password: password);
+  //   } catch (e) {
+  //     throw Exception("PDF file not found in app bundle: $e");
+  //   }
+  // }
 
   Future<String> loadAndRetrieveContentFromPdfFile(
     File file, {
     required String? password,
   }) async {
     final Uint8List bytes = await file.readAsBytes();
-    return await _unlockAndExtractContent(bytes: bytes, password: password);
+    return _unlockAndExtractContent(bytes: bytes, password: password);
   }
 
-  Future<String> _unlockAndExtractContent({
+  String _unlockAndExtractContent({
     required Uint8List bytes,
     required String? password,
-  }) async {
+  }) {
     final Stopwatch stopwatch = Stopwatch()..start();
 
     try {

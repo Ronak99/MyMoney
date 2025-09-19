@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_money/app.dart';
+import 'package:my_money/packages/actions/app_action_manager.dart';
 import 'package:my_money/packages/parser/parser.dart';
 import 'package:my_money/packages/storage/storage.dart';
 import 'package:my_money/presentation/routes/route_generator.dart';
@@ -20,6 +21,9 @@ void main() async {
 
   // init cubits
   RouteGenerator.initializeCubits();
+
+  // initialize shortcuts
+  AppActionManager.instance.initialize();
 
   // run app
   runApp(const MyMoneyApp());

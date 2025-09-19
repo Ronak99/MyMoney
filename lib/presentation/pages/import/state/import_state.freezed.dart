@@ -16,12 +16,15 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ImportState {
-  bool? get isLoading => throw _privateConstructorUsedError;
+  bool get isLoading => throw _privateConstructorUsedError;
   String? get previousPassword => throw _privateConstructorUsedError;
   List<Transaction> get transactions => throw _privateConstructorUsedError;
   List<Transaction> get filteredTransactions =>
       throw _privateConstructorUsedError;
   DateTime? get selectedDate => throw _privateConstructorUsedError;
+  File? get selectedFile => throw _privateConstructorUsedError;
+  Bank? get selectedBank => throw _privateConstructorUsedError;
+  PeerApp? get selectedPeerApp => throw _privateConstructorUsedError;
 
   /// Create a copy of ImportState
   /// with the given fields replaced by the non-null parameter values.
@@ -37,11 +40,14 @@ abstract class $ImportStateCopyWith<$Res> {
       _$ImportStateCopyWithImpl<$Res, ImportState>;
   @useResult
   $Res call(
-      {bool? isLoading,
+      {bool isLoading,
       String? previousPassword,
       List<Transaction> transactions,
       List<Transaction> filteredTransactions,
-      DateTime? selectedDate});
+      DateTime? selectedDate,
+      File? selectedFile,
+      Bank? selectedBank,
+      PeerApp? selectedPeerApp});
 }
 
 /// @nodoc
@@ -59,17 +65,20 @@ class _$ImportStateCopyWithImpl<$Res, $Val extends ImportState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = freezed,
+    Object? isLoading = null,
     Object? previousPassword = freezed,
     Object? transactions = null,
     Object? filteredTransactions = null,
     Object? selectedDate = freezed,
+    Object? selectedFile = freezed,
+    Object? selectedBank = freezed,
+    Object? selectedPeerApp = freezed,
   }) {
     return _then(_value.copyWith(
-      isLoading: freezed == isLoading
+      isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as bool,
       previousPassword: freezed == previousPassword
           ? _value.previousPassword
           : previousPassword // ignore: cast_nullable_to_non_nullable
@@ -86,6 +95,18 @@ class _$ImportStateCopyWithImpl<$Res, $Val extends ImportState>
           ? _value.selectedDate
           : selectedDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      selectedFile: freezed == selectedFile
+          ? _value.selectedFile
+          : selectedFile // ignore: cast_nullable_to_non_nullable
+              as File?,
+      selectedBank: freezed == selectedBank
+          ? _value.selectedBank
+          : selectedBank // ignore: cast_nullable_to_non_nullable
+              as Bank?,
+      selectedPeerApp: freezed == selectedPeerApp
+          ? _value.selectedPeerApp
+          : selectedPeerApp // ignore: cast_nullable_to_non_nullable
+              as PeerApp?,
     ) as $Val);
   }
 }
@@ -99,11 +120,14 @@ abstract class _$$ImportStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {bool? isLoading,
+      {bool isLoading,
       String? previousPassword,
       List<Transaction> transactions,
       List<Transaction> filteredTransactions,
-      DateTime? selectedDate});
+      DateTime? selectedDate,
+      File? selectedFile,
+      Bank? selectedBank,
+      PeerApp? selectedPeerApp});
 }
 
 /// @nodoc
@@ -119,17 +143,20 @@ class __$$ImportStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = freezed,
+    Object? isLoading = null,
     Object? previousPassword = freezed,
     Object? transactions = null,
     Object? filteredTransactions = null,
     Object? selectedDate = freezed,
+    Object? selectedFile = freezed,
+    Object? selectedBank = freezed,
+    Object? selectedPeerApp = freezed,
   }) {
     return _then(_$ImportStateImpl(
-      isLoading: freezed == isLoading
+      isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as bool,
       previousPassword: freezed == previousPassword
           ? _value.previousPassword
           : previousPassword // ignore: cast_nullable_to_non_nullable
@@ -146,6 +173,18 @@ class __$$ImportStateImplCopyWithImpl<$Res>
           ? _value.selectedDate
           : selectedDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      selectedFile: freezed == selectedFile
+          ? _value.selectedFile
+          : selectedFile // ignore: cast_nullable_to_non_nullable
+              as File?,
+      selectedBank: freezed == selectedBank
+          ? _value.selectedBank
+          : selectedBank // ignore: cast_nullable_to_non_nullable
+              as Bank?,
+      selectedPeerApp: freezed == selectedPeerApp
+          ? _value.selectedPeerApp
+          : selectedPeerApp // ignore: cast_nullable_to_non_nullable
+              as PeerApp?,
     ));
   }
 }
@@ -158,13 +197,16 @@ class _$ImportStateImpl implements _ImportState {
       this.previousPassword = null,
       final List<Transaction> transactions = const [],
       final List<Transaction> filteredTransactions = const [],
-      this.selectedDate})
+      this.selectedDate,
+      this.selectedFile = null,
+      this.selectedBank = null,
+      this.selectedPeerApp = null})
       : _transactions = transactions,
         _filteredTransactions = filteredTransactions;
 
   @override
   @JsonKey()
-  final bool? isLoading;
+  final bool isLoading;
   @override
   @JsonKey()
   final String? previousPassword;
@@ -189,10 +231,19 @@ class _$ImportStateImpl implements _ImportState {
 
   @override
   final DateTime? selectedDate;
+  @override
+  @JsonKey()
+  final File? selectedFile;
+  @override
+  @JsonKey()
+  final Bank? selectedBank;
+  @override
+  @JsonKey()
+  final PeerApp? selectedPeerApp;
 
   @override
   String toString() {
-    return 'ImportState(isLoading: $isLoading, previousPassword: $previousPassword, transactions: $transactions, filteredTransactions: $filteredTransactions, selectedDate: $selectedDate)';
+    return 'ImportState(isLoading: $isLoading, previousPassword: $previousPassword, transactions: $transactions, filteredTransactions: $filteredTransactions, selectedDate: $selectedDate, selectedFile: $selectedFile, selectedBank: $selectedBank, selectedPeerApp: $selectedPeerApp)';
   }
 
   @override
@@ -209,7 +260,13 @@ class _$ImportStateImpl implements _ImportState {
             const DeepCollectionEquality()
                 .equals(other._filteredTransactions, _filteredTransactions) &&
             (identical(other.selectedDate, selectedDate) ||
-                other.selectedDate == selectedDate));
+                other.selectedDate == selectedDate) &&
+            (identical(other.selectedFile, selectedFile) ||
+                other.selectedFile == selectedFile) &&
+            (identical(other.selectedBank, selectedBank) ||
+                other.selectedBank == selectedBank) &&
+            (identical(other.selectedPeerApp, selectedPeerApp) ||
+                other.selectedPeerApp == selectedPeerApp));
   }
 
   @override
@@ -219,7 +276,10 @@ class _$ImportStateImpl implements _ImportState {
       previousPassword,
       const DeepCollectionEquality().hash(_transactions),
       const DeepCollectionEquality().hash(_filteredTransactions),
-      selectedDate);
+      selectedDate,
+      selectedFile,
+      selectedBank,
+      selectedPeerApp);
 
   /// Create a copy of ImportState
   /// with the given fields replaced by the non-null parameter values.
@@ -232,14 +292,17 @@ class _$ImportStateImpl implements _ImportState {
 
 abstract class _ImportState implements ImportState {
   factory _ImportState(
-      {final bool? isLoading,
+      {final bool isLoading,
       final String? previousPassword,
       final List<Transaction> transactions,
       final List<Transaction> filteredTransactions,
-      final DateTime? selectedDate}) = _$ImportStateImpl;
+      final DateTime? selectedDate,
+      final File? selectedFile,
+      final Bank? selectedBank,
+      final PeerApp? selectedPeerApp}) = _$ImportStateImpl;
 
   @override
-  bool? get isLoading;
+  bool get isLoading;
   @override
   String? get previousPassword;
   @override
@@ -248,6 +311,12 @@ abstract class _ImportState implements ImportState {
   List<Transaction> get filteredTransactions;
   @override
   DateTime? get selectedDate;
+  @override
+  File? get selectedFile;
+  @override
+  Bank? get selectedBank;
+  @override
+  PeerApp? get selectedPeerApp;
 
   /// Create a copy of ImportState
   /// with the given fields replaced by the non-null parameter values.

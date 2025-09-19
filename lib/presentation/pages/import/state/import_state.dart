@@ -1,15 +1,22 @@
+import 'dart:io';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:my_money/extensions/peer_app.dart';
 import 'package:my_money/model/transaction.dart';
+import 'package:my_money/packages/parser/parser.dart';
 
 part 'import_state.freezed.dart';
 
 @freezed
 class ImportState with _$ImportState {
   factory ImportState({
-    @Default(false) bool? isLoading,
+    @Default(false) bool isLoading,
     @Default(null) String? previousPassword,
     @Default([]) List<Transaction> transactions,
     @Default([]) List<Transaction> filteredTransactions,
     DateTime? selectedDate,
+    @Default(null) File? selectedFile,
+    @Default(null) Bank? selectedBank,
+    @Default(null) PeerApp? selectedPeerApp,
   }) = _ImportState;
 }

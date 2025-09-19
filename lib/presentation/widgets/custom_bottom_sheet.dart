@@ -72,6 +72,7 @@ class CustomBottomSheet extends StatefulWidget {
           textEditingController.text.trim().isEmpty
               ? null
               : context.pop(textEditingController.text),
+
       child: TextField(
         controller: textEditingController,
         autofocus: true,
