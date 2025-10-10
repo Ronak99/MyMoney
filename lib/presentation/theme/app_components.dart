@@ -95,7 +95,7 @@ final class AppComponents {
       );
 
   /// Cards, chips, dialogs, nav, etc.
-  static CardTheme card(ColorScheme s) => CardTheme(
+  static CardThemeData card(ColorScheme s) => CardThemeData(
         color: s.surfaceContainerHigh,
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -165,7 +165,7 @@ final class AppComponents {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       );
 
-  static DialogTheme dialog(ColorScheme s) => DialogTheme(
+  static DialogThemeData dialog(ColorScheme s) => DialogThemeData(
         backgroundColor: s.surfaceContainerHigh,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
       );
