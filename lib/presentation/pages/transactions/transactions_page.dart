@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_money/enums/date_action.dart';
 import 'package:my_money/extensions/date.dart';
 import 'package:my_money/extensions/transactions.dart';
 import 'package:my_money/model/transaction.dart';
+import 'package:my_money/packages/storage/storage.dart';
 import 'package:my_money/presentation/pages/home/widgets/transaction_list_item.dart';
 import 'package:my_money/presentation/pages/transactions/create/create_transaction_page.dart';
 import 'package:my_money/presentation/pages/transactions/widgets/transaction_header.dart';
@@ -44,7 +46,9 @@ class TransactionsPage extends StatelessWidget {
                 onNext: () => RouteGenerator.transactionCubit.updateDate(
                   action: DateAction.incrementMonth,
                 ),
-                onFilter: () {},
+                onFilter: () {
+                  Get.find<LocalStorageService>().deleteAllTransactions();
+                },
                 onSearch: () {},
               ),
               const SizedBox(height: 16),

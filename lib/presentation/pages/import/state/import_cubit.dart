@@ -20,6 +20,12 @@ class ImportCubit extends Cubit<ImportState> {
     emit(state.copyWith(selectedDate: DateTime.now()));
   }
 
+  List<Transaction> get filteredTransactions => state.selectedDate == null ? [] : state.transactions
+      .where((e) =>
+          e.date.isAfter(state.selectedDate!.startOfTheMonth) &&
+          e.date.isBefore(state.selectedDate!.endOfTheMonth))
+      .toList();
+
   void onImport(BuildContext context, {Bank? bank, PeerApp? peerApp}) async {
     if (RouteGenerator.accountCubit.state.accounts.isEmpty) {
       CustomBottomSheet.noBankAccount().show();
@@ -104,6 +110,13 @@ class ImportCubit extends Cubit<ImportState> {
         password: password,
       );
 
+      transactions = transactions.map((e) {
+        return e.copyWith(
+          account: RouteGenerator.accountCubit.state.accounts.first,
+          accountId: RouteGenerator.accountCubit.state.accounts.first.id,
+        );
+      }).toList();
+
       emit(
         state.copyWith(
           transactions: transactions,
@@ -161,17 +174,20 @@ class ImportCubit extends Cubit<ImportState> {
       DateAction.decrementMonth => state.selectedDate!.prevMonth,
     };
 
-    List<Transaction> filteredTransactions = state.transactions
-        .where((e) =>
-            e.date.isAfter(targetDate.startOfTheMonth) &&
-            e.date.isBefore(targetDate.endOfTheMonth))
-        .toList();
-
     emit(
       state.copyWith(
         selectedDate: targetDate,
-        filteredTransactions: filteredTransactions,
       ),
     );
+  }
+
+  void updateTransaction(Transaction transaction) {
+    int index = state.transactions.indexWhere((e) => transaction.id == e.id);
+    if (index == -1) return;
+
+    List<Transaction> copyOfList = List.from(state.transactions);
+    copyOfList[index] = transaction;
+
+    emit(state.copyWith(transactions: copyOfList));
   }
 }

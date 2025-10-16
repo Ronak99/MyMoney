@@ -13,7 +13,6 @@ class ImportState with _$ImportState {
     @Default(false) bool isLoading,
     @Default(null) String? previousPassword,
     @Default([]) List<Transaction> transactions,
-    @Default([]) List<Transaction> filteredTransactions,
     DateTime? selectedDate,
     @Default(null) File? selectedFile,
     @Default(null) Bank? selectedBank,

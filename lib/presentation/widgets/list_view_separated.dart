@@ -6,11 +6,11 @@ typedef ItemBuilder<T> = Widget Function(
   T item,
 );
 
-typedef SeapratorBuilder = Widget Function(BuildContext context, int index);
+typedef SeparatorBuilder = Widget Function(BuildContext context, int index);
 
 class ListViewSeparated<T> extends StatelessWidget {
   final List<T> list;
-  final SeapratorBuilder? seapratorBuilder;
+  final SeparatorBuilder? separatorBuilder;
   final ItemBuilder<T> itemBuilder;
   final String emptyStateText;
   final Axis axis;
@@ -24,7 +24,7 @@ class ListViewSeparated<T> extends StatelessWidget {
     this.shrinkWrap = false,
     required this.itemBuilder,
     this.emptyStateText = "No items.",
-    this.seapratorBuilder,
+    this.separatorBuilder,
     this.axis = Axis.vertical,
     this.padding =  EdgeInsets.zero,
     this.physics,
@@ -43,7 +43,7 @@ class ListViewSeparated<T> extends StatelessWidget {
       physics: physics,
       shrinkWrap: shrinkWrap,
       itemBuilder: (context, index) => itemBuilder(context, index, list[index]),
-      separatorBuilder: seapratorBuilder ?? (context, index) => const Divider(),
+      separatorBuilder: separatorBuilder ?? (context, index) => const Divider(),
       itemCount: list.length,
     );
   }

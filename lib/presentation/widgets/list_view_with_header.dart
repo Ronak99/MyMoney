@@ -10,12 +10,14 @@ class ListViewWithHeader<T, K> extends StatelessWidget {
   final Map<T, List<K>> map;
   final HeaderBuilder<T> headerBuilder;
   final ItemBuilder<K> itemBuilder;
+  final SeparatorBuilder? separatorBuilder;
 
   const ListViewWithHeader({
     super.key,
     required this.map,
     required this.headerBuilder,
     required this.itemBuilder,
+    this.separatorBuilder,
   });
 
   @override
@@ -56,6 +58,7 @@ class ListViewWithHeader<T, K> extends StatelessWidget {
                       list: map[key]!,
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
+                      separatorBuilder: separatorBuilder,
                       itemBuilder: (context, index, item) => itemBuilder(item),
                     ),
                   ),

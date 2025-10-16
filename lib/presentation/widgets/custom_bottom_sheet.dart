@@ -9,6 +9,7 @@ import 'package:my_money/extensions/build_context.dart';
 import 'package:my_money/extensions/category_icon.dart';
 import 'package:my_money/extensions/string.dart';
 import 'package:my_money/model/account.dart';
+import 'package:my_money/model/transaction.dart';
 import 'package:my_money/model/transaction_category.dart';
 import 'package:my_money/presentation/pages/accounts/widgets/account_list_item.dart';
 import 'package:my_money/presentation/pages/categories/widgets/category_list_item.dart';
@@ -72,7 +73,6 @@ class CustomBottomSheet extends StatefulWidget {
           textEditingController.text.trim().isEmpty
               ? null
               : context.pop(textEditingController.text),
-
       child: TextField(
         controller: textEditingController,
         autofocus: true,
@@ -407,6 +407,33 @@ class CustomBottomSheet extends StatefulWidget {
             },
           );
         },
+      ),
+    );
+  }
+
+  factory CustomBottomSheet.transactionNote(String note) {
+    final TextEditingController textEditingController = TextEditingController(text: note);
+
+    return CustomBottomSheet._(
+      title: "Transaction Note",
+      actionButtonText: "Save",
+      height: 325,
+      onActionButtonPressed: (context) =>
+      textEditingController.text.trim().isEmpty
+          ? null
+          : context.pop(textEditingController.text),
+      child: Column(
+        children: [
+          Spacer(),
+          TextField(
+            controller: textEditingController,
+            autofocus: true,
+            maxLines: 4,
+            decoration: const InputDecoration(
+              hintText: "Sent to a friend",
+            ),
+          ),
+        ],
       ),
     );
   }

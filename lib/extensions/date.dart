@@ -8,6 +8,7 @@ extension DateExtension on DateTime {
   DateTime get prevMonth => DateTime(year, month, 0);
 
   String get formatDate => Jiffy.parseFromDateTime(this).yMMMMd;
+  String get formatDateNoDay => Jiffy.parseFromDateTime(this).yMMMM;
   String get monthYear => Jiffy.parseFromDateTime(this).format(pattern: "MMMM, yyyy");
   String get formatTime => Jiffy.parseFromDateTime(this).Hms;
 
