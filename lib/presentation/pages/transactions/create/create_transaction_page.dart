@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_money/constants/constants.dart';
+import 'package:my_money/extensions/double.dart';
 import 'package:my_money/model/transaction.dart';
 import 'package:my_money/presentation/pages/transactions/create/state/create_transaction_cubit.dart';
 import 'package:my_money/presentation/pages/transactions/create/state/create_transaction_state.dart';
@@ -65,6 +66,7 @@ class CreateTransactionPage extends StatelessWidget {
             onChange: context.read<CreateTransactionCubit>().setAmount,
             keyboardType: TextInputType.number,
             autofocus: true,
+            initialValue: params.transaction?.amount.formatCurrency,
           ),
 
           const SizedBox(height: kVerticalSpacing),
@@ -74,6 +76,7 @@ class CreateTransactionPage extends StatelessWidget {
             hint: "Notes",
             onChange: context.read<CreateTransactionCubit>().setNotes,
             maxLines: 4,
+            initialValue: params.transaction?.notes,
           ),
 
           const SizedBox(height: kVerticalSpacing),
