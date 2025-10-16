@@ -125,4 +125,8 @@ class LocalStorageService implements _LocalStorageImpl {
   Stream<List<TransactionCategory>> streamAllCategories() {
     return database.categoryDao.streamAllCategories();
   }
+
+  void deleteAllTransactions() {
+    database.transactionDao.deleteAllTransactions();
+  }
 }

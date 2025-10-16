@@ -239,6 +239,11 @@ class _$_TransactionDao extends _TransactionDao {
   }
 
   @override
+  Future<void> deleteAllTransactions() async {
+    await _queryAdapter.queryNoReturn('DELETE FROM transactions');
+  }
+
+  @override
   Future<Transaction?> findTransactionById(int id) async {
     return _queryAdapter.query('SELECT * FROM transactions WHERE id = ?1',
         mapper: (Map<String, Object?> row) => Transaction(

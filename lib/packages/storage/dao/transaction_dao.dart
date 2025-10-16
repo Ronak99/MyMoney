@@ -44,6 +44,9 @@ abstract class _TransactionDao {
   @delete
   Future<void> deleteTransaction(Transaction transaction);
 
+  @Query('DELETE FROM $tableName')
+  Future<void> deleteAllTransactions();
+
   @Query('SELECT * FROM $tableName WHERE id = :id')
   Future<Transaction?> findTransactionById(int id);
 
