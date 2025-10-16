@@ -18,9 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$CreateTransactionState {
   Transaction? get transaction => throw _privateConstructorUsedError;
 
-  /// Create a copy of CreateTransactionState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $CreateTransactionStateCopyWith<CreateTransactionState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -45,8 +43,6 @@ class _$CreateTransactionStateCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of CreateTransactionState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -83,8 +79,6 @@ class __$$CreateTransactionStateImplCopyWithImpl<$Res>
       $Res Function(_$CreateTransactionStateImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of CreateTransactionState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -125,9 +119,7 @@ class _$CreateTransactionStateImpl extends _CreateTransactionState {
   @override
   int get hashCode => Object.hash(runtimeType, transaction);
 
-  /// Create a copy of CreateTransactionState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateTransactionStateImplCopyWith<_$CreateTransactionStateImpl>
@@ -142,11 +134,8 @@ abstract class _CreateTransactionState extends CreateTransactionState {
 
   @override
   Transaction? get transaction;
-
-  /// Create a copy of CreateTransactionState
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$CreateTransactionStateImplCopyWith<_$CreateTransactionStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

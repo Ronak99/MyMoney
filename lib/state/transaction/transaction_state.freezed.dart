@@ -20,9 +20,7 @@ mixin _$TransactionState {
   DateTime? get selectedDate => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
 
-  /// Create a copy of TransactionState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $TransactionStateCopyWith<TransactionState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -47,8 +45,6 @@ class _$TransactionStateCopyWithImpl<$Res, $Val extends TransactionState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of TransactionState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -93,8 +89,6 @@ class __$$TransactionStateImplCopyWithImpl<$Res>
       $Res Function(_$TransactionStateImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of TransactionState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -168,9 +162,7 @@ class _$TransactionStateImpl implements _TransactionState {
       selectedDate,
       isLoading);
 
-  /// Create a copy of TransactionState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TransactionStateImplCopyWith<_$TransactionStateImpl> get copyWith =>
@@ -190,11 +182,8 @@ abstract class _TransactionState implements TransactionState {
   DateTime? get selectedDate;
   @override
   bool get isLoading;
-
-  /// Create a copy of TransactionState
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TransactionStateImplCopyWith<_$TransactionStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

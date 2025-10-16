@@ -19,16 +19,12 @@ mixin _$ImportState {
   bool get isLoading => throw _privateConstructorUsedError;
   String? get previousPassword => throw _privateConstructorUsedError;
   List<Transaction> get transactions => throw _privateConstructorUsedError;
-  List<Transaction> get filteredTransactions =>
-      throw _privateConstructorUsedError;
   DateTime? get selectedDate => throw _privateConstructorUsedError;
   File? get selectedFile => throw _privateConstructorUsedError;
   Bank? get selectedBank => throw _privateConstructorUsedError;
   PeerApp? get selectedPeerApp => throw _privateConstructorUsedError;
 
-  /// Create a copy of ImportState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $ImportStateCopyWith<ImportState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -43,7 +39,6 @@ abstract class $ImportStateCopyWith<$Res> {
       {bool isLoading,
       String? previousPassword,
       List<Transaction> transactions,
-      List<Transaction> filteredTransactions,
       DateTime? selectedDate,
       File? selectedFile,
       Bank? selectedBank,
@@ -60,15 +55,12 @@ class _$ImportStateCopyWithImpl<$Res, $Val extends ImportState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of ImportState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? isLoading = null,
     Object? previousPassword = freezed,
     Object? transactions = null,
-    Object? filteredTransactions = null,
     Object? selectedDate = freezed,
     Object? selectedFile = freezed,
     Object? selectedBank = freezed,
@@ -86,10 +78,6 @@ class _$ImportStateCopyWithImpl<$Res, $Val extends ImportState>
       transactions: null == transactions
           ? _value.transactions
           : transactions // ignore: cast_nullable_to_non_nullable
-              as List<Transaction>,
-      filteredTransactions: null == filteredTransactions
-          ? _value.filteredTransactions
-          : filteredTransactions // ignore: cast_nullable_to_non_nullable
               as List<Transaction>,
       selectedDate: freezed == selectedDate
           ? _value.selectedDate
@@ -123,7 +111,6 @@ abstract class _$$ImportStateImplCopyWith<$Res>
       {bool isLoading,
       String? previousPassword,
       List<Transaction> transactions,
-      List<Transaction> filteredTransactions,
       DateTime? selectedDate,
       File? selectedFile,
       Bank? selectedBank,
@@ -138,15 +125,12 @@ class __$$ImportStateImplCopyWithImpl<$Res>
       _$ImportStateImpl _value, $Res Function(_$ImportStateImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of ImportState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? isLoading = null,
     Object? previousPassword = freezed,
     Object? transactions = null,
-    Object? filteredTransactions = null,
     Object? selectedDate = freezed,
     Object? selectedFile = freezed,
     Object? selectedBank = freezed,
@@ -164,10 +148,6 @@ class __$$ImportStateImplCopyWithImpl<$Res>
       transactions: null == transactions
           ? _value._transactions
           : transactions // ignore: cast_nullable_to_non_nullable
-              as List<Transaction>,
-      filteredTransactions: null == filteredTransactions
-          ? _value._filteredTransactions
-          : filteredTransactions // ignore: cast_nullable_to_non_nullable
               as List<Transaction>,
       selectedDate: freezed == selectedDate
           ? _value.selectedDate
@@ -196,13 +176,11 @@ class _$ImportStateImpl implements _ImportState {
       {this.isLoading = false,
       this.previousPassword = null,
       final List<Transaction> transactions = const [],
-      final List<Transaction> filteredTransactions = const [],
       this.selectedDate,
       this.selectedFile = null,
       this.selectedBank = null,
       this.selectedPeerApp = null})
-      : _transactions = transactions,
-        _filteredTransactions = filteredTransactions;
+      : _transactions = transactions;
 
   @override
   @JsonKey()
@@ -219,16 +197,6 @@ class _$ImportStateImpl implements _ImportState {
     return EqualUnmodifiableListView(_transactions);
   }
 
-  final List<Transaction> _filteredTransactions;
-  @override
-  @JsonKey()
-  List<Transaction> get filteredTransactions {
-    if (_filteredTransactions is EqualUnmodifiableListView)
-      return _filteredTransactions;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_filteredTransactions);
-  }
-
   @override
   final DateTime? selectedDate;
   @override
@@ -243,7 +211,7 @@ class _$ImportStateImpl implements _ImportState {
 
   @override
   String toString() {
-    return 'ImportState(isLoading: $isLoading, previousPassword: $previousPassword, transactions: $transactions, filteredTransactions: $filteredTransactions, selectedDate: $selectedDate, selectedFile: $selectedFile, selectedBank: $selectedBank, selectedPeerApp: $selectedPeerApp)';
+    return 'ImportState(isLoading: $isLoading, previousPassword: $previousPassword, transactions: $transactions, selectedDate: $selectedDate, selectedFile: $selectedFile, selectedBank: $selectedBank, selectedPeerApp: $selectedPeerApp)';
   }
 
   @override
@@ -257,8 +225,6 @@ class _$ImportStateImpl implements _ImportState {
                 other.previousPassword == previousPassword) &&
             const DeepCollectionEquality()
                 .equals(other._transactions, _transactions) &&
-            const DeepCollectionEquality()
-                .equals(other._filteredTransactions, _filteredTransactions) &&
             (identical(other.selectedDate, selectedDate) ||
                 other.selectedDate == selectedDate) &&
             (identical(other.selectedFile, selectedFile) ||
@@ -275,15 +241,12 @@ class _$ImportStateImpl implements _ImportState {
       isLoading,
       previousPassword,
       const DeepCollectionEquality().hash(_transactions),
-      const DeepCollectionEquality().hash(_filteredTransactions),
       selectedDate,
       selectedFile,
       selectedBank,
       selectedPeerApp);
 
-  /// Create a copy of ImportState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$ImportStateImplCopyWith<_$ImportStateImpl> get copyWith =>
@@ -295,7 +258,6 @@ abstract class _ImportState implements ImportState {
       {final bool isLoading,
       final String? previousPassword,
       final List<Transaction> transactions,
-      final List<Transaction> filteredTransactions,
       final DateTime? selectedDate,
       final File? selectedFile,
       final Bank? selectedBank,
@@ -308,8 +270,6 @@ abstract class _ImportState implements ImportState {
   @override
   List<Transaction> get transactions;
   @override
-  List<Transaction> get filteredTransactions;
-  @override
   DateTime? get selectedDate;
   @override
   File? get selectedFile;
@@ -317,11 +277,8 @@ abstract class _ImportState implements ImportState {
   Bank? get selectedBank;
   @override
   PeerApp? get selectedPeerApp;
-
-  /// Create a copy of ImportState
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$ImportStateImplCopyWith<_$ImportStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
