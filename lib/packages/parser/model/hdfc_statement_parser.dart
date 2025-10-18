@@ -7,7 +7,6 @@ class HdfcStatementParser extends Parser {
     List<String> lines = text.split('\n');
 
     String? currentDate;
-    int transactionId = 1;
 
     for (int i = 0; i < lines.length; i++) {
       String line = lines[i].trim();
@@ -29,24 +28,20 @@ class HdfcStatementParser extends Parser {
         Transaction? transaction = _parseSingleLineTransaction(
           line: line,
           dateString: currentDate,
-          id: transactionId,
         );
 
         if (transaction != null) {
           transactions.add(transaction);
-          transactionId++;
         } else {
           // Try multi-line transaction parsing
           final result = _parseMultiLineTransaction(
             startingAt: i,
             lines: lines,
             dateString: currentDate,
-            id: transactionId,
           );
 
           if (result.transaction != null) {
             transactions.add(result.transaction!);
-            transactionId++;
             i = result.nextIndex - 1; // Will be incremented at end of loop
           }
         }
@@ -101,7 +96,6 @@ class HdfcStatementParser extends Parser {
     required int startingAt,
     required List<String> lines,
     required String dateString,
-    required int id,
   }) {
     String combinedLine = "";
     int i = startingAt;
@@ -150,7 +144,6 @@ class HdfcStatementParser extends Parser {
     final Transaction? transaction = _parseSingleLineTransaction(
       line: combinedLine.trim().replaceAll("^^", " "),
       dateString: dateString,
-      id: id,
     );
 
     return (transaction: transaction, nextIndex: i);
@@ -159,7 +152,6 @@ class HdfcStatementParser extends Parser {
   Transaction? _parseSingleLineTransaction({
     required String line,
     required String dateString,
-    required int id,
   }) {
     // Split the line into components
     final List<String> components = line
@@ -203,7 +195,6 @@ class HdfcStatementParser extends Parser {
     }
 
     return Transaction(
-      id: id,
       notes: name + description,
       amount: finalAmount,
       transactionType: transactionType,

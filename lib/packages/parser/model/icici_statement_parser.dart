@@ -64,7 +64,7 @@ class IciciStatmentParser implements Parser {
 
             // Make amount negative for debit transactions
             if (typeStr == 'DR') {
-              type= TransactionType.expense;
+              type = TransactionType.expense;
             }
 
             // Extract name from description
@@ -72,7 +72,6 @@ class IciciStatmentParser implements Parser {
 
             transactions.add(
               Transaction(
-                id: transactions.length + 1,
                 notes: name + description,
                 amount: amount,
                 date: date,

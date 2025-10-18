@@ -6,7 +6,6 @@ class SbiStatementParser extends Parser {
     List<Transaction> transactions = [];
     List<String> lines = text.split('\n');
 
-    int transactionId = 1;
     String? currentDate;
 
     for (int i = 0; i < lines.length; i++) {
@@ -29,24 +28,20 @@ class SbiStatementParser extends Parser {
         Transaction? transaction = _parseSingleLineTransaction(
           line: line,
           dateString: currentDate,
-          id: transactionId,
         );
 
         if (transaction != null) {
           transactions.add(transaction);
-          transactionId++;
         } else {
           // Try multi-line transaction parsing
           final result = _parseMultiLineTransaction(
             startingAt: i,
             lines: lines,
             dateString: currentDate,
-            id: transactionId,
           );
 
           if (result.transaction != null) {
             transactions.add(result.transaction!);
-            transactionId++;
             i = result.nextIndex - 1; // Will be incremented at end of loop
           }
         }
@@ -97,7 +92,6 @@ class SbiStatementParser extends Parser {
     required int startingAt,
     required List<String> lines,
     required String dateString,
-    required int id,
   }) {
     String combinedLine = "";
     int i = startingAt;
@@ -133,7 +127,6 @@ class SbiStatementParser extends Parser {
     final Transaction? transaction = _parseSingleLineTransaction(
       line: combinedLine.trim().replaceAll("^^", " "),
       dateString: dateString,
-      id: id,
     );
 
     return (transaction: transaction, nextIndex: i);
@@ -142,7 +135,6 @@ class SbiStatementParser extends Parser {
   static Transaction? _parseSingleLineTransaction({
     required String line,
     required String dateString,
-    required int id,
   }) {
     // Try to extract amount and balance from the end of the line
     final List<String> components = line
@@ -196,7 +188,6 @@ class SbiStatementParser extends Parser {
     final String receiverName = _extractReceiverName(transactionDetails) ?? _extractCompanyName(transactionDetails) ?? "Unknown";
 
     return Transaction(
-      id: id,
       notes: receiverName + transactionDetails,
       amount: amount,
       date: date,
