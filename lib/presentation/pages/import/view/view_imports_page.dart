@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_money/enums/date_action.dart';
 import 'package:my_money/extensions/build_context.dart';
 import 'package:my_money/extensions/date.dart';
 import 'package:my_money/extensions/transactions.dart';
 import 'package:my_money/model/transaction.dart';
+import 'package:my_money/packages/storage/storage.dart'
+    show LocalStorageService;
 import 'package:my_money/presentation/pages/import/state/import_cubit.dart';
 import 'package:my_money/presentation/pages/import/state/import_state.dart';
 import 'package:my_money/presentation/pages/import/widgets/imported_transaction_list_item.dart';
@@ -37,12 +40,31 @@ class _ViewImportsPageState extends State<ViewImportsPage> {
       title: "View Imports",
       onBackButtonPressed: context.pop,
       trailing: TextButton(
-        onPressed: () {
+        onPressed: () async {
+          /// TODO: To be done later, don't read all transactions, instead sort all imported transactions by date (asc.),
+          /// and query only the transactions that fall between the last created and the first created transactions within
+          /// the imported bank statement.
+
+          final allTransactions =
+              await Get.find<LocalStorageService>().getAllTransactions();
+          final keyValues = allTransactions.map((e) => e.keyValues);
+          bool atLeastOneAdded = false;
+
           for (var t in RouteGenerator.importCubit.state.transactions) {
+            if (keyValues.contains(t.keyValues)) continue;
+            if (!atLeastOneAdded) {
+              atLeastOneAdded = true;
+            }
             RouteGenerator.transactionCubit.addTransaction(t);
           }
 
-          context.showSuccessSnackBar("Transactions have been saved.");
+          if (atLeastOneAdded) {
+            context.showSuccessSnackBar("Transactions have been saved.");
+          } else {
+            context.showSuccessSnackBar(
+              "All transactions have already been saved.",
+            );
+          }
         },
         child: const Text("Save"),
       ),
@@ -72,7 +94,8 @@ class _ViewImportsPageState extends State<ViewImportsPage> {
                       ),
                       Expanded(
                         child: ListViewWithHeader<String, Transaction>(
-                          map: RouteGenerator.importCubit.filteredTransactions.groupByDate,
+                          map: RouteGenerator
+                              .importCubit.filteredTransactions.groupByDate,
                           headerBuilder: (date) => Text(date),
                           itemBuilder: (item) =>
                               ImportedTransactionListItem(transaction: item),

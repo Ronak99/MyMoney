@@ -53,6 +53,8 @@ class Transaction {
     this.category,
   });
 
+  String get keyValues => "${date.year}_${date.month}_${date.day}_${amount}_$transactionType";
+
   factory Transaction.empty({
     TransactionCategory? category,
     Account? account,

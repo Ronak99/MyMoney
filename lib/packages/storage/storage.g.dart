@@ -283,7 +283,7 @@ class _$_TransactionDao extends _TransactionDao {
   @override
   Future<int> insertTransaction(Transaction transaction) {
     return _transactionInsertionAdapter.insertAndReturnId(
-        transaction, OnConflictStrategy.replace);
+        transaction, OnConflictStrategy.fail);
   }
 
   @override

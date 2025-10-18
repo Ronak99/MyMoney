@@ -38,7 +38,7 @@ abstract class _TransactionDao {
     }).toList();
   }
 
-  @Insert(onConflict: OnConflictStrategy.replace)
+  @Insert(onConflict: OnConflictStrategy.fail)
   Future<int> insertTransaction(Transaction transaction);
 
   @delete
