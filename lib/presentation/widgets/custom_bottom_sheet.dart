@@ -9,7 +9,6 @@ import 'package:my_money/extensions/build_context.dart';
 import 'package:my_money/extensions/category_icon.dart';
 import 'package:my_money/extensions/string.dart';
 import 'package:my_money/model/account.dart';
-import 'package:my_money/model/transaction.dart';
 import 'package:my_money/model/transaction_category.dart';
 import 'package:my_money/presentation/pages/accounts/widgets/account_list_item.dart';
 import 'package:my_money/presentation/pages/categories/widgets/category_list_item.dart';
@@ -51,13 +50,15 @@ class CustomBottomSheet extends StatefulWidget {
     );
   }
 
-  factory CustomBottomSheet.noBankAccount() {
+  factory CustomBottomSheet.noBankAccount({
+    required Function(BuildContext context)? onActionButtonPressed,
+  }) {
     return CustomBottomSheet._(
       title: "No Bank Account!",
       content: "You must add a bank account to proceed further.",
       actionButtonText: "Add bank account",
       height: 250,
-      onActionButtonPressed: (context) => {},
+      onActionButtonPressed: onActionButtonPressed,
     );
   }
 
@@ -412,16 +413,17 @@ class CustomBottomSheet extends StatefulWidget {
   }
 
   factory CustomBottomSheet.transactionNote(String note) {
-    final TextEditingController textEditingController = TextEditingController(text: note);
+    final TextEditingController textEditingController =
+        TextEditingController(text: note);
 
     return CustomBottomSheet._(
       title: "Transaction Note",
       actionButtonText: "Save",
       height: 325,
       onActionButtonPressed: (context) =>
-      textEditingController.text.trim().isEmpty
-          ? null
-          : context.pop(textEditingController.text),
+          textEditingController.text.trim().isEmpty
+              ? null
+              : context.pop(textEditingController.text),
       child: Column(
         children: [
           Spacer(),

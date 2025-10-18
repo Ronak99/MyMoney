@@ -20,17 +20,31 @@ class ImportCubit extends Cubit<ImportState> {
     emit(state.copyWith(selectedDate: DateTime.now()));
   }
 
-  List<Transaction> get filteredTransactions => state.selectedDate == null ? [] : state.transactions
-      .where((e) =>
-          e.date.isAfter(state.selectedDate!.startOfTheMonth) &&
-          e.date.isBefore(state.selectedDate!.endOfTheMonth))
-      .toList();
+  List<Transaction> get filteredTransactions => state.selectedDate == null
+      ? []
+      : state.transactions
+          .where((e) =>
+              e.date.isAfter(state.selectedDate!.startOfTheMonth) &&
+              e.date.isBefore(state.selectedDate!.endOfTheMonth))
+          .toList();
 
   void onImport(BuildContext context, {Bank? bank, PeerApp? peerApp}) async {
+    bool shouldProcceed = false;
     if (RouteGenerator.accountCubit.state.accounts.isEmpty) {
-      CustomBottomSheet.noBankAccount().show();
-      return;
+      await CustomBottomSheet.noBankAccount(
+        onActionButtonPressed: (context) async {
+          final account = await CustomBottomSheet.modifyAccount().show();
+          if (account != null) {
+            RouteGenerator.context!.pop();
+            shouldProcceed = true;
+          }
+        },
+      ).show();
+    } else {
+      shouldProcceed = true;
     }
+
+    if (!shouldProcceed) return;
     final pickedFile = await pickFile(shouldPickCsv: bank == null);
 
     emit(
