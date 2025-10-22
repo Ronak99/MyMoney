@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_money/constants/constants.dart';
-import 'package:my_money/extensions/double.dart';
 import 'package:my_money/model/transaction.dart';
 import 'package:my_money/presentation/pages/transactions/update/state/update_transaction_cubit.dart';
 import 'package:my_money/presentation/pages/transactions/update/state/update_transaction_state.dart';

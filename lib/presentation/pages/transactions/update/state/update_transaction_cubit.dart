@@ -74,7 +74,6 @@ class UpdateTransactionCubit extends Cubit<UpdateTransactionState> {
 
   void setAmount(String amount) {
     try {
-      print("updated amount");
       emit(
         state.copyWith(
           transaction: state.transaction!.copyWith(

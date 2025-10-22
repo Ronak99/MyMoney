@@ -14,6 +14,7 @@ class _Queries {
     a.id                AS a_id,
     a.name              AS a_name,
     a.balance           AS a_balance,
+    a.icon              AS a_icon,
     a.createdOn         AS a_createdOn,
 
     c.id                AS c_id,
