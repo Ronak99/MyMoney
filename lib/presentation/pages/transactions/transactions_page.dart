@@ -9,7 +9,7 @@ import 'package:my_money/extensions/transactions.dart';
 import 'package:my_money/model/transaction.dart';
 import 'package:my_money/packages/storage/storage.dart';
 import 'package:my_money/presentation/pages/home/widgets/transaction_list_item.dart';
-import 'package:my_money/presentation/pages/transactions/create/create_transaction_page.dart';
+import 'package:my_money/presentation/pages/transactions/update/update_transaction_page.dart';
 import 'package:my_money/presentation/pages/transactions/widgets/transaction_header.dart';
 import 'package:my_money/presentation/routes/route_generator.dart';
 import 'package:my_money/presentation/routes/routes.dart';
@@ -32,8 +32,8 @@ class TransactionsPage extends StatelessWidget {
               : FloatingActionButton(
                   heroTag: 'transactions',
                   onPressed: () => context.push(
-                    Routes.CREATE_TRANSACTION.value,
-                    extra: CreateTransactionParams(),
+                    Routes.UPDATE_TRANSACTION.value,
+                    extra: UpdateTransactionParams(),
                   ),
                   child: const Icon(Icons.add),
                 ),

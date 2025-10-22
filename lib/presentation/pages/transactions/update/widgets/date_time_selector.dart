@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/extensions/build_context.dart';
 import 'package:my_money/extensions/date.dart';
-import 'package:my_money/presentation/pages/transactions/create/state/create_transaction_cubit.dart';
-import 'package:my_money/presentation/pages/transactions/create/state/create_transaction_state.dart';
+import 'package:my_money/presentation/pages/transactions/update/state/update_transaction_cubit.dart';
+import 'package:my_money/presentation/pages/transactions/update/state/update_transaction_state.dart';
 import 'package:my_money/presentation/widgets/form_container.dart';
 
 class DateTimeSelector extends StatelessWidget {
@@ -18,7 +18,7 @@ class DateTimeSelector extends StatelessWidget {
       padding: EdgeInsets.symmetric(
         vertical: padding * (1-ratio),
       ),
-      child: BlocBuilder<CreateTransactionCubit, CreateTransactionState>(
+      child: BlocBuilder<UpdateTransactionCubit, UpdateTransactionState>(
         buildWhen: (prev, next) => prev.date != next.date,
         builder: (context, state) {
           return Row(
@@ -34,7 +34,7 @@ class DateTimeSelector extends StatelessWidget {
                     if (selectedDate == null) return;
                     if (!context.mounted) return;
                     context
-                        .read<CreateTransactionCubit>()
+                        .read<UpdateTransactionCubit>()
                         .setDate(selectedDate);
                   },
                   child: Container(
@@ -63,7 +63,7 @@ class DateTimeSelector extends StatelessWidget {
                     if (selectedTime == null) return;
                     if (!context.mounted) return;
                     context
-                        .read<CreateTransactionCubit>()
+                        .read<UpdateTransactionCubit>()
                         .setTime(selectedTime);
                   },
                   child: Container(

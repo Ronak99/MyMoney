@@ -3,9 +3,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_money/extensions/build_context.dart';
 import 'package:my_money/gen/assets.gen.dart';
-import 'package:my_money/presentation/pages/transactions/create/create_transaction_page.dart';
 import 'package:my_money/presentation/routes/routes.dart';
 import 'package:my_money/presentation/widgets/custom_bottom_sheet.dart';
+
+import '../pages/transactions/update/update_transaction_page.dart';
 
 class EmptyState extends StatelessWidget {
   final String text;
@@ -22,8 +23,8 @@ class EmptyState extends StatelessWidget {
     final actions = [
       ElevatedButton(
         onPressed: () => context.push(
-          Routes.CREATE_TRANSACTION.value,
-          extra: CreateTransactionParams(),
+          Routes.UPDATE_TRANSACTION.value,
+          extra: UpdateTransactionParams(),
         ),
         child: const Text("Record your first transaction"),
       ),

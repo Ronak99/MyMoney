@@ -4,36 +4,36 @@ import 'package:go_router/go_router.dart';
 import 'package:my_money/constants/constants.dart';
 import 'package:my_money/extensions/double.dart';
 import 'package:my_money/model/transaction.dart';
-import 'package:my_money/presentation/pages/transactions/create/state/create_transaction_cubit.dart';
-import 'package:my_money/presentation/pages/transactions/create/state/create_transaction_state.dart';
-import 'package:my_money/presentation/pages/transactions/create/widgets/account_and_category_selector.dart';
-import 'package:my_money/presentation/pages/transactions/create/widgets/amount_field.dart';
-import 'package:my_money/presentation/pages/transactions/create/widgets/date_time_selector.dart';
-import 'package:my_money/presentation/pages/transactions/create/widgets/transaction_type_selector.dart';
+import 'package:my_money/presentation/pages/transactions/update/state/update_transaction_cubit.dart';
+import 'package:my_money/presentation/pages/transactions/update/state/update_transaction_state.dart';
+import 'package:my_money/presentation/pages/transactions/update/widgets/account_and_category_selector.dart';
+import 'package:my_money/presentation/pages/transactions/update/widgets/amount_field.dart';
+import 'package:my_money/presentation/pages/transactions/update/widgets/date_time_selector.dart';
+import 'package:my_money/presentation/pages/transactions/update/widgets/transaction_type_selector.dart';
 import 'package:my_money/presentation/widgets/custom_scaffold.dart';
 
-class CreateTransactionParams {
+class UpdateTransactionParams {
   final Transaction? transaction;
 
-  CreateTransactionParams({this.transaction});
+  UpdateTransactionParams({this.transaction});
 }
 
-class CreateTransactionPage extends StatelessWidget {
-  final CreateTransactionParams params;
-  const CreateTransactionPage({super.key, required this.params});
+class UpdateTransactionPage extends StatelessWidget {
+  final UpdateTransactionParams params;
+  const UpdateTransactionPage({super.key, required this.params});
 
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
       title: "Create",
-      trailing: BlocBuilder<CreateTransactionCubit, CreateTransactionState>(
+      trailing: BlocBuilder<UpdateTransactionCubit, UpdateTransactionState>(
         builder: (context, state) {
           return Opacity(
             opacity: state.isValid ? 1 : 0.5,
             child: TextButton(
               onPressed: () {
                 if(!state.isValid) return;
-                context.read<CreateTransactionCubit>().create();
+                context.read<UpdateTransactionCubit>().create();
                 context.pop(context);
               },
               child: const Text("Save"),
@@ -63,7 +63,7 @@ class CreateTransactionPage extends StatelessWidget {
           // amount
           CustomTextField(
             hint: "Amount",
-            onChange: context.read<CreateTransactionCubit>().setAmount,
+            onChange: context.read<UpdateTransactionCubit>().setAmount,
             keyboardType: TextInputType.number,
             autofocus: true,
             initialValue: params.transaction?.amount.formatCurrency,
@@ -74,7 +74,7 @@ class CreateTransactionPage extends StatelessWidget {
           // name
           CustomTextField(
             hint: "Notes",
-            onChange: context.read<CreateTransactionCubit>().setNotes,
+            onChange: context.read<UpdateTransactionCubit>().setNotes,
             maxLines: 4,
             initialValue: params.transaction?.notes,
           ),

@@ -4,7 +4,7 @@ import 'package:my_money/extensions/build_context.dart';
 import 'package:my_money/extensions/category_icon.dart';
 import 'package:my_money/extensions/transaction.dart';
 import 'package:my_money/model/transaction.dart';
-import 'package:my_money/presentation/pages/transactions/create/create_transaction_page.dart';
+import 'package:my_money/presentation/pages/transactions/update/update_transaction_page.dart';
 import 'package:my_money/presentation/routes/route_generator.dart';
 import 'package:my_money/presentation/routes/routes.dart';
 
@@ -18,8 +18,8 @@ class TransactionListItem extends StatelessWidget {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () => context.push(
-        Routes.CREATE_TRANSACTION.value,
-        extra: CreateTransactionParams(transaction: transaction),
+        Routes.UPDATE_TRANSACTION.value,
+        extra: UpdateTransactionParams(transaction: transaction),
       ),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16),

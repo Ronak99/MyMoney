@@ -8,8 +8,8 @@ import 'package:my_money/presentation/pages/home/home_page.dart';
 import 'package:my_money/presentation/pages/import/import_page.dart';
 import 'package:my_money/presentation/pages/import/state/import_cubit.dart';
 import 'package:my_money/presentation/pages/import/view/view_imports_page.dart';
-import 'package:my_money/presentation/pages/transactions/create/create_transaction_page.dart';
-import 'package:my_money/presentation/pages/transactions/create/state/create_transaction_cubit.dart';
+import 'package:my_money/presentation/pages/transactions/update/update_transaction_page.dart';
+import 'package:my_money/presentation/pages/transactions/update/state/update_transaction_cubit.dart';
 import 'package:my_money/presentation/pages/transactions/transactions_page.dart';
 import 'package:my_money/presentation/routes/routes.dart';
 import 'package:my_money/state/account/account_cubit.dart';
@@ -76,14 +76,14 @@ class RouteGenerator {
               .toList(),
         ),
         GoRoute(
-          path: Routes.CREATE_TRANSACTION.value,
+          path: Routes.UPDATE_TRANSACTION.value,
           builder: (context, state) => BlocProvider(
             lazy: true,
-            create: (context) => CreateTransactionCubit(
-              transaction: (state.extra as CreateTransactionParams).transaction,
+            create: (context) => UpdateTransactionCubit(
+              transaction: (state.extra as UpdateTransactionParams).transaction,
             ),
-            child: CreateTransactionPage(
-              params: state.extra as CreateTransactionParams,
+            child: UpdateTransactionPage(
+              params: state.extra as UpdateTransactionParams,
             ),
           ),
         ),

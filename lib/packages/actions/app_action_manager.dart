@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:my_money/packages/actions/app_action.dart';
-import 'package:my_money/presentation/pages/transactions/create/create_transaction_page.dart';
+import 'package:my_money/presentation/pages/transactions/update/update_transaction_page.dart';
 import 'package:my_money/presentation/routes/route_generator.dart';
 import 'package:my_money/presentation/routes/routes.dart';
 import 'package:quick_actions/quick_actions.dart';
@@ -39,8 +39,8 @@ class AppActionManager {
     switch (AppAction.determineType(shortcutType)) {
       case AppAction.createTransaction:
         context.push(
-          Routes.CREATE_TRANSACTION.value,
-          extra: CreateTransactionParams(),
+          Routes.UPDATE_TRANSACTION.value,
+          extra: UpdateTransactionParams(),
         );
       case AppAction.importBankStatement:
         context.push(Routes.IMPORT.value);

@@ -5,8 +5,8 @@ import 'package:my_money/extensions/build_context.dart';
 import 'package:my_money/extensions/category_icon.dart';
 import 'package:my_money/model/account.dart';
 import 'package:my_money/model/transaction_category.dart';
-import 'package:my_money/presentation/pages/transactions/create/state/create_transaction_cubit.dart';
-import 'package:my_money/presentation/pages/transactions/create/state/create_transaction_state.dart';
+import 'package:my_money/presentation/pages/transactions/update/state/update_transaction_cubit.dart';
+import 'package:my_money/presentation/pages/transactions/update/state/update_transaction_state.dart';
 import 'package:my_money/presentation/routes/route_generator.dart';
 import 'package:my_money/presentation/widgets/custom_bottom_sheet.dart';
 import 'package:my_money/presentation/widgets/form_container.dart';
@@ -75,7 +75,7 @@ class AccountAndCategorySelector extends StatelessWidget {
     return FormContainer(
       child: Column(
         children: [
-          BlocBuilder<CreateTransactionCubit, CreateTransactionState>(
+          BlocBuilder<UpdateTransactionCubit, UpdateTransactionState>(
             buildWhen: (prev, next) => prev.account != next.account,
             builder: (context, state) {
               return SelectorItem<Account>(
@@ -96,12 +96,12 @@ class AccountAndCategorySelector extends StatelessWidget {
                   }
                   if (!context.mounted) return;
                   if (account == null) return;
-                  context.read<CreateTransactionCubit>().setAccount(account);
+                  context.read<UpdateTransactionCubit>().setAccount(account);
                 },
               );
             },
           ),
-          BlocBuilder<CreateTransactionCubit, CreateTransactionState>(
+          BlocBuilder<UpdateTransactionCubit, UpdateTransactionState>(
             buildWhen: (prev, next) => prev.category != next.category,
             builder: (context, state) {
               return SelectorItem<TransactionCategory>(
@@ -124,7 +124,7 @@ class AccountAndCategorySelector extends StatelessWidget {
                   }
                   if (!context.mounted) return;
                   if (category == null) return;
-                  context.read<CreateTransactionCubit>().setCategory(category);
+                  context.read<UpdateTransactionCubit>().setCategory(category);
                 },
               );
             },

@@ -4,13 +4,13 @@ import 'package:my_money/extensions/list.dart';
 import 'package:my_money/model/account.dart';
 import 'package:my_money/model/transaction.dart';
 import 'package:my_money/model/transaction_category.dart';
-import 'package:my_money/presentation/pages/transactions/create/state/create_transaction_state.dart';
+import 'package:my_money/presentation/pages/transactions/update/state/update_transaction_state.dart';
 import 'package:my_money/presentation/routes/route_generator.dart';
 
-class CreateTransactionCubit extends Cubit<CreateTransactionState> {
-  CreateTransactionCubit({Transaction? transaction})
+class UpdateTransactionCubit extends Cubit<UpdateTransactionState> {
+  UpdateTransactionCubit({Transaction? transaction})
       : super(
-          CreateTransactionState(
+          UpdateTransactionState(
             transaction: transaction ??
                 Transaction.empty(
                   account: RouteGenerator.accountCubit.state.accounts.getFirst,

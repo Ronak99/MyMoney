@@ -3,15 +3,15 @@ import 'package:my_money/model/account.dart';
 import 'package:my_money/model/transaction.dart';
 import 'package:my_money/model/transaction_category.dart';
 
-part 'create_transaction_state.freezed.dart';
+part 'update_transaction_state.freezed.dart';
 
 @freezed
-class CreateTransactionState with _$CreateTransactionState {
-  const CreateTransactionState._();
+class UpdateTransactionState with _$UpdateTransactionState {
+  const UpdateTransactionState._();
 
-  factory CreateTransactionState({
+  factory UpdateTransactionState({
     @Default(null) Transaction? transaction,
-  }) = _CreateTransactionState;
+  }) = _UpdateTransactionState;
 
   bool get isValid => transaction!= null &&
       transaction!.amount > 0 &&
