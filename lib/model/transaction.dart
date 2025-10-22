@@ -1,6 +1,7 @@
 import 'package:floor/floor.dart';
 import 'package:my_money/model/account.dart';
 import 'package:my_money/model/transaction_category.dart';
+import 'package:uuid/uuid.dart';
 
 @Entity(
   tableName: 'transactions',
@@ -25,8 +26,8 @@ import 'package:my_money/model/transaction_category.dart';
   ],
 )
 class Transaction {
-  @PrimaryKey(autoGenerate: true)
-  final int? id;
+  @PrimaryKey()
+  final String? id;
 
   final String notes;
   final double amount;
@@ -42,7 +43,7 @@ class Transaction {
   final TransactionCategory? category;
 
   Transaction({
-    this.id,
+    String? id,
     required this.notes,
     required this.amount,
     required this.date,
@@ -51,7 +52,7 @@ class Transaction {
     this.accountId,
     this.account,
     this.category,
-  });
+  }) : id = id ?? Uuid().v4();
 
   String get keyValues => "${date.year}_${date.month}_${date.day}_${amount}_$transactionType";
 
@@ -71,7 +72,7 @@ class Transaction {
       );
 
   Transaction copyWith({
-    int? id,
+    String? id,
     String? notes,
     double? amount,
     DateTime? date,
@@ -91,6 +92,33 @@ class Transaction {
       transactionType: transactionType ?? this.transactionType,
       account: account ?? this.account,
       category: category ?? this.category,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! Transaction) return false;
+    
+    return id == other.id &&
+           notes == other.notes &&
+           amount == other.amount &&
+           date == other.date &&
+           categoryId == other.categoryId &&
+           accountId == other.accountId &&
+           transactionType == other.transactionType;
+  }
+
+  @override
+  int get hashCode {
+    return Object.hash(
+      id,
+      notes,
+      amount,
+      date,
+      categoryId,
+      accountId,
+      transactionType,
     );
   }
 }

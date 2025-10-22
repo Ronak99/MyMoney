@@ -9,6 +9,7 @@ import 'package:my_money/packages/parser/enums/bank.dart';
 import 'package:my_money/packages/parser/exceptions/exceptions.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'package:my_money/model/transaction.dart';
+import 'package:uuid/uuid.dart';
 
 export 'enums/bank.dart';
 

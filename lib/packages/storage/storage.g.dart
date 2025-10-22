@@ -100,7 +100,7 @@ class _$_AppDatabase extends _AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `transactions` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `notes` TEXT NOT NULL, `amount` REAL NOT NULL, `date` INTEGER NOT NULL, `categoryId` INTEGER, `accountId` INTEGER, `transactionType` INTEGER NOT NULL, FOREIGN KEY (`categoryId`) REFERENCES `categories` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE, FOREIGN KEY (`accountId`) REFERENCES `accounts` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE)');
+            'CREATE TABLE IF NOT EXISTS `transactions` (`id` TEXT, `notes` TEXT NOT NULL, `amount` REAL NOT NULL, `date` INTEGER NOT NULL, `categoryId` INTEGER, `accountId` INTEGER, `transactionType` INTEGER NOT NULL, FOREIGN KEY (`categoryId`) REFERENCES `categories` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE, FOREIGN KEY (`accountId`) REFERENCES `accounts` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `accounts` (`id` INTEGER, `name` TEXT NOT NULL, `balance` INTEGER NOT NULL, `createdOn` INTEGER NOT NULL, `icon` INTEGER NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
@@ -187,7 +187,7 @@ class _$_TransactionDao extends _TransactionDao {
         'SELECT * FROM transaction_with_category_and_account',
         mapper: (Map<String, Object?> row) =>
             TransactionWithCategoryAndAccountView(
-                t_id: row['t_id'] as int,
+                t_id: row['t_id'] as String,
                 t_notes: row['t_notes'] as String,
                 t_amount: row['t_amount'] as double,
                 t_date: row['t_date'] as int,
@@ -216,7 +216,7 @@ class _$_TransactionDao extends _TransactionDao {
         'SELECT * FROM transaction_with_category_and_account WHERE t_date BETWEEN ?1 AND ?2 ORDER BY t_date DESC',
         mapper: (Map<String, Object?> row) =>
             TransactionWithCategoryAndAccountView(
-                t_id: row['t_id'] as int,
+                t_id: row['t_id'] as String,
                 t_notes: row['t_notes'] as String,
                 t_amount: row['t_amount'] as double,
                 t_date: row['t_date'] as int,
@@ -247,7 +247,7 @@ class _$_TransactionDao extends _TransactionDao {
   Future<Transaction?> findTransactionById(int id) async {
     return _queryAdapter.query('SELECT * FROM transactions WHERE id = ?1',
         mapper: (Map<String, Object?> row) => Transaction(
-            id: row['id'] as int?,
+            id: row['id'] as String?,
             notes: row['notes'] as String,
             amount: row['amount'] as double,
             date: __DateTimeConverter.decode(row['date'] as int),
@@ -266,7 +266,7 @@ class _$_TransactionDao extends _TransactionDao {
     return _queryAdapter.queryList(
         'SELECT * FROM transactions WHERE date BETWEEN ?1 AND ?2',
         mapper: (Map<String, Object?> row) => Transaction(
-            id: row['id'] as int?,
+            id: row['id'] as String?,
             notes: row['notes'] as String,
             amount: row['amount'] as double,
             date: __DateTimeConverter.decode(row['date'] as int),

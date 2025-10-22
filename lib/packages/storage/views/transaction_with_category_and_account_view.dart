@@ -64,7 +64,7 @@ extension TCAViewExtension on TransactionWithCategoryAndAccountView {
   viewName: DBViews.transactionWithCategoryAndAccount,
 )
 class TransactionWithCategoryAndAccountView {
-  final int t_id;
+  final String t_id;
   final String t_notes;
   final double t_amount;
   final int t_date;

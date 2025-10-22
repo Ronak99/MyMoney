@@ -13,13 +13,13 @@ class ActionButton extends StatelessWidget {
   });
 
   factory ActionButton.account(
-      Transaction transaction, {
-        required String defaultLabel,
-      }) {
+    Transaction transaction, {
+    required String defaultLabel,
+  }) {
     return ActionButton._(
       onTap: () async {
         final account =
-        await CustomBottomSheet.selectAccount().show<Account?>();
+            await CustomBottomSheet.selectAccount().show<Account?>();
         if (account == null) return;
 
         RouteGenerator.importCubit.updateTransaction(
@@ -34,9 +34,9 @@ class ActionButton extends StatelessWidget {
   }
 
   factory ActionButton.category(
-      Transaction transaction, {
-        required String defaultLabel,
-      }) {
+    Transaction transaction, {
+    required String defaultLabel,
+  }) {
     return ActionButton._(
       onTap: () async {
         final category = await CustomBottomSheet.selectCategory()
@@ -56,13 +56,13 @@ class ActionButton extends StatelessWidget {
   }
 
   factory ActionButton.notes(
-      Transaction transaction, {
-        required String defaultLabel,
-      }) {
+    Transaction transaction, {
+    required String defaultLabel,
+  }) {
     return ActionButton._(
       onTap: () async {
         final note =
-        await CustomBottomSheet.transactionNote(transaction.notes).show();
+            await CustomBottomSheet.transactionNote(transaction.notes).show();
         if (note == null) return;
 
         RouteGenerator.importCubit.updateTransaction(
@@ -83,11 +83,11 @@ class ActionButton extends StatelessWidget {
           decoration: BoxDecoration(
             border: borderEnabled
                 ? Border.symmetric(
-              vertical: BorderSide(
-                width: .5,
-                color: context.colorScheme.primary.withOpacity(.2),
-              ),
-            )
+                    vertical: BorderSide(
+                      width: .5,
+                      color: context.colorScheme.primary.withOpacity(.2),
+                    ),
+                  )
                 : null,
           ),
           alignment: Alignment.center,

@@ -7,8 +7,8 @@ import 'package:my_money/model/transaction_category.dart';
 import 'package:my_money/presentation/routes/route_generator.dart';
 import 'package:my_money/presentation/widgets/custom_bottom_sheet.dart';
 
-part 'actions/action_row.dart';
 part 'actions/action_button.dart';
+part 'actions/action_row.dart';
 
 class ImportedTransactionListItem extends StatelessWidget {
   final Transaction transaction;
@@ -20,7 +20,17 @@ class ImportedTransactionListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return GestureDetector(
+      onDoubleTap: () => {
+        RouteGenerator.importCubit.updateTransaction(
+          transaction.copyWith(
+            transactionType: transaction.isExpense
+                ? TransactionType.income
+                : TransactionType.expense,
+          ),
+        )
+      },
+      behavior: HitTestBehavior.translucent,
       child: Column(
         children: [
           Padding(
