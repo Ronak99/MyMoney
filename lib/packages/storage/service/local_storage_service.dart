@@ -22,8 +22,12 @@ class LocalStorageService implements _LocalStorageImpl {
   }
 
   @override
-  Future<int> addTransaction(Transaction transaction) {
+  Future<void> addTransaction(Transaction transaction) {
     return database.transactionDao.insertTransaction(transaction);
+  }
+
+  Future<void> updateTransaction(Transaction transaction) {
+    return database.transactionDao.updateTransaction(transaction);
   }
 
   @override

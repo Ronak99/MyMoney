@@ -155,6 +155,20 @@ class _$_TransactionDao extends _TransactionDao {
                   'transactionType': item.transactionType.index
                 },
             changeListener),
+        _transactionUpdateAdapter = UpdateAdapter(
+            database,
+            'transactions',
+            ['id'],
+            (Transaction item) => <String, Object?>{
+                  'id': item.id,
+                  'notes': item.notes,
+                  'amount': item.amount,
+                  'date': __DateTimeConverter.encode(item.date),
+                  'categoryId': item.categoryId,
+                  'accountId': item.accountId,
+                  'transactionType': item.transactionType.index
+                },
+            changeListener),
         _transactionDeletionAdapter = DeletionAdapter(
             database,
             'transactions',
@@ -177,6 +191,8 @@ class _$_TransactionDao extends _TransactionDao {
   final QueryAdapter _queryAdapter;
 
   final InsertionAdapter<Transaction> _transactionInsertionAdapter;
+
+  final UpdateAdapter<Transaction> _transactionUpdateAdapter;
 
   final DeletionAdapter<Transaction> _transactionDeletionAdapter;
 
@@ -281,9 +297,15 @@ class _$_TransactionDao extends _TransactionDao {
   }
 
   @override
-  Future<int> insertTransaction(Transaction transaction) {
-    return _transactionInsertionAdapter.insertAndReturnId(
+  Future<void> insertTransaction(Transaction transaction) async {
+    await _transactionInsertionAdapter.insert(
         transaction, OnConflictStrategy.fail);
+  }
+
+  @override
+  Future<void> updateTransaction(Transaction transaction) async {
+    await _transactionUpdateAdapter.update(
+        transaction, OnConflictStrategy.replace);
   }
 
   @override

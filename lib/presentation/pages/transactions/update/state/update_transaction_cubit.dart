@@ -74,6 +74,7 @@ class UpdateTransactionCubit extends Cubit<UpdateTransactionState> {
 
   void setAmount(String amount) {
     try {
+      print("updated amount");
       emit(
         state.copyWith(
           transaction: state.transaction!.copyWith(
@@ -87,8 +88,12 @@ class UpdateTransactionCubit extends Cubit<UpdateTransactionState> {
   }
 
   Future<bool> create() async {
-    // return true;
     RouteGenerator.transactionCubit.addTransaction(state.transaction!);
+    return true;
+  }
+
+  Future<bool> update() async {
+    RouteGenerator.transactionCubit.updateTransaction(state.transaction!);
     return true;
   }
 }

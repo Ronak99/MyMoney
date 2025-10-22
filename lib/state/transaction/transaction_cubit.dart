@@ -52,9 +52,17 @@ class TransactionCubit extends Cubit<TransactionState> {
     emit(state.copyWith(transactions: transactions));
   }
 
-  Future<int> addTransaction(Transaction transaction) {
+  Future<void> addTransaction(Transaction transaction) {
     try {
       return Get.find<LocalStorageService>().addTransaction(transaction);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> updateTransaction(Transaction transaction) {
+    try {
+      return Get.find<LocalStorageService>().updateTransaction(transaction);
     } catch (e) {
       rethrow;
     }

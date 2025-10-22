@@ -20,20 +20,26 @@ class UpdateTransactionParams {
 
 class UpdateTransactionPage extends StatelessWidget {
   final UpdateTransactionParams params;
+
   const UpdateTransactionPage({super.key, required this.params});
 
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      title: "Create",
+      title: params.transaction == null ? "Create" : "Update",
       trailing: BlocBuilder<UpdateTransactionCubit, UpdateTransactionState>(
         builder: (context, state) {
           return Opacity(
             opacity: state.isValid ? 1 : 0.5,
             child: TextButton(
               onPressed: () {
-                if(!state.isValid) return;
-                context.read<UpdateTransactionCubit>().create();
+                if (!state.isValid) return;
+                if (params.transaction != null) {
+                  context.read<UpdateTransactionCubit>().update();
+                } else {
+                  context.read<UpdateTransactionCubit>().create();
+                }
+
                 context.pop(context);
               },
               child: const Text("Save"),
@@ -66,7 +72,7 @@ class UpdateTransactionPage extends StatelessWidget {
             onChange: context.read<UpdateTransactionCubit>().setAmount,
             keyboardType: TextInputType.number,
             autofocus: true,
-            initialValue: params.transaction?.amount.formatCurrency,
+            initialValue: params.transaction?.amount.toString(),
           ),
 
           const SizedBox(height: kVerticalSpacing),
