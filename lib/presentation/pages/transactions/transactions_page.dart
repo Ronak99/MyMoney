@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_money/enums/date_action.dart';
 import 'package:my_money/extensions/date.dart';
+import 'package:my_money/extensions/double.dart';
 import 'package:my_money/extensions/transactions.dart';
 import 'package:my_money/model/transaction.dart';
 import 'package:my_money/packages/storage/storage.dart';
@@ -50,6 +51,30 @@ class TransactionsPage extends StatelessWidget {
                   Get.find<LocalStorageService>().deleteAllTransactions();
                 },
                 onSearch: () {},
+              ),
+              Row(
+                children: [
+                  Column(
+                    children: [
+                      Text('Expenses'),
+                      Text(state.transactions.allExpenses.formatCurrency),
+                    ],
+                  ),
+                  SizedBox(width: 12),
+                  Column(
+                    children: [
+                      Text('Income'),
+                      Text(state.transactions.allIncome.formatCurrency),
+                    ],
+                  ),
+                  SizedBox(width: 12),
+                  Column(
+                    children: [
+                      Text('Savings'),
+                      Text((state.transactions.allIncome - state.transactions.allExpenses).formatCurrency),
+                    ],
+                  ),
+                ],
               ),
               const SizedBox(height: 16),
               if (state.isLoading)

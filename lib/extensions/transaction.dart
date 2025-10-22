@@ -13,4 +13,6 @@ extension TransactionExtension on Transaction {
   };
 
   bool get isExpense => transactionType == TransactionType.expense;
+
+  double get signedAmount => isExpense ? amount * -1 : amount;
 }

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:my_money/enums/date_action.dart';
 import 'package:my_money/extensions/date.dart';
+import 'package:my_money/extensions/transaction.dart';
 import 'package:my_money/model/transaction.dart';
 import 'package:my_money/packages/storage/storage.dart';
 
