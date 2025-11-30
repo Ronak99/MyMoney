@@ -45,20 +45,24 @@ class ImportCubit extends Cubit<ImportState> {
     }
 
     if (!shouldProcceed) return;
-    final pickedFile = await pickFile(shouldPickCsv: bank == null);
+    try{
+      final pickedFile = await pickFile(shouldPickCsv: bank == null);
 
-    emit(
-      state.copyWith(
-        selectedFile: File(pickedFile.files.first.path!),
-        selectedBank: bank,
-        selectedPeerApp: peerApp,
-        transactions: [],
-      ),
-    );
+      emit(
+        state.copyWith(
+          selectedFile: File(pickedFile.files.first.path!),
+          selectedBank: bank,
+          selectedPeerApp: peerApp,
+          transactions: [],
+        ),
+      );
 
-    // navigate to view imports
-    if (!context.mounted) return;
-    context.push(Routes.VIEW_IMPORTS.value);
+      // navigate to view imports
+      if (!context.mounted) return;
+      context.push(Routes.VIEW_IMPORTS.value);
+    }catch(e){
+      print("oops");
+    }
   }
 
   void resolveContent(BuildContext context) async {
