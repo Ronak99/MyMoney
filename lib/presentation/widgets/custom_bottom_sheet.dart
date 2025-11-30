@@ -178,13 +178,13 @@ class CustomBottomSheet extends StatefulWidget {
             Expanded(
               child: GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
+                  crossAxisCount: 4,
                   crossAxisSpacing: 16,
                   mainAxisSpacing: 16,
                 ),
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 itemCount: AccountIcon.values
-                    .where((e) => e.name == AccountIcon.unknown.name)
+                    .where((e) => e.name != AccountIcon.unknown.name)
                     .length,
                 itemBuilder: (context, index) {
                   AccountIcon item = AccountIcon.values[index];
@@ -196,7 +196,7 @@ class CustomBottomSheet extends StatefulWidget {
                       valueListenable: accountIconNotifier,
                       builder: (context, categoryIcon, child) =>
                           AnimatedContainer(
-                        padding: const EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(8),
                         duration: const Duration(milliseconds: 150),
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
@@ -207,7 +207,7 @@ class CustomBottomSheet extends StatefulWidget {
                               color: categoryIcon == item
                                   ? context.colorScheme.primary.withOpacity(.3)
                                   : Colors.transparent,
-                            )),
+                            ),),
                         child: child,
                       ),
                       child: Image.asset(item.assetName),

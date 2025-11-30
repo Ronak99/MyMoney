@@ -71,7 +71,7 @@ class TransactionsPage extends StatelessWidget {
                   Column(
                     children: [
                       Text('Savings'),
-                      Text((state.transactions.allIncome - state.transactions.allExpenses).formatCurrency),
+                      Text(state.transactions.savings.formatCurrency),
                     ],
                   ),
                 ],

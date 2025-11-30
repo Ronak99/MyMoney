@@ -17,9 +17,15 @@ extension TransactionExtensions on List<Transaction> {
     return map;
   }
 
-  double get allExpenses => where((t) => t.isExpense)
-      .fold(0.0, (sum, transaction) => transaction.amount + sum);
+  double get allExpenses => where((t) => t.isExpense).fold(
+        0.0,
+        (sum, transaction) => transaction.amount + sum,
+      );
 
-  double get allIncome => where((t) => !t.isExpense)
-      .fold(0.0, (sum, transaction) => transaction.amount + sum);
+  double get allIncome => where((t) => !t.isExpense).fold(
+        0.0,
+        (sum, transaction) => transaction.amount + sum,
+      );
+
+  double get savings => allIncome - allExpenses;
 }

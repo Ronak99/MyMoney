@@ -84,6 +84,7 @@ flutter:
     - assets/
     - assets/statements/
     - assets/images/
+    - assets/images/bank/
     - assets/vector/
 
   fonts:
