@@ -199,15 +199,16 @@ class CustomBottomSheet extends StatefulWidget {
                         padding: const EdgeInsets.all(8),
                         duration: const Duration(milliseconds: 150),
                         decoration: BoxDecoration(
-                            shape: BoxShape.circle,
+                          shape: BoxShape.circle,
+                          color: categoryIcon == item
+                              ? context.colorScheme.primary.withOpacity(.1)
+                              : Colors.transparent,
+                          border: Border.all(
                             color: categoryIcon == item
-                                ? context.colorScheme.primary.withOpacity(.1)
+                                ? context.colorScheme.primary.withOpacity(.3)
                                 : Colors.transparent,
-                            border: Border.all(
-                              color: categoryIcon == item
-                                  ? context.colorScheme.primary.withOpacity(.3)
-                                  : Colors.transparent,
-                            ),),
+                          ),
+                        ),
                         child: child,
                       ),
                       child: Image.asset(item.assetName),
@@ -386,7 +387,7 @@ class CustomBottomSheet extends StatefulWidget {
     );
   }
 
-  factory CustomBottomSheet.selectCategory([TransactionCategory? category]) {
+  factory CustomBottomSheet.selectCategory({TransactionCategory? category}) {
     return CustomBottomSheet._(
       title: null,
       actionButtonText: "Create New Category",

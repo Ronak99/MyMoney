@@ -21,5 +21,5 @@ class UpdateTransactionState with _$UpdateTransactionState {
   TransactionCategory? get category => transaction!.category;
   Account? get account => transaction!.account;
   DateTime? get date => transaction!.date;
-  TransactionType? get transactionType => transaction!.transactionType;
+  TransactionType get transactionType => transaction!.transactionType;
 }

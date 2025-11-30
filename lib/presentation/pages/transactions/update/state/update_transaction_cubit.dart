@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_money/enums/category_type.dart';
 import 'package:my_money/extensions/list.dart';
+import 'package:my_money/extensions/transaction_type.dart';
 import 'package:my_money/model/account.dart';
 import 'package:my_money/model/transaction.dart';
 import 'package:my_money/model/transaction_category.dart';
@@ -8,6 +10,9 @@ import 'package:my_money/presentation/pages/transactions/update/state/update_tra
 import 'package:my_money/presentation/routes/route_generator.dart';
 
 class UpdateTransactionCubit extends Cubit<UpdateTransactionState> {
+  Map<TransactionType, TransactionCategory> categoryHistory = {};
+
+
   UpdateTransactionCubit({Transaction? transaction})
       : super(
           UpdateTransactionState(
@@ -17,6 +22,7 @@ class UpdateTransactionCubit extends Cubit<UpdateTransactionState> {
                   category:
                       RouteGenerator.categoryCubit.state.categories.getFirst,
                 ),
+
           ),
         );
 
@@ -40,6 +46,7 @@ class UpdateTransactionCubit extends Cubit<UpdateTransactionState> {
   }
 
   void setCategory(TransactionCategory category) {
+    categoryHistory[state.transactionType] = category;
     emit(
       state.copyWith(
         transaction: state.transaction!.copyWith(
@@ -51,8 +58,33 @@ class UpdateTransactionCubit extends Cubit<UpdateTransactionState> {
   }
 
   void setTransactionType(TransactionType type) {
-    emit(state.copyWith(
-        transaction: state.transaction!.copyWith(transactionType: type)));
+    if (type == state.transaction!.transactionType) return;
+    emit(
+      state.copyWith(
+        transaction: state.transaction!.copyWith(
+          transactionType: type,
+        ),
+      ),
+    );
+
+    TransactionCategory? category;
+
+    if(categoryHistory.containsKey(state.transactionType)) {
+      category = categoryHistory[state.transactionType];
+    } else {
+      final categories = switch (type) {
+        TransactionType.income =>
+        RouteGenerator.categoryCubit.state.incomeCategories,
+        TransactionType.expense ||
+        _ =>
+        RouteGenerator.categoryCubit.state.expenseCategories,
+      };
+      category = categories.getFirst;
+    }
+
+    if(category != null) {
+      setCategory(category);
+    }
   }
 
   void setDate(DateTime date) {

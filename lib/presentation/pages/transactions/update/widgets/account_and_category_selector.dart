@@ -119,7 +119,7 @@ class AccountAndCategorySelector extends StatelessWidget {
                     category =
                         await CustomBottomSheet.modifyCategory().show(context);
                   } else {
-                    category = await CustomBottomSheet.selectCategory(category)
+                    category = await CustomBottomSheet.selectCategory(category: category)
                         .show(context);
                   }
                   if (!context.mounted) return;

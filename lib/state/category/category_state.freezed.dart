@@ -92,9 +92,10 @@ class __$$CategoryStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$CategoryStateImpl implements _CategoryState {
+class _$CategoryStateImpl extends _CategoryState {
   _$CategoryStateImpl({final List<TransactionCategory> categories = const []})
-      : _categories = categories;
+      : _categories = categories,
+        super._();
 
   final List<TransactionCategory> _categories;
   @override
@@ -130,9 +131,10 @@ class _$CategoryStateImpl implements _CategoryState {
       __$$CategoryStateImplCopyWithImpl<_$CategoryStateImpl>(this, _$identity);
 }
 
-abstract class _CategoryState implements CategoryState {
+abstract class _CategoryState extends CategoryState {
   factory _CategoryState({final List<TransactionCategory> categories}) =
       _$CategoryStateImpl;
+  _CategoryState._() : super._();
 
   @override
   List<TransactionCategory> get categories;
