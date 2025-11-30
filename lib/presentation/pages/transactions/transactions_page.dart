@@ -1,14 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_money/enums/date_action.dart';
+import 'package:my_money/extensions/build_context.dart';
 import 'package:my_money/extensions/date.dart';
 import 'package:my_money/extensions/double.dart';
 import 'package:my_money/extensions/transactions.dart';
 import 'package:my_money/model/transaction.dart';
-import 'package:my_money/packages/storage/storage.dart';
 import 'package:my_money/presentation/pages/home/widgets/transaction_list_item.dart';
 import 'package:my_money/presentation/pages/transactions/update/update_transaction_page.dart';
 import 'package:my_money/presentation/pages/transactions/widgets/transaction_header.dart';
@@ -47,34 +46,29 @@ class TransactionsPage extends StatelessWidget {
                 onNext: () => RouteGenerator.transactionCubit.updateDate(
                   action: DateAction.incrementMonth,
                 ),
-                onFilter: () {
-                  Get.find<LocalStorageService>().deleteAllTransactions();
-                },
-                onSearch: () {},
+                onFilter: null,
+                onSearch: null,
               ),
-              Row(
-                children: [
-                  Column(
-                    children: [
-                      Text('Expenses'),
-                      Text(state.transactions.allExpenses.formatCurrency),
-                    ],
-                  ),
-                  SizedBox(width: 12),
-                  Column(
-                    children: [
-                      Text('Income'),
-                      Text(state.transactions.allIncome.formatCurrency),
-                    ],
-                  ),
-                  SizedBox(width: 12),
-                  Column(
-                    children: [
-                      Text('Savings'),
-                      Text(state.transactions.savings.formatCurrency),
-                    ],
-                  ),
-                ],
+              const SizedBox(height: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    TransactionStatistics.expense(
+                      context: context,
+                      transactions: state.transactions,
+                    ),
+                    TransactionStatistics.income(
+                      context: context,
+                      transactions: state.transactions,
+                    ),
+                    TransactionStatistics.savings(
+                      context: context,
+                      transactions: state.transactions,
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(height: 16),
               if (state.isLoading)
@@ -103,6 +97,72 @@ class TransactionsPage extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class TransactionStatistics extends StatelessWidget {
+  final String title;
+  final String value;
+  final Color valueColor;
+
+  const TransactionStatistics._({
+    super.key,
+    required this.title,
+    required this.value,
+    required this.valueColor,
+  });
+
+  factory TransactionStatistics.expense({
+    required BuildContext context,
+    required List<Transaction> transactions,
+  }) {
+    return TransactionStatistics._(
+      title: 'EXPENSE',
+      value: transactions.allExpenses.formatCurrency,
+      valueColor: context.colorScheme.error,
+    );
+  }
+
+  factory TransactionStatistics.income({
+    required BuildContext context,
+    required List<Transaction> transactions,
+  }) {
+    return TransactionStatistics._(
+      title: 'INCOME',
+      value: transactions.allIncome.formatCurrency,
+      valueColor: context.colorScheme.primary,
+    );
+  }
+
+  factory TransactionStatistics.savings({
+    required BuildContext context,
+    required List<Transaction> transactions,
+  }) {
+    return TransactionStatistics._(
+      title: 'SAVINGS',
+      value: transactions.savings.formatCurrency,
+      valueColor: context.colorScheme.primary,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          title,
+          style: context.textTheme.bodySmall!.copyWith(
+              color: context.colorScheme.onSurface.withOpacity(.8)
+          ),
+        ),
+        Text(
+          value,
+          style: context.textTheme.bodyLarge!.copyWith(
+            color: valueColor,
+          ),
+        ),
+      ],
     );
   }
 }

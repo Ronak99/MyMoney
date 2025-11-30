@@ -33,11 +33,15 @@ class TransactionHeader extends StatelessWidget {
               onTap: onFilter!,
               context: context,
             ),
-          CapsuleDateSelector(
-            context: context,
-            selectedDate: selectedDate,
-            onPrev: onPrev,
-            onNext: onNext,
+          Expanded(
+            child: Center(
+              child: CapsuleDateSelector(
+                context: context,
+                selectedDate: selectedDate,
+                onPrev: onPrev,
+                onNext: onNext,
+              ),
+            ),
           ),
           if (onSearch != null)
             _CircleIconButton(

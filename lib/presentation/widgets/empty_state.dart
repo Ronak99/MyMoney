@@ -26,13 +26,13 @@ class EmptyState extends StatelessWidget {
           Routes.UPDATE_TRANSACTION.value,
           extra: UpdateTransactionParams(),
         ),
-        child: const Text("Record your first transaction"),
+        child: const Text("Record a transaction"),
       ),
-      const SizedBox(height: 12),
-      TextButton(
-        onPressed: () => context.showSuccessSnackBar("Awesome"),
-        child: const Text("Import bank statement"),
-      ),
+      // const SizedBox(height: 12),
+      // TextButton(
+      //   onPressed: () => context.showSuccessSnackBar("Awesome"),
+      //   child: const Text("Import bank statement"),
+      // ),
     ];
 
     return EmptyState._(
