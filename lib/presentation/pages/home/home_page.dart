@@ -15,7 +15,6 @@ class HomePage extends StatelessWidget {
     List<Routes> tabBarRoutes = [
       Routes.TRANSACTIONS,
       // Routes.ANALYSIS,
-      Routes.IMPORT,
       Routes.ACCOUNTS,
       Routes.CATEGORIES,
       // Routes.SETTINGS
@@ -43,7 +42,6 @@ class HomePage extends StatelessWidget {
                     Routes.TRANSACTIONS =>
                       CupertinoIcons.money_dollar_circle_fill,
                     Routes.ANALYSIS => CupertinoIcons.graph_circle_fill,
-                    Routes.IMPORT => CupertinoIcons.cloud_download_fill,
                     Routes.ACCOUNTS => Icons.wallet,
                     Routes.CATEGORIES => Icons.category_rounded,
                     Routes.SETTINGS => CupertinoIcons.settings,

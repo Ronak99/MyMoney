@@ -23,6 +23,7 @@ mixin _$ImportState {
   File? get selectedFile => throw _privateConstructorUsedError;
   Bank? get selectedBank => throw _privateConstructorUsedError;
   PeerApp? get selectedPeerApp => throw _privateConstructorUsedError;
+  String? get assetFileName => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ImportStateCopyWith<ImportState> get copyWith =>
@@ -42,7 +43,8 @@ abstract class $ImportStateCopyWith<$Res> {
       DateTime? selectedDate,
       File? selectedFile,
       Bank? selectedBank,
-      PeerApp? selectedPeerApp});
+      PeerApp? selectedPeerApp,
+      String? assetFileName});
 }
 
 /// @nodoc
@@ -65,6 +67,7 @@ class _$ImportStateCopyWithImpl<$Res, $Val extends ImportState>
     Object? selectedFile = freezed,
     Object? selectedBank = freezed,
     Object? selectedPeerApp = freezed,
+    Object? assetFileName = freezed,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -95,6 +98,10 @@ class _$ImportStateCopyWithImpl<$Res, $Val extends ImportState>
           ? _value.selectedPeerApp
           : selectedPeerApp // ignore: cast_nullable_to_non_nullable
               as PeerApp?,
+      assetFileName: freezed == assetFileName
+          ? _value.assetFileName
+          : assetFileName // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -114,7 +121,8 @@ abstract class _$$ImportStateImplCopyWith<$Res>
       DateTime? selectedDate,
       File? selectedFile,
       Bank? selectedBank,
-      PeerApp? selectedPeerApp});
+      PeerApp? selectedPeerApp,
+      String? assetFileName});
 }
 
 /// @nodoc
@@ -135,6 +143,7 @@ class __$$ImportStateImplCopyWithImpl<$Res>
     Object? selectedFile = freezed,
     Object? selectedBank = freezed,
     Object? selectedPeerApp = freezed,
+    Object? assetFileName = freezed,
   }) {
     return _then(_$ImportStateImpl(
       isLoading: null == isLoading
@@ -165,6 +174,10 @@ class __$$ImportStateImplCopyWithImpl<$Res>
           ? _value.selectedPeerApp
           : selectedPeerApp // ignore: cast_nullable_to_non_nullable
               as PeerApp?,
+      assetFileName: freezed == assetFileName
+          ? _value.assetFileName
+          : assetFileName // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -179,7 +192,8 @@ class _$ImportStateImpl implements _ImportState {
       this.selectedDate,
       this.selectedFile = null,
       this.selectedBank = null,
-      this.selectedPeerApp = null})
+      this.selectedPeerApp = null,
+      this.assetFileName = null})
       : _transactions = transactions;
 
   @override
@@ -208,10 +222,13 @@ class _$ImportStateImpl implements _ImportState {
   @override
   @JsonKey()
   final PeerApp? selectedPeerApp;
+  @override
+  @JsonKey()
+  final String? assetFileName;
 
   @override
   String toString() {
-    return 'ImportState(isLoading: $isLoading, previousPassword: $previousPassword, transactions: $transactions, selectedDate: $selectedDate, selectedFile: $selectedFile, selectedBank: $selectedBank, selectedPeerApp: $selectedPeerApp)';
+    return 'ImportState(isLoading: $isLoading, previousPassword: $previousPassword, transactions: $transactions, selectedDate: $selectedDate, selectedFile: $selectedFile, selectedBank: $selectedBank, selectedPeerApp: $selectedPeerApp, assetFileName: $assetFileName)';
   }
 
   @override
@@ -232,7 +249,9 @@ class _$ImportStateImpl implements _ImportState {
             (identical(other.selectedBank, selectedBank) ||
                 other.selectedBank == selectedBank) &&
             (identical(other.selectedPeerApp, selectedPeerApp) ||
-                other.selectedPeerApp == selectedPeerApp));
+                other.selectedPeerApp == selectedPeerApp) &&
+            (identical(other.assetFileName, assetFileName) ||
+                other.assetFileName == assetFileName));
   }
 
   @override
@@ -244,7 +263,8 @@ class _$ImportStateImpl implements _ImportState {
       selectedDate,
       selectedFile,
       selectedBank,
-      selectedPeerApp);
+      selectedPeerApp,
+      assetFileName);
 
   @JsonKey(ignore: true)
   @override
@@ -261,7 +281,8 @@ abstract class _ImportState implements ImportState {
       final DateTime? selectedDate,
       final File? selectedFile,
       final Bank? selectedBank,
-      final PeerApp? selectedPeerApp}) = _$ImportStateImpl;
+      final PeerApp? selectedPeerApp,
+      final String? assetFileName}) = _$ImportStateImpl;
 
   @override
   bool get isLoading;
@@ -277,6 +298,8 @@ abstract class _ImportState implements ImportState {
   Bank? get selectedBank;
   @override
   PeerApp? get selectedPeerApp;
+  @override
+  String? get assetFileName;
   @override
   @JsonKey(ignore: true)
   _$$ImportStateImplCopyWith<_$ImportStateImpl> get copyWith =>

@@ -43,8 +43,8 @@ class ImportPage extends StatelessWidget {
                       .onImport(context, bank: selectedBank.value);
                 },
                 selectedItem: selectedBank,
-                items:
-                    Map.fromEntries(Bank.values.map((e) => MapEntry(e, e.name))),
+                items: Map.fromEntries(
+                    Bank.values.map((e) => MapEntry(e, e.name))),
               ),
               const Divider(
                 height: 50,
@@ -62,6 +62,24 @@ class ImportPage extends StatelessWidget {
                 selectedItem: selectedPeer,
                 items: Map.fromEntries(
                     PeerApp.values.map((e) => MapEntry(e, e.name))),
+              ),
+              const Divider(height: 50),
+              ImportAssetSection(
+                title: "Import Asset",
+                description:
+                    "Directly import asset from assets/statements folder.",
+                actionLabel: "Import",
+                onImport: (fileName, password) {
+                  context.read<ImportCubit>().onImportAsset(
+                        context,
+                        bank: selectedBank.value,
+                        fileName: fileName,
+                        password: password,
+                      );
+                },
+                selectedItem: selectedBank,
+                items: Map.fromEntries(
+                    Bank.values.map((e) => MapEntry(e, e.name))),
               ),
             ],
           ),
@@ -134,6 +152,139 @@ class InfoCard extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class ImportAssetSection<T> extends StatefulWidget {
+  final String title;
+  final String description;
+  final String actionLabel;
+  final Function(String fileName, String? password) onImport;
+  final ValueNotifier<T> selectedItem;
+  final Map<T, String> items;
+  final bool useTextButton;
+
+  const ImportAssetSection({
+    super.key,
+    required this.title,
+    required this.description,
+    required this.actionLabel,
+    required this.onImport,
+    required this.selectedItem,
+    required this.items,
+    this.useTextButton = false,
+  });
+
+  @override
+  State<ImportAssetSection<T>> createState() => _ImportAssetSectionState<T>();
+}
+
+class _ImportAssetSectionState<T> extends State<ImportAssetSection<T>> {
+  final TextEditingController _fileNameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _fileNameController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<T>(
+      valueListenable: widget.selectedItem,
+      builder: (context, bank, _) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              widget.title,
+              style: context.textTheme.headlineSmall!.copyWith(
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              widget.description,
+              style: context.textTheme.bodySmall!.copyWith(
+                color: context.colorScheme.onSurface.withOpacity(.8),
+              ),
+            ),
+            const SizedBox(height: 16),
+            DropdownMenu<T>(
+              initialSelection: widget.selectedItem.value,
+              width: double.infinity,
+              dropdownMenuEntries: widget.items.keys
+                  .map(
+                    (e) => DropdownMenuEntry<T>(
+                      value: e,
+                      label: widget.items[e] ?? "",
+                    ),
+                  )
+                  .toList(),
+              onSelected: (item) {
+                if (item != null) widget.selectedItem.value = item;
+              },
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: _fileNameController,
+              decoration: InputDecoration(
+                labelText: 'File Name',
+                hintText: 'e.g., fi.pdf or statements/fi.pdf',
+                border: const OutlineInputBorder(),
+                helperText: 'Enter the file name from assets/statements folder',
+              ),
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: _passwordController,
+              decoration: InputDecoration(
+                labelText: 'Password (Optional)',
+                hintText: 'Enter PDF password if required',
+                border: const OutlineInputBorder(),
+                helperText: 'Leave empty if PDF is not password protected',
+              ),
+              enableSuggestions: false,
+              autocorrect: false,
+            ),
+            const SizedBox(height: 16),
+            SizedBox(
+              width: double.infinity,
+              child: widget.useTextButton
+                  ? TextButton(
+                      onPressed: () {
+                        final fileName = _fileNameController.text.trim();
+                        if (fileName.isNotEmpty) {
+                          final password = _passwordController.text.trim();
+                          widget.onImport(
+                            fileName,
+                            password.isEmpty ? null : password,
+                          );
+                        }
+                      },
+                      child: Text(widget.actionLabel),
+                    )
+                  : ElevatedButton(
+                      onPressed: () {
+                        final fileName = _fileNameController.text.trim();
+                        if (fileName.isNotEmpty) {
+                          final password = _passwordController.text.trim();
+                          widget.onImport(
+                            fileName,
+                            password.isEmpty ? null : password,
+                          );
+                        }
+                      },
+                      child: Text(widget.actionLabel),
+                    ),
+            ),
+            const SizedBox(height: 12),
+          ],
+        );
+      },
     );
   }
 }

@@ -17,5 +17,6 @@ class ImportState with _$ImportState {
     @Default(null) File? selectedFile,
     @Default(null) Bank? selectedBank,
     @Default(null) PeerApp? selectedPeerApp,
+    @Default(null) String? assetFileName,
   }) = _ImportState;
 }

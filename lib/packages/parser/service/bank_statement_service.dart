@@ -17,26 +17,26 @@ class BankStatementService {
 
   final PdfManager _pdfManager = PdfManager();
 
-  // Future<List<Transaction>> extractViaAsset({
-  //   required Bank bank,
-  //   required String password,
-  //   required String filename,
-  // }) async {
-  //   String content = await _pdfManager.loadAndRetrieveContent(
-  //     filename: filename,
-  //     password: password,
-  //   );
-  //   switch (bank) {
-  //     case Bank.fi:
-  //       return _fiStatementParser.parse(content);
-  //     case Bank.sbi:
-  //       return _sbiStatementParser.parse(content);
-  //     case Bank.hdfc:
-  //       return _hdfcStatementParser.parse(content);
-  //     case Bank.icici:
-  //       return _iciciStatementParser.parse(content);
-  //   }
-  // }
+  Future<List<Transaction>> extractViaAsset({
+    required Bank bank,
+    required String password,
+    required String filename,
+  }) async {
+    String content = await _pdfManager.loadAndRetrieveContent(
+      filename: filename,
+      password: password,
+    );
+    switch (bank) {
+      case Bank.fi:
+        return _fiStatementParser.parse(content);
+      case Bank.sbi:
+        return _sbiStatementParser.parse(content);
+      case Bank.hdfc:
+        return _hdfcStatementParser.parse(content);
+      case Bank.icici:
+        return _iciciStatementParser.parse(content);
+    }
+  }
 
   Future<List<Transaction>> extract({
     required Bank bank,

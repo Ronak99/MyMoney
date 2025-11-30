@@ -45,7 +45,7 @@ class ImportCubit extends Cubit<ImportState> {
     }
 
     if (!shouldProcceed) return;
-    try{
+    try {
       final pickedFile = await pickFile(shouldPickCsv: bank == null);
 
       emit(
@@ -60,8 +60,61 @@ class ImportCubit extends Cubit<ImportState> {
       // navigate to view imports
       if (!context.mounted) return;
       context.push(Routes.VIEW_IMPORTS.value);
-    }catch(e){
+    } catch (e) {
       print("oops");
+    }
+  }
+
+  void onImportAsset(
+    BuildContext context, {
+    required Bank bank,
+    required String fileName,
+    String? password,
+  }) async {
+    bool shouldProcceed = false;
+    if (RouteGenerator.accountCubit.state.accounts.isEmpty) {
+      await CustomBottomSheet.noBankAccount(
+        onActionButtonPressed: (context) async {
+          final account = await CustomBottomSheet.modifyAccount().show();
+          if (account != null) {
+            RouteGenerator.context!.pop();
+            shouldProcceed = true;
+          }
+        },
+      ).show();
+    } else {
+      shouldProcceed = true;
+    }
+
+    if (!shouldProcceed) return;
+
+    try {
+      // Ensure the file path includes the statements folder
+      final assetPath = fileName.startsWith('statements/')
+          ? 'assets/$fileName'
+          : 'assets/statements/$fileName';
+
+      // Ensure .pdf extension if not present
+      final finalPath =
+          assetPath.endsWith('.pdf') ? assetPath : '$assetPath.pdf';
+
+      emit(
+        state.copyWith(
+          selectedFile: null,
+          // No file for asset imports
+          selectedBank: bank,
+          selectedPeerApp: null,
+          transactions: [],
+          assetFileName: finalPath,
+          previousPassword: password,
+        ),
+      );
+
+      // navigate to view imports
+      if (!context.mounted) return;
+      context.push(Routes.VIEW_IMPORTS.value);
+    } catch (e) {
+      print("Error importing asset: $e");
     }
   }
 
@@ -69,11 +122,21 @@ class ImportCubit extends Cubit<ImportState> {
     try {
       if (state.selectedBank != null) {
         if (!context.mounted) return;
-        await _handleBankStatementImport(
-          context,
-          file: state.selectedFile!,
-          bank: state.selectedBank!,
-        );
+
+        // Check if this is an asset import
+        if (state.assetFileName != null) {
+          await _handleBankStatementImportFromAsset(
+            context,
+            bank: state.selectedBank!,
+            fileName: state.assetFileName!,
+          );
+        } else if (state.selectedFile != null) {
+          await _handleBankStatementImport(
+            context,
+            file: state.selectedFile!,
+            bank: state.selectedBank!,
+          );
+        }
       }
 
       if (state.selectedPeerApp != null) {
@@ -179,6 +242,84 @@ class ImportCubit extends Cubit<ImportState> {
       // );
     } catch (e) {
       print(e);
+    }
+  }
+
+  Future<void> _handleBankStatementImportFromAsset(
+    BuildContext context, {
+    required Bank bank,
+    required String fileName,
+    String? password,
+  }) async {
+    try {
+      emit(state.copyWith(isLoading: true));
+
+      // Use password from parameter, or from state if available
+      final passwordToUse = password ?? state.previousPassword ?? '';
+
+      List<Transaction> transactions =
+          await BankStatementService.instance.extractViaAsset(
+        bank: bank,
+        filename: fileName,
+        password: passwordToUse,
+      );
+
+      transactions = transactions.map((e) {
+        return e.copyWith(
+          account: RouteGenerator.accountCubit.state.accounts.first,
+          accountId: RouteGenerator.accountCubit.state.accounts.first.id,
+        );
+      }).toList();
+
+      emit(
+        state.copyWith(
+          transactions: transactions,
+          previousPassword: null,
+          isLoading: false,
+        ),
+      );
+
+      if (transactions.isNotEmpty) {
+        updateDate(
+          action: DateAction.setSpecific,
+          specificDate: transactions.first.date,
+        );
+      }
+    } on PdfLockedException {
+      String? password = await CustomBottomSheet.pdfLocked().show();
+      if (password == null) return;
+      if (!context.mounted) return;
+
+      emit(state.copyWith(previousPassword: password));
+
+      await Future.delayed(Duration(seconds: 1));
+
+      _handleBankStatementImportFromAsset(
+        context,
+        bank: bank,
+        fileName: fileName,
+        password: password,
+      );
+    } on PdfWrongPasswordException {
+      String? password = await CustomBottomSheet.wrongPassword(
+        previousPassword: state.previousPassword ?? '',
+      ).show(context);
+      if (password == null) return;
+      if (!context.mounted) return;
+
+      emit(state.copyWith(previousPassword: password));
+
+      await Future.delayed(Duration(seconds: 1));
+
+      _handleBankStatementImportFromAsset(
+        context,
+        bank: bank,
+        fileName: fileName,
+        password: password,
+      );
+    } catch (e) {
+      print("Error importing from asset: $e");
+      emit(state.copyWith(isLoading: false));
     }
   }
 
