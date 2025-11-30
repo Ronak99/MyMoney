@@ -8,6 +8,10 @@ abstract class _TransactionDao {
   Future<List<TransactionWithCategoryAndAccountView>>
       getTransactionsWithCategoryAndView();
 
+  @Query('SELECT * FROM ${DBViews.transactionWithCategoryAndAccount}')
+  Stream<List<TransactionWithCategoryAndAccountView>>
+      streamTransactionsWithCategoryAndViewWithoutDateConstraints();
+
   @Query(
       'SELECT * FROM ${DBViews.transactionWithCategoryAndAccount} WHERE t_date BETWEEN :startDate AND :endDate ORDER BY t_date DESC')
   Stream<List<TransactionWithCategoryAndAccountView>>
@@ -17,10 +21,24 @@ abstract class _TransactionDao {
     DateTime startDate,
     DateTime endDate,
   ) {
+    final startDateInMilli = startDate.millisecondsSinceEpoch;
+    final endDateInMilli = endDate.millisecondsSinceEpoch;
+
     return streamTransactionsWithCategoryAndView(
-      startDate.millisecondsSinceEpoch,
-      endDate.millisecondsSinceEpoch,
+      startDateInMilli,
+      endDateInMilli,
     ).map((viewList) {
+      return viewList.map((r) {
+        final account = r.toAccount();
+        final category = r.toCategory();
+        return r.toTransaction(account: account, category: category);
+      }).toList();
+    });
+  }
+
+  Stream<List<Transaction>> streamAllTransactionsWithoutDateConstraints() {
+    return streamTransactionsWithCategoryAndViewWithoutDateConstraints()
+        .map((viewList) {
       return viewList.map((r) {
         final account = r.toAccount();
         final category = r.toCategory();

@@ -38,6 +38,11 @@ class LocalStorageService implements _LocalStorageImpl {
     return database.transactionDao.streamAllTransactions(startDate, endDate);
   }
 
+  Stream<List<Transaction>> streamAllTransactionsWithoutDateConstraints() {
+    return database.transactionDao
+        .streamAllTransactionsWithoutDateConstraints();
+  }
+
   @override
   Future<void> deleteAccount(Account account) {
     return database.accountDao.deleteAccount(account);

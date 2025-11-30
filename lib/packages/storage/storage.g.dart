@@ -224,6 +224,34 @@ class _$_TransactionDao extends _TransactionDao {
 
   @override
   Stream<List<TransactionWithCategoryAndAccountView>>
+      streamTransactionsWithCategoryAndViewWithoutDateConstraints() {
+    return _queryAdapter.queryListStream(
+        'SELECT * FROM transaction_with_category_and_account',
+        mapper: (Map<String, Object?> row) =>
+            TransactionWithCategoryAndAccountView(
+                t_id: row['t_id'] as String,
+                t_notes: row['t_notes'] as String,
+                t_amount: row['t_amount'] as double,
+                t_date: row['t_date'] as int,
+                t_transactionType: row['t_transactionType'] as int,
+                t_accountId: row['t_accountId'] as int?,
+                t_categoryId: row['t_categoryId'] as int?,
+                a_id: row['a_id'] as int?,
+                a_name: row['a_name'] as String?,
+                a_icon: row['a_icon'] as int?,
+                a_balance: row['a_balance'] as int?,
+                a_createdOn: row['a_createdOn'] as int?,
+                c_id: row['c_id'] as int?,
+                c_name: row['c_name'] as String?,
+                c_icon: row['c_icon'] as int?,
+                c_type: row['c_type'] as int?,
+                c_createdOn: row['c_createdOn'] as int?),
+        queryableName: 'transaction_with_category_and_account',
+        isView: true);
+  }
+
+  @override
+  Stream<List<TransactionWithCategoryAndAccountView>>
       streamTransactionsWithCategoryAndView(
     int startDate,
     int endDate,
@@ -481,7 +509,7 @@ class _$_CategoryDao extends _CategoryDao {
   @override
   Future<int> insertCategory(TransactionCategory category) {
     return _transactionCategoryInsertionAdapter.insertAndReturnId(
-        category, OnConflictStrategy.replace);
+        category, OnConflictStrategy.abort);
   }
 
   @override
