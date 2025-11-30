@@ -7,6 +7,7 @@ class TransactionCategory {
   @primaryKey
   final int? id;
 
+  @primaryKey
   final String name;
   final CategoryType type;
   final DateTime createdOn;
