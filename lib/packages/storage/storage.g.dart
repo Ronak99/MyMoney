@@ -507,6 +507,11 @@ class _$_CategoryDao extends _CategoryDao {
   }
 
   @override
+  Future<void> deleteAllCategories() async {
+    await _queryAdapter.queryNoReturn('DELETE FROM categories');
+  }
+
+  @override
   Future<int> insertCategory(TransactionCategory category) {
     return _transactionCategoryInsertionAdapter.insertAndReturnId(
         category, OnConflictStrategy.abort);

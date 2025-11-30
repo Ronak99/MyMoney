@@ -138,4 +138,8 @@ class LocalStorageService implements _LocalStorageImpl {
   void deleteAllTransactions() {
     database.transactionDao.deleteAllTransactions();
   }
+
+  Future<void> deleteAllCategories() {
+    return database.categoryDao.deleteAllCategories();
+  }
 }

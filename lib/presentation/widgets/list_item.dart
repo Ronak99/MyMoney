@@ -53,7 +53,7 @@ class ListItem extends StatelessWidget {
         category.name,
         style: context.textTheme.bodyLarge!,
       ),
-      onEdit: () => CustomBottomSheet.modifyCategory(category).show(),
+      onEdit: () => CustomBottomSheet.modifyCategory(category: category).show(),
       onDelete: () => RouteGenerator.categoryCubit.delete(category),
     );
   }

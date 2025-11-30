@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money/extensions/account_icon.dart';
 import 'package:my_money/extensions/build_context.dart';
 import 'package:my_money/extensions/category_icon.dart';
+import 'package:my_money/extensions/transaction_type.dart';
 import 'package:my_money/model/account.dart';
 import 'package:my_money/model/transaction_category.dart';
 import 'package:my_money/presentation/pages/transactions/update/state/update_transaction_cubit.dart';
@@ -119,8 +120,9 @@ class AccountAndCategorySelector extends StatelessWidget {
                     category =
                         await CustomBottomSheet.modifyCategory().show(context);
                   } else {
-                    category = await CustomBottomSheet.selectCategory(category: category)
-                        .show(context);
+                    category = await CustomBottomSheet.selectCategory(
+                      categoryType: state.transactionType.toCategoryType,
+                    ).show(context);
                   }
                   if (!context.mounted) return;
                   if (category == null) return;

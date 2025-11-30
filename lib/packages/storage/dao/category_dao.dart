@@ -18,4 +18,7 @@ abstract class _CategoryDao {
 
   @delete
   Future<int> deleteCategory(TransactionCategory category);
+
+  @Query('DELETE FROM $tableName')
+  Future<void> deleteAllCategories();
 }

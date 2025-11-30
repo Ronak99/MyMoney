@@ -42,4 +42,12 @@ class CategoryCubit extends Cubit<CategoryState> {
       rethrow;
     }
   }
+
+  Future<void> deleteAll() async {
+    try {
+      await Get.find<LocalStorageService>().deleteAllCategories();
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

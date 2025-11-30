@@ -223,13 +223,22 @@ class CustomBottomSheet extends StatefulWidget {
     );
   }
 
-  factory CustomBottomSheet.modifyCategory([TransactionCategory? category]) {
+  /// [category] - When modifying an existing category.
+  /// [categoryType] - Only required when a new category is being created, but of a specific type
+  ///
+  /// Don't specify anything when creating a new category with no specific type
+  factory CustomBottomSheet.modifyCategory({
+    TransactionCategory? category,
+    CategoryType? categoryType,
+  }) {
     final formKey = GlobalKey<FormState>();
     String? name = category?.name;
-    final categoryTypeNotifier =
-        ValueNotifier<CategoryType>(category?.type ?? CategoryType.expense);
+    final categoryTypeNotifier = ValueNotifier<CategoryType>(
+      category?.type ?? categoryType ?? CategoryType.expense,
+    );
     final categoryIconNotifier = ValueNotifier<CategoryIcon>(
-        category?.icon ?? CategoryIcon.values.first);
+      category?.icon ?? CategoryIcon.values.first,
+    );
 
     return CustomBottomSheet._(
       title: null,
@@ -387,20 +396,28 @@ class CustomBottomSheet extends StatefulWidget {
     );
   }
 
-  factory CustomBottomSheet.selectCategory({TransactionCategory? category}) {
+  factory CustomBottomSheet.selectCategory({
+    CategoryType? categoryType,
+  }) {
     return CustomBottomSheet._(
       title: null,
       actionButtonText: "Create New Category",
       height: 500,
       onActionButtonPressed: (context) async {
-        await CustomBottomSheet.modifyCategory().show(context);
+        await CustomBottomSheet.modifyCategory(categoryType: categoryType).show(context);
         if (!context.mounted) return;
       },
       child: BlocBuilder<CategoryCubit, CategoryState>(
         bloc: RouteGenerator.categoryCubit,
         builder: (context, state) {
+          final categories = switch (categoryType) {
+            CategoryType.income => state.incomeCategories,
+            CategoryType.expense => state.expenseCategories,
+            _ => state.categories,
+          };
+
           return ListViewSeparated<TransactionCategory>(
-            list: state.categories,
+            list: categories,
             itemBuilder: (context, _, category) {
               return CategoryListItem(
                 category: category,
@@ -490,17 +507,17 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
           ),
           child: Column(
             children: [
-              // the handle: might need it in the future.
-              // Container(
-              //   decoration: BoxDecoration(
-              //     color: Colors.grey,
-              //     borderRadius: BorderRadius.circular(20),
-              //   ),
-              //   margin: const EdgeInsets.symmetric(vertical: 12),
-              //   height: 4,
-              //   width: 100,
-              // ),
-              // const SizedBox(height: 4),
+// the handle: might need it in the future.
+// Container(
+//   decoration: BoxDecoration(
+//     color: Colors.grey,
+//     borderRadius: BorderRadius.circular(20),
+//   ),
+//   margin: const EdgeInsets.symmetric(vertical: 12),
+//   height: 4,
+//   width: 100,
+// ),
+// const SizedBox(height: 4),
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
