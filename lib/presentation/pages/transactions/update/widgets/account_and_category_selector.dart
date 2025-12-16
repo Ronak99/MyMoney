@@ -103,7 +103,9 @@ class AccountAndCategorySelector extends StatelessWidget {
             },
           ),
           BlocBuilder<UpdateTransactionCubit, UpdateTransactionState>(
-            buildWhen: (prev, next) => prev.category != next.category,
+            buildWhen: (prev, next) =>
+                prev.category != next.category ||
+                prev.transactionType != next.transactionType,
             builder: (context, state) {
               return SelectorItem<TransactionCategory>(
                 icon: state.category == null
@@ -117,8 +119,9 @@ class AccountAndCategorySelector extends StatelessWidget {
                 onTap: () async {
                   TransactionCategory? category = state.category;
                   if (RouteGenerator.categoryCubit.state.categories.isEmpty) {
-                    category =
-                        await CustomBottomSheet.modifyCategory().show(context);
+                    category = await CustomBottomSheet.modifyCategory(
+                      categoryType: state.transactionType.toCategoryType,
+                    ).show(context);
                   } else {
                     category = await CustomBottomSheet.selectCategory(
                       categoryType: state.transactionType.toCategoryType,
