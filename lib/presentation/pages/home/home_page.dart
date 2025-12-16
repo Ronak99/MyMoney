@@ -17,7 +17,7 @@ class HomePage extends StatelessWidget {
       // Routes.ANALYSIS,
       Routes.ACCOUNTS,
       Routes.CATEGORIES,
-      // Routes.SETTINGS
+      Routes.SETTINGS,
     ];
 
     int currentIndex =

@@ -8,8 +8,11 @@ class AppTheme {
   // static ThemeData light = _buildTheme(brightness: Brightness.light);
   // static ThemeData dark = _buildTheme(brightness: Brightness.dark);
 
-  ThemeData buildTheme({required Brightness brightness}) {
-    final scheme = _colorScheme(brightness);
+  ThemeData buildTheme({
+    required Brightness brightness,
+    Color? seedColor,
+  }) {
+    final scheme = _colorScheme(brightness, seedColor: seedColor);
     final text = AppTypography.textTheme(scheme);
 
     return ThemeData(
@@ -53,9 +56,9 @@ class AppTheme {
   }
 
   /// Material 3 native scheme, harmonized from a seed and adjusted for fintech.
-  ColorScheme _colorScheme(Brightness b) {
+  ColorScheme _colorScheme(Brightness b, {Color? seedColor}) {
     final base = ColorScheme.fromSeed(
-      seedColor: AppColors.seed,
+      seedColor: seedColor ?? AppColors.seed,
       brightness: b,
     );
 
@@ -69,7 +72,7 @@ class AppTheme {
         surfaceContainerHigh: AppColors.ink700,
         surfaceContainer: AppColors.ink800,
         surfaceTint: Colors.transparent,
-        primary: AppColors.brand,
+        primary: seedColor ?? AppColors.seed,
         secondary: AppColors.purple,
         tertiary: AppColors.green,
         error: AppColors.error,
