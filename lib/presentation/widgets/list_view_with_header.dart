@@ -11,6 +11,7 @@ class ListViewWithHeader<T, K> extends StatelessWidget {
   final HeaderBuilder<T> headerBuilder;
   final ItemBuilder<K> itemBuilder;
   final SeparatorBuilder? separatorBuilder;
+  final bool fabSafeArea;
 
   const ListViewWithHeader({
     super.key,
@@ -18,6 +19,7 @@ class ListViewWithHeader<T, K> extends StatelessWidget {
     required this.headerBuilder,
     required this.itemBuilder,
     this.separatorBuilder,
+    this.fabSafeArea = false,
   });
 
   @override
@@ -46,6 +48,12 @@ class ListViewWithHeader<T, K> extends StatelessWidget {
                 ),
                 sliver: SliverToBoxAdapter(
                   child: Container(
+                    margin: EdgeInsets.only(
+                        bottom: map.keys.toList().indexOf(key) ==
+                                    map.keys.length - 1 &&
+                                fabSafeArea
+                            ? 100
+                            : 0),
                     decoration: BoxDecoration(
                       border: Border(
                         bottom: BorderSide(
