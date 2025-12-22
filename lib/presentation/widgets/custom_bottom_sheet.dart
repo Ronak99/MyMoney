@@ -404,7 +404,8 @@ class CustomBottomSheet extends StatefulWidget {
       actionButtonText: "Create New Category",
       height: 500,
       onActionButtonPressed: (context) async {
-        await CustomBottomSheet.modifyCategory(categoryType: categoryType).show(context);
+        await CustomBottomSheet.modifyCategory(categoryType: categoryType)
+            .show(context);
         if (!context.mounted) return;
       },
       child: BlocBuilder<CategoryCubit, CategoryState>(
@@ -485,10 +486,18 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final bottomPadding = MediaQuery.viewPaddingOf(context).bottom;
+    final bottomInset = MediaQuery.viewInsetsOf(context).bottom;
+    double bottomMargin = 0;
+
+    if (bottomInset > 0) {
+      bottomMargin = bottomInset + 12;
+    } else if (bottomPadding > 0) {
+      bottomMargin = bottomPadding;
+    }
+
     return Container(
-      margin: EdgeInsets.only(
-        bottom: MediaQuery.viewInsetsOf(context).bottom,
-      ),
+      margin: EdgeInsets.only(bottom: bottomMargin),
       child: ValueListenableBuilder(
         valueListenable: CustomBottomSheet._heightOffset,
         builder: (context, value, static) {
@@ -507,17 +516,6 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
           ),
           child: Column(
             children: [
-// the handle: might need it in the future.
-// Container(
-//   decoration: BoxDecoration(
-//     color: Colors.grey,
-//     borderRadius: BorderRadius.circular(20),
-//   ),
-//   margin: const EdgeInsets.symmetric(vertical: 12),
-//   height: 4,
-//   width: 100,
-// ),
-// const SizedBox(height: 4),
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
@@ -559,7 +557,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                                 widget.onActionButtonPressed!(context),
                             child: Text(widget.actionButtonText),
                           ),
-                        )
+                        ),
                     ],
                   ),
                 ),

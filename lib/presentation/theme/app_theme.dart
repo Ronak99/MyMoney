@@ -72,7 +72,7 @@ class AppTheme {
         surfaceContainerHigh: AppColors.ink700,
         surfaceContainer: AppColors.ink800,
         surfaceTint: Colors.transparent,
-        primary: seedColor ?? AppColors.seed,
+        primary: seedColor ?? AppColors.amber,
         secondary: AppColors.purple,
         tertiary: AppColors.green,
         error: AppColors.error,

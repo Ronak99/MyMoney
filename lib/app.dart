@@ -15,7 +15,6 @@ class MyMoneyApp extends StatelessWidget {
       value: RouteGenerator.settingsCubit,
       child: BlocBuilder<SettingsCubit, SettingsState>(
         builder: (context, state) {
-          print("seedColor: ${state.seedColor}");
           return MaterialApp.router(
             routerConfig: router,
             debugShowCheckedModeBanner: false,
