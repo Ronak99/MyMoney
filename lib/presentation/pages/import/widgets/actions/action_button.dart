@@ -39,8 +39,10 @@ class ActionButton extends StatelessWidget {
   }) {
     return ActionButton._(
       onTap: () async {
-        final category = await CustomBottomSheet.selectCategory()
-            .show<TransactionCategory?>();
+        final categoryType = transaction.transactionType.toCategoryType;
+        final category =
+            await CustomBottomSheet.selectCategory(categoryType: categoryType)
+                .show<TransactionCategory?>();
         if (category == null) return;
 
         RouteGenerator.importCubit.updateTransaction(
