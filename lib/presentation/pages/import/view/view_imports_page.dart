@@ -69,13 +69,16 @@ class _ViewImportsPageState extends State<ViewImportsPage> {
           }
           if (atLeastOneAdded) {
             try {
-              context.pushReplacement(Routes.TRANSACTIONS.value);
+              context.pop();
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                context.pushReplacement(Routes.TRANSACTIONS.value);
+              });
               context.showSuccessSnackBar("Transactions have been saved.");
             } catch (e) {
               print(e);
             }
           } else {
-            context.showSuccessSnackBar(
+            context.showErrorSnackBar(
               "All transactions have already been saved.",
             );
           }

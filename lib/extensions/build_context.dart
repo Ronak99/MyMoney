@@ -9,6 +9,9 @@ extension BuildContextExtension on BuildContext {
   void showSuccessSnackBar(String content) => ScaffoldMessenger.of(this)
       .showSnackBar(SnackBarUtils.success(content: content));
 
+  void showErrorSnackBar(String content) => ScaffoldMessenger.of(this)
+      .showSnackBar(SnackBarUtils.error(content: content));
+
   double get height => MediaQuery.of(this).size.height;
 
   double get width => MediaQuery.of(this).size.width;
