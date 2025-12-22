@@ -42,7 +42,7 @@ class HomePage extends StatelessWidget {
                   switch (e) {
                     Routes.TRANSACTIONS =>
                       CupertinoIcons.money_dollar_circle_fill,
-                    Routes.IMPORT => CupertinoIcons.share,
+                    Routes.IMPORT => Icons.import_export_rounded,
                     Routes.ANALYSIS => CupertinoIcons.graph_circle_fill,
                     Routes.ACCOUNTS => Icons.wallet,
                     Routes.CATEGORIES => Icons.category_rounded,

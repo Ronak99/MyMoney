@@ -63,24 +63,24 @@ class ImportPage extends StatelessWidget {
                 items: Map.fromEntries(
                     PeerApp.values.map((e) => MapEntry(e, e.name))),
               ),
-              const Divider(height: 50),
-              ImportAssetSection(
-                title: "Import Asset",
-                description:
-                    "Directly import asset from assets/statements folder.",
-                actionLabel: "Import",
-                onImport: (fileName, password) {
-                  context.read<ImportCubit>().onImportAsset(
-                        context,
-                        bank: selectedBank.value,
-                        fileName: fileName,
-                        password: password,
-                      );
-                },
-                selectedItem: selectedBank,
-                items: Map.fromEntries(
-                    Bank.values.map((e) => MapEntry(e, e.name))),
-              ),
+              // const Divider(height: 50),
+              // ImportAssetSection(
+              //   title: "Import Asset",
+              //   description:
+              //       "Directly import asset from assets/statements folder.",
+              //   actionLabel: "Import",
+              //   onImport: (fileName, password) {
+              //     context.read<ImportCubit>().onImportAsset(
+              //           context,
+              //           bank: selectedBank.value,
+              //           fileName: fileName,
+              //           password: password,
+              //         );
+              //   },
+              //   selectedItem: selectedBank,
+              //   items: Map.fromEntries(
+              //       Bank.values.map((e) => MapEntry(e, e.name))),
+              // ),
             ],
           ),
         ),
