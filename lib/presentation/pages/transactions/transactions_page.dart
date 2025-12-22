@@ -82,6 +82,7 @@ class TransactionsPage extends StatelessWidget {
                   child: AnimatedCrossFade(
                     firstChild: ListViewWithHeader<String, Transaction>(
                       map: state.transactions.groupByDate,
+                      fabSafeArea: true,
                       headerBuilder: (date) => Text(date),
                       itemBuilder: (item) =>
                           TransactionListItem(transaction: item),
@@ -152,9 +153,8 @@ class TransactionStatistics extends StatelessWidget {
       children: [
         Text(
           title,
-          style: context.textTheme.bodySmall!.copyWith(
-              color: context.colorScheme.onSurface.withOpacity(.8)
-          ),
+          style: context.textTheme.bodySmall!
+              .copyWith(color: context.colorScheme.onSurface.withOpacity(.8)),
         ),
         Text(
           value,
