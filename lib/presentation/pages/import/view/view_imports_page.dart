@@ -14,6 +14,8 @@ import 'package:my_money/presentation/pages/import/state/import_cubit.dart';
 import 'package:my_money/presentation/pages/import/state/import_state.dart';
 import 'package:my_money/presentation/pages/import/widgets/imported_transaction_list_item.dart';
 import 'package:my_money/presentation/routes/route_generator.dart';
+import 'package:my_money/presentation/routes/routes.dart'
+    show Routes, RoutesExt;
 import 'package:my_money/presentation/widgets/capsule_date_selector.dart';
 import 'package:my_money/presentation/widgets/custom_scaffold.dart';
 import 'package:my_money/presentation/widgets/list_view_with_header.dart';
@@ -53,13 +55,25 @@ class _ViewImportsPageState extends State<ViewImportsPage> {
           for (var t in RouteGenerator.importCubit.state.transactions) {
             if (keyValues.contains(t.keyValues)) continue;
             if (!atLeastOneAdded) {
+              RouteGenerator.transactionCubit.updateDate(
+                action: DateAction.setSpecific,
+                specificDate: t.date,
+              );
               atLeastOneAdded = true;
             }
             RouteGenerator.transactionCubit.addTransaction(t);
           }
 
+          if (!context.mounted) {
+            return;
+          }
           if (atLeastOneAdded) {
-            context.showSuccessSnackBar("Transactions have been saved.");
+            try {
+              context.pushReplacement(Routes.TRANSACTIONS.value);
+              context.showSuccessSnackBar("Transactions have been saved.");
+            } catch (e) {
+              print(e);
+            }
           } else {
             context.showSuccessSnackBar(
               "All transactions have already been saved.",
