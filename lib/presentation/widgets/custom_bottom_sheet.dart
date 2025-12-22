@@ -64,6 +64,7 @@ class CustomBottomSheet extends StatefulWidget {
 
   factory CustomBottomSheet.pdfLocked() {
     final TextEditingController textEditingController = TextEditingController();
+    final obscureTextNotifier = ValueNotifier<bool>(true);
 
     return CustomBottomSheet._(
       title: "Locked PDF!",
@@ -74,12 +75,24 @@ class CustomBottomSheet extends StatefulWidget {
           textEditingController.text.trim().isEmpty
               ? null
               : context.pop(textEditingController.text),
-      child: TextField(
-        controller: textEditingController,
-        autofocus: true,
-        decoration: const InputDecoration(
-          hintText: "Password",
-        ),
+      child: ValueListenableBuilder<bool>(
+        valueListenable: obscureTextNotifier,
+        builder: (context, isObscured, child) {
+          return TextField(
+            controller: textEditingController,
+            autofocus: true,
+            obscureText: isObscured,
+            decoration: InputDecoration(
+              hintText: "Password",
+              suffixIcon: IconButton(
+                icon: Icon(
+                  isObscured ? Icons.visibility : Icons.visibility_off,
+                ),
+                onPressed: () => obscureTextNotifier.value = !isObscured,
+              ),
+            ),
+          );
+        },
       ),
     );
   }
