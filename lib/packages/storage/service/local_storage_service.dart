@@ -21,6 +21,10 @@ class LocalStorageService implements _LocalStorageImpl {
     return database.categoryDao.insertCategory(category);
   }
 
+  Future<void> updateCategory(TransactionCategory category) {
+    return database.categoryDao.updateCategory(category);
+  }
+
   @override
   Future<void> addTransaction(Transaction transaction) {
     return database.transactionDao.insertTransaction(transaction);

@@ -279,11 +279,12 @@ class CustomBottomSheet extends StatefulWidget {
                 icon: categoryIconNotifier.value,
               );
 
-        final createdCategory =
-            await RouteGenerator.categoryCubit.add(categoryToBeSaved);
+        final savedCategory = category != null
+            ? await RouteGenerator.categoryCubit.update(categoryToBeSaved)
+            : await RouteGenerator.categoryCubit.add(categoryToBeSaved);
 
         if (!context.mounted) return;
-        context.pop(createdCategory);
+        context.pop(savedCategory);
       },
       child: Form(
         key: formKey,

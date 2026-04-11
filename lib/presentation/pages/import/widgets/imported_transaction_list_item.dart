@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_money/extensions/build_context.dart';
 import 'package:my_money/extensions/transaction.dart';
+import 'package:my_money/extensions/transaction_type.dart';
 import 'package:my_money/model/account.dart';
 import 'package:my_money/model/transaction.dart';
 import 'package:my_money/model/transaction_category.dart';

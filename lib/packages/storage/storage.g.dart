@@ -445,6 +445,18 @@ class _$_CategoryDao extends _CategoryDao {
                   'icon': item.icon.index
                 },
             changeListener),
+        _transactionCategoryUpdateAdapter = UpdateAdapter(
+            database,
+            'categories',
+            ['id'],
+            (TransactionCategory item) => <String, Object?>{
+                  'id': item.id,
+                  'name': item.name,
+                  'type': item.type.index,
+                  'createdOn': __DateTimeConverter.encode(item.createdOn),
+                  'icon': item.icon.index
+                },
+            changeListener),
         _transactionCategoryDeletionAdapter = DeletionAdapter(
             database,
             'categories',
@@ -466,6 +478,8 @@ class _$_CategoryDao extends _CategoryDao {
 
   final InsertionAdapter<TransactionCategory>
       _transactionCategoryInsertionAdapter;
+
+  final UpdateAdapter<TransactionCategory> _transactionCategoryUpdateAdapter;
 
   final DeletionAdapter<TransactionCategory>
       _transactionCategoryDeletionAdapter;
@@ -515,6 +529,12 @@ class _$_CategoryDao extends _CategoryDao {
   Future<int> insertCategory(TransactionCategory category) {
     return _transactionCategoryInsertionAdapter.insertAndReturnId(
         category, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateCategory(TransactionCategory category) async {
+    await _transactionCategoryUpdateAdapter.update(
+        category, OnConflictStrategy.replace);
   }
 
   @override

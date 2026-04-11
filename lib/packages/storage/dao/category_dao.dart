@@ -16,6 +16,9 @@ abstract class _CategoryDao {
   @Insert(onConflict: OnConflictStrategy.abort)
   Future<int> insertCategory(TransactionCategory category);
 
+  @Update(onConflict: OnConflictStrategy.replace)
+  Future<void> updateCategory(TransactionCategory category);
+
   @delete
   Future<int> deleteCategory(TransactionCategory category);
 
